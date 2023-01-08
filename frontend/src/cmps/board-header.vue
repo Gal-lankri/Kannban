@@ -36,7 +36,7 @@
                 </span>
             </div>
             <div v-if="(board.members.length > 5)" class="btn member-plus"><span class="fa-regular plus-icon"> {{
-                    (board.members.length - 5)
+            (board.members.length - 5)
             }}</span>
             </div>
             <!-- <div class="separation">&nbsp;|&nbsp;</div> -->
@@ -159,12 +159,12 @@ export default {
                 //     isClicked: "Calender",
 
                 // },
-                // {
-                //     txt: "Dashboard",
-                //     icon: "trello-home dashboard-icon",
-                //     function: () => { this.btnClicked = 'Dashboard'; this.$router.push(`/board/${this.$route.params.id}/dashboard`) },
-                //     isClicked: "Dashboard",
-                // },
+                {
+                    txt: "Dashboard",
+                    icon: "trello-home dashboard-icon",
+                    function: () => { this.btnClicked = 'Dashboard'; this.$router.push(`/board/${this.$route.params.id}/dashboard`) },
+                    isClicked: "Dashboard",
+                },
                 {
                     txt: "Map",
                     icon: "trello-home location-icon",

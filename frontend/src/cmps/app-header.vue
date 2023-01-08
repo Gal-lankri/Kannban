@@ -1,10 +1,8 @@
 <template>
     <header class="app-header" :style="headerBackground" :class="{ isDark: isDark }">
         <section class="flex row align-center">
-            <router-link class="header-btn" :to="'/'" :class="{ isDark: isDark }">
+            <router-link class="header-btn " :to="'/board'" :class="{ isDark: isDark }">
                 <span class="fa-brands trello-icon "></span>
-            </router-link>
-            <router-link class="header-btn" :to="'/board'" :class="{ isDark: isDark }">
                 <span class="logo">Kannban</span>
             </router-link>
             <button v-if="this.$route.params?.id" class="create-btn flex align-center justify-center"
@@ -20,7 +18,7 @@
                 <input type="search" v-model="filterByTitle" placeholder="Search" @focus="(isInputInFocus = true)"
                     v-click-outside="outOfFocus">
                 <div v-if="isInputInFocus" class="search-results flex column">
-                    <div class="title">RECENT BOARDS</div>
+                    <div class="title">{{ boards.length > 1 ? "RECENT BOARDS" : "NO RESULTS" }}</div>
                     <router-link v-for="board in boards" :key="board._id" :to="('/board/' + board._id)"
                         class="search-result flex row align-center gap">
                         <img v-if="board.style.backgroundImage" class="" :src="board.style.backgroundImage" />

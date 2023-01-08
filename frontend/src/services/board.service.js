@@ -20,8 +20,8 @@ export const boardService = {
 window.cs = boardService
 const BOARD_URL = 'board/'
 
-async function query(filterBy = { title: '' }) {
-    return httpService.get(BOARD_URL, filterBy)
+async function query(filterBy = { title: '' },loggedinUser) {
+    return httpService.get(BOARD_URL, loggedinUser)
     // if (!boards) {
     //     boards = gBoards
     //     storageService.save(STORAGE_KEY, boards)

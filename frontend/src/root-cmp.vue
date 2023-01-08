@@ -27,8 +27,6 @@ import { utilService } from './services/util.service'
 
 export default {
   async created() {
-    // console.log(this.$route)
-    console.log('Vue App created')
     const user = userService.getLoggedinUser()
     if (user) store.commit({ type: 'setLoggedinUser', user })
 
@@ -37,7 +35,6 @@ export default {
     try {
       await this.$store.dispatch({ type: 'loadBoards' })
       await this.$store.dispatch({ type: 'loadUsers' })
-      // console.log(this.boards)
     } catch (err) {
       console.log(err)
     }
@@ -63,7 +60,6 @@ export default {
       this.isDark = rgb.isDark
     },
     async logout() {
-      // console.log('hiiiiiiiiiiii');
       try {
         this.$router.push('/login')
       }
@@ -104,7 +100,6 @@ export default {
     },
     isLoggedin() {
       const isLoggedIn = this.$route.path !== '/login' && this.$route.path !== '/'
-      console.log(isLoggedIn)
       return isLoggedIn
 
     }

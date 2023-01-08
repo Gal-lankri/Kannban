@@ -164,6 +164,21 @@ export default {
         this.msg = 'Failed to login'
       }
     },
+
+    async doSignup() {
+      if (!this.signupCred.email || !this.signupCred.password || !this.signupCred.fullname) {
+        this.msg = 'Please enter email/password/full name'
+        return
+      }
+      try {
+        const newUser = await this.$store.dispatch({ type: "signup", userCred: this.signupCred })
+        console.log(newUser);
+        if (newUser) this.$router.push('/board')
+      } catch (error) {
+        console.log(err)
+        this.msg = 'Failed to login'
+      }
+    },
     async doLogout() {
       try {
         await this.$store.dispatch({ type: 'logout' })

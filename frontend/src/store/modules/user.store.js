@@ -29,7 +29,6 @@ export const userStore = {
             })
         },
         removeNotification(state, { notId }) {
-            // console.log(notId)
             if (notId === 'all') state.loggedinUser.notifications = []
             else {
                 const notIdx = state.loggedinUser.notifications.findIndex(not => not.id === notId)
@@ -38,7 +37,6 @@ export const userStore = {
         },
         setLoggedinUser(state, { user }) {
             state.loggedinUser = (user) ? { ...user } : null
-            console.log(state.loggedinUser);
         },
         setWatchedUser(state, { user }) {
             state.watchedUser = user
@@ -62,7 +60,6 @@ export const userStore = {
     actions: {
         async login({ commit }, { userCred }) {
             try {
-                console.log(userCred.email);
                 const user = await userService.login(userCred)
                 if (!user) return
                 commit({ type: 'setLoggedinUser', user })
@@ -86,7 +83,6 @@ export const userStore = {
             context.commit({ type: 'removeNotification', notId })
             try {
                 const user = await userService.update(context.state.loggedinUser)
-                // console.log(user);
             }
             catch (err) {
                 console.log('error in update user notifications', err);
@@ -97,7 +93,6 @@ export const userStore = {
             context.commit({ type: 'addNotification', notification })
             try {
                 const user = await userService.update(context.state.loggedinUser)
-                console.log(user);
             }
             catch (err) {
                 console.log('error in update user notifications', err);
@@ -107,7 +102,6 @@ export const userStore = {
             const userCred = { email, password: '' }
             try {
                 const user = await userService.login(userCred)
-                console.log(user)
                 commit({ type: 'setLoggedinUser', userCred })
                 return user
             }
@@ -140,7 +134,6 @@ export const userStore = {
             // TODO: loading
             try {
                 const users = await userService.getUsers()
-                console.log('**********************', users)
                 commit({ type: 'setUsers', users })
             } catch (err) {
                 console.log('userStore: Error in loadUsers', err)
@@ -176,16 +169,6 @@ export const userStore = {
             }
 
         },
-        // async increaseScore({ commit }) {
-        //     try {
-        //         const score = await userService.changeScore(100)
-        //         commit({ type: 'setUserScore', score })
-        //     } catch (err) {
-        //         console.log('userStore: Error in increaseScore', err)
-        //         throw err
-        //     }
-        // },
-        // Keep this action for compatability with a common user.service ReactJS/VueJS
         setWatchedUser({ commit }, payload) {
             commit(payload)
         },

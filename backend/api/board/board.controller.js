@@ -5,11 +5,12 @@ const logger = require('../../services/logger.service')
 async function getBoards(req, res) {
   try {
     logger.debug('Getting Boards')
+    console.log(req.query, 'ewrerwerewrwerewrwer');
     const filterBy = {
       txt: req.query.txt || ''
     }
     const boards = await boardService.query(filterBy)
-    // console.log(boards);
+    
     res.json(boards)
   } catch (err) {
     logger.error('Failed to get boards', err)
@@ -20,7 +21,7 @@ async function getBoards(req, res) {
 async function getBoardById(req, res) {
   try {
     const boardId = req.params.id
-    // console.log(boardId)
+
     const board = await boardService.getById(boardId)
     res.json(board)
   } catch (err) {
@@ -47,13 +48,10 @@ async function addBoard(req, res) {
 async function updateBoard(req, res) {
   try {
     const board = req.body
-    console.log(board._id)
     // const activity = board.activities[board.activities.length - 1]
 
-    // console.log(activity, '000000000000000000000000');
-    // console.log('board', board)
     const updatedBoard = await boardService.update(board)
-    // console.log(updatedBoard);
+
     res.json(updatedBoard)
     //type is the event to activate
 

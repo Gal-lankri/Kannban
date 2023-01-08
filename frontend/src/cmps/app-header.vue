@@ -31,7 +31,7 @@
             </div>
             <span class="trello-home bell-icon" @click="updateSeenNotifications">
                 <span class="fa-solid notification-icon"
-                    v-if="user.notifications && user.notifications.length && !user.notifications[0].isSeen"></span>
+                    v-if="user?.notifications && user?.notifications.length && !user.notifications[0].isSeen"></span>
             </span>
             <span class="trello-home question-icon"></span>
 

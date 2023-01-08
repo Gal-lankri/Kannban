@@ -17,7 +17,6 @@ async function query(filterBy = { txt: '' }) {
 
 async function getById(boardId) {
     try {
-        // console.log(boardId);
         const collection = await dbService.getCollection('board')
         const board = collection.findOne({ _id: ObjectId(boardId) })
         return board
@@ -50,7 +49,6 @@ async function add(board) {
 }
 
 async function update(board) {
-    console.log('THIS IS UPDATE BOARD')
     try {
         let temp = board._id
         var id = ObjectId(board._id)

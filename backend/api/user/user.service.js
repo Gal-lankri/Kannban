@@ -18,7 +18,6 @@ async function query(filterBy = {}) {
     try {
         const collection = await dbService.getCollection('user')
         var users = await collection.find(criteria).toArray()
-        // console.log(users)
         users = users.map(user => {
             delete user.password
             user.createdAt = ObjectId(user._id).getTimestamp()

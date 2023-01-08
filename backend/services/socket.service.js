@@ -14,7 +14,6 @@ function setupSocketAPI(http) {
             logger.info(`Socket disconnected [id: ${socket.id}]`)
         })
         socket.on('new board enter', boardId => {
-            console.log('boardId HI IM INSIDE THE BOARD', boardId)
             if (socket.boardId === boardId) return;
             if (socket.boardId) {
                 socket.leave(socket.boardId)
@@ -23,7 +22,6 @@ function setupSocketAPI(http) {
             socket.boardId = boardId
         })
         socket.on('board updated', board => {
-            // console.log(board.title);
             socket.broadcast.to(socket.boardId).emit('board pushed', board)
             socket.broadcast.emit('activity pushed', board)
         })
@@ -37,7 +35,6 @@ function setupSocketAPI(http) {
             socket.boardId = boardId
         })
         socket.on('new user enter', userId => {
-            console.log('boardId', userId)
             if (socket[userId]) return
             socket.join(userId)
             socket[userId] = userId

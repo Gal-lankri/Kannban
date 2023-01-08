@@ -3,7 +3,7 @@ const logger = require('../../services/logger.service')
 
 async function login(req, res) {
     const { email, password, isGoogleUser, imgUrl, fullname } = req.body
-    // console.log(email, password, isGoogleUser, '00000000000000000000000');
+ 
     try {
         const user = await authService.login(email, password, isGoogleUser, imgUrl, fullname)
         const loginToken = authService.getLoginToken(user)

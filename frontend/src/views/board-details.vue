@@ -82,13 +82,10 @@ export default {
         async setBoardId() {
             if (!this.$route.params.id) return
             const { id } = this.$route.params
-            console.log(id)
             this.$store.commit({ type: 'setBoard', boardId: id })
             try {
-                console.log(this.board)
                 if (this.board.style.bgColor) {
                     this.rgb.value = this.hexToRgbA(this.board.style.bgColor)
-                    // console.log(this.rgb.value)
                     this.rgb.isDark = true
                 } else {
 
@@ -114,12 +111,9 @@ export default {
         },
         pushedActivity(board) {
             if (board.activities[board.activities.length - 1].txt.includes('Moved')) return
-            // console.log(board.activities[board.activities.length - 1]);
             const membersIds = board.members.map(member => member._id)
             if (membersIds.includes(this.user._id)) {
-                // console.log(this.board.activities[this.board.activities.length - 1]);
                 const { txt, createdAt, byMember } = board.activities[board.activities.length - 1]
-                // console.log('hi');
                 const notification = {
                     txt: txt + ' in ' + board.title,
                     byMember: {
@@ -133,18 +127,17 @@ export default {
             }
         },
         pushedBoard(board) {
-            // console.log('hiiiiii board details');
             this.$store.commit({ type: 'setPushedBoard', board })
         },
         removeMember(id) {
             this.$store.dispatch({ type: 'removeMember', memberId: id })
         },
         async avgColor() {
-            // console.log(this.board)
+
             const url = this.board.style.backgroundImage
             try {
                 const color = await fac.getColorAsync(url)
-                // console.log(color)
+
                 return color
             } catch (err) {
                 console.log(`err:`, err)
@@ -175,7 +168,6 @@ export default {
         async addNewTask(groupId, task, activity) {
             // var board = JSON.parse(JSON.stringify(this.board))
             const boardId = this.board._id
-            console.log('********************************', task)
             try {
                 await this.$store.dispatch({ type: 'addTask', boardId, groupId, task, activity })
             }
@@ -185,12 +177,11 @@ export default {
         },
 
         addMember(member) {
-            console.log(member);
             this.$store.dispatch({ type: 'addMember', member })
         },
 
         hexToRgbA(hex) {
-            // console.log(hex)
+
             var c;
             c = hex.substring(1).split('');
             if (c.length == 3) {
@@ -198,7 +189,7 @@ export default {
             }
             c = '0x' + c.join('');
             const color = [(c >> 16) & 255, (c >> 8) & 255, c & 255, 255]
-            // console.log(color)
+
             return color
         },
 
@@ -213,7 +204,6 @@ export default {
         doFilter(filterBy) {
             this.filterBy = filterBy
             this.$store.commit({ type: 'setFilterBy', filterBy: JSON.parse(JSON.stringify(filterBy)) })
-            console.log(this.filterBy);
         },
         toggleMember(memberId) {
             console.log(memberId);
@@ -256,7 +246,6 @@ export default {
     },
     watch: {
         $route(to, from) {
-            console.log(to, from, '.................................');
             this.setBoardId()
             socketService.emit('New board enter', this.board._id)
         },

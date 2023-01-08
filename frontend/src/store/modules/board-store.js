@@ -60,7 +60,6 @@ export const boardStore = {
         isPreviewLabelsOpen({ board }) {
             return board.isPreviewLabelsOpen
         }
-        // labelIds({ editedTask }) { return editedTask.labelIds }
     },
 
     mutations: {
@@ -72,10 +71,7 @@ export const boardStore = {
         },
 
         setBoard(state, { boardId }) {
-            // console.log(boardId, '00000000000000000');
             const currBoard = state.boards.find(b => b._id === boardId)
-            // console.log(currBoard)
-            // console.log(currBoard);
             state.board = currBoard
             state.filterBy = {
                 title: '',
@@ -85,7 +81,6 @@ export const boardStore = {
                 labelIds: [],
                 isNoLabels: false
             }
-            // console.log(state.board);
         },
 
         addMember(state, { member }) {
@@ -93,20 +88,17 @@ export const boardStore = {
         },
 
         setPushedBoard(state, { board }) {
-            // console.log('IN STORE PUSH BOARD', board);
             const boardIdx = state.boards.findIndex(b => b._id === board._id)
             state.boards.splice(boardIdx, 1, board)
             state.board = board
         },
 
         addBoard(state, { board }) {
-            // console.log(board)
             state.boards.push(board)
         },
 
         updateBoard(state, { board }) {
             const idx = state.boards.findIndex(b => b._id === board._id)
-            // console.log(idx);
             state.boards.splice(idx, 1, board)
         },
 
@@ -119,9 +111,7 @@ export const boardStore = {
             const group = state.board.groups.find(g => g.id === payload.groupId)
 
             const taskIdx = group.tasks.findIndex(task => task.id === payload.task.id)
-            // console.log(taskIdx);
             group.tasks.splice(taskIdx, 1, payload.task)
-            // return payload.task
         },
 
         updateLabel(state, { label }) {
@@ -144,7 +134,6 @@ export const boardStore = {
             if (!group.tasks[taskIdx]?.checklists) group.tasks[taskIdx].checklists = []
             payload.checklist.id = utilService.makeId()
             group.tasks[taskIdx].checklists.push(payload.checklist)
-            // console.log(group.tasks[taskIdx].checklists)
         },
 
         addActivity(state, { activity }) {
@@ -152,9 +141,7 @@ export const boardStore = {
             activity.createdAt = Date.now()
             activity.id = utilService.makeId()
             if (!state.board?.activities) state.board.activities = []
-            console.time('timer')
             if (state.board.activities.length >= 15) state.board.activities.splice(0, 1)
-            console.timeEnd('timer')
             state.board.activities.push(activity)
         },
 
@@ -216,7 +203,6 @@ export const boardStore = {
             }
         },
         updateBoardLabels(state, { label }) {
-            // console.log(label);
             if (!label.id) {
                 label.id = utilService.makeId()
                 state.board.labels.push(label)
@@ -230,9 +216,10 @@ export const boardStore = {
 
     actions: {
         async loadBoards(context) {
+            const loggedinUser = {...context.rootGetters.loggedinUser}
             try {
                 //SEND FILTER
-                const boards = await boardService.query()
+                const boards = await boardService.query(loggedinUser)
                 context.commit({ type: 'setBoards', boards })
                 return boards
             } catch (err) {

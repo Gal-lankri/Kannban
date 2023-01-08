@@ -5,9 +5,9 @@ const ObjectId = require('mongodb').ObjectId
 
 async function query(filterBy = { txt: '' }) {
     try {
-        const criteria = {}
+        console.log(filterBy.txt);
         const collection = await dbService.getCollection('board')
-        var boards = await collection.find(criteria).toArray()
+        var boards = await collection.find({"createdBy._id": filterBy.txt}).toArray()
         return boards
     } catch (err) {
         logger.error('cannot find boards', err)

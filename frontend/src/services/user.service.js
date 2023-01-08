@@ -104,11 +104,5 @@ function getLoggedinUser() {
 }
 
 
-// ; (async () => {
-//     await userService.signup({ fullname: 'Amir Gombo', email: 'amir', password: '123', isAdmin: true })
-//     await userService.signup({ fullname: 'Gal Lankri', email: 'gal', password: '123', isAdmin: true })
-//     await userService.signup({ fullname: 'Yadid Hadad', email: 'yadid', password: '123', isAdmin: true })
-// })()
-
 
 

@@ -218,8 +218,9 @@ export const boardStore = {
         async loadBoards(context) {
             const loggedinUser = {...context.rootGetters.loggedinUser}
             try {
+                console.log('loggedinUser',loggedinUser)
                 //SEND FILTER
-                const boards = await boardService.query(loggedinUser)
+                const boards = await boardService.query(undefined,loggedinUser)
                 context.commit({ type: 'setBoards', boards })
                 return boards
             } catch (err) {

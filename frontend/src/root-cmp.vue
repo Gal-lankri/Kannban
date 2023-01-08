@@ -28,6 +28,7 @@ import { utilService } from './services/util.service'
 export default {
   async created() {
     const user = userService.getLoggedinUser()
+    console.log(user);
     if (user) store.commit({ type: 'setLoggedinUser', user })
 
     this.loadPhotos()

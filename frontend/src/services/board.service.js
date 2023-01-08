@@ -20,7 +20,8 @@ export const boardService = {
 window.cs = boardService
 const BOARD_URL = 'board/'
 
-async function query(filterBy = { title: '' },loggedinUser) {
+async function query(filterBy = { title: '' }, loggedinUser) {
+    console.log(loggedinUser);
     return httpService.get(BOARD_URL, loggedinUser)
     // if (!boards) {
     //     boards = gBoards

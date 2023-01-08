@@ -1,10 +1,10 @@
 <template>
-  <section class="boards-page-container">
-    <img v-if="!boards" src="../assets/svg/loader.svg" alt="" class="loader">
-    <section v-else class="container home boards-page">
+  <section class="board-list">
+    <section class=" home boards-page">
       <app-nav />
-      <div class="board-main">
-        <div class="starred-boards">
+      <section class="board-main">
+
+        <section class="starred-boards">
           <div class="star-header-container">
             <span class="trellicons star">
             </span>
@@ -17,14 +17,14 @@
                 @toggleStar="toggleStar(false, board)" />
             </li>
           </ul>
-        </div>
-        <div class="full-boards-list">
+        </section>
+        <section class="full-boards-list">
           <div class="boards-header-container">
             <span class="trellicons icon-template-board">
             </span>
             <h3>Your boards</h3>
           </div>
-          <ul v-if="boards" class="board-list flex row wrap gap">
+          <ul v-if="boards" class="boards-container flex row wrap gap">
             <li v-for="board in boards" :key="board._id">
               <!-- <pre>{{ board }}</pre> -->
               <!-- <div class="board-title">{{ board.title }}</div> -->
@@ -35,12 +35,12 @@
               <!-- <button @click="addBoardMsg(board._id)">Add board msg</button>
                 <button @click="printBoardToConsole(board)">Print msgs to console</button> -->
             </li>
-            <li @click="isAddBoard = true">
+            <li @click="isAddBoard = true" class="btn-create">
               <span>Create new board</span>
             </li>
           </ul>
-        </div>
-      </div>
+        </section>
+      </section>
       <!-- <form @submit.prevent="addBoard()">
           <h2>Add board</h2>
           <input type="text" v-model="boardToAdd.title" />
@@ -79,6 +79,7 @@ export default {
     }
   },
   async created() {
+    console.log(`boards:`, { ...this.boards })
 
   },
   methods: {

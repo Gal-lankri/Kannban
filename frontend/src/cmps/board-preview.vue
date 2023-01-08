@@ -1,5 +1,9 @@
 <template>
-    <section class="board-preview">
+    <section v-if="!board" class="loader flex justify-center align-center">
+        <img src="../assets/svg/loader.svg" alt="">
+    </section>
+
+    <section v-else class="board-preview">
         <!-- <img :src="getBoardBc"> -->
         <div v-if="board.style.backgroundImage" class="board-icon" :style="boardBGC(board.style)"></div>
         <div v-else class="board-icon" :style="boardBGC(board.style)"></div>

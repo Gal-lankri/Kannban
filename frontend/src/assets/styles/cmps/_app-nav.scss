@@ -1,6 +1,8 @@
 .app-nav-container {
     position: sticky;
     top: 0px;
+    max-height: 90vh;
+    width: 240px;
 
     font-family: "segoe-bold";
     & * {
@@ -35,11 +37,5 @@
             // filter: brightness(95%);
             background-color: rgba($textDark, 0.1);
         }
-    }
-
-    nav {
-        max-height: 90vh;
-        padding: 0 16px;
-        width: 240px;
     }
 }

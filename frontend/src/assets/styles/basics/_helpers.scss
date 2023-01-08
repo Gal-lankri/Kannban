@@ -146,3 +146,17 @@
 .underline {
     text-decoration: underline;
 }
+
+.loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-height: 100%;
+    height: 200px;
+    width: 100%;
+
+    img {
+        height: 50px;
+        width: auto;
+    }
+}

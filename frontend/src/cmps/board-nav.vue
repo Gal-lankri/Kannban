@@ -1,4 +1,7 @@
 <template>
+    <section>
+        <img src="" alt="">
+    </section>
     <section class="board-nav flex column " :style="style" :class="{ isDark: isDark }, { navIsHidden: navIsHidden }">
         <div class="nav-title flex row align-center justify-between" :class="{ isDark: isDark }">
             <span>Workspace</span>
@@ -16,10 +19,6 @@
             <span> Members</span>
         </button>
 
-        <button class="btn-nav flex align-center" :class="{ isDark: isDark }" @click="openView('Boards')">
-            <span class="trello-home settings-icon"></span>
-            <span> Settings</span>
-        </button>
         <div class="nav-title flex row align-center justify-between " :class="{ isDark: isDark }">
             <span>Your Boards</span>
             <button class="btn-regular" @click="isAddBoard = true"> <span class="fa-regular plus-icon"></span></button>
@@ -50,7 +49,7 @@ import addBoardModal from '../cmps/add-board-modal.vue'
 export default {
     name: 'board-nav',
     props: ['rgb', 'boards'],
-    emits: ['showAddMembers', 'boards'],
+    emits: ['showAddMembers', 'boards', 'changeActiveBoard'],
     components: { addBoardModal },
     created() {
 
@@ -61,20 +60,7 @@ export default {
             isAddBoard: false,
             navIsHidden: false,
             isClicked: false,
-            // btns: [
-            //     {
-            //         txt: 'Boards',
-            //         icon: 'trello-home trello-icon'
-            //     },
-            //     {
-            //         txt: 'Members',
-            //         icon: 'trello-home join-icon'
-            //     },
-            //     {
-            //         txt: 'Settings',
-            //         icon: 'trello-home settings-icon'
-            //     },
-            // ]
+
         }
     },
     methods: {
@@ -92,6 +78,7 @@ export default {
             this.navIsHidden = !this.navIsHidden
         },
         goToBoard(id) {
+            this.$emit('changeActiveBoard')
             return this.$router.push({ path: `/board/${id}` })
         },
         boardBGC(style) {

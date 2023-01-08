@@ -1,5 +1,10 @@
 <template>
-    <section v-if="board" class="board-details flex row" :style="boardBGC">
+
+    <section v-if="isLoaderShown" class="loader">
+        <img src="../assets/svg/loader.svg" alt="">
+        <img :src="board.style.backgroundImage" alt="" @load="isBGCLoaded = true" style="visibility: hidden">
+    </section>
+    <section v-else class="board-details flex row" :style="boardBGC">
         <section class="main flex column grow">
             <board-header :board="board" :class="{ isDark: rgb.isDark, menuIsShown: !menuIsHidden }" :rgb="rgb"
                 @toggleBoardMenu="toggleBoardMenu" @filterTasks="filterTasks" />
@@ -9,7 +14,8 @@
             <router-view @addTask="addNewTask" @addGroup="addNewGroup" @removeGroup="removeGroup" :groups="board.groups"
                 :boardId="board._id" :rgb="rgb" :filterBy="filterBy" />
         </section>
-        <board-nav :rgb="rgb" :boards="boards" @showAddMembers="isAddBoardMembers = true"></board-nav>
+        <board-nav :rgb="rgb" :boards="boards" @showAddMembers="isAddBoardMembers = true"
+            @changeActiveBoard="changeActiveBoard"></board-nav>
         <board-menu :menuIsHidden="menuIsHidden" :activities="board.activities" @toggleBoardMenu="toggleBoardMenu"
             @confirmDelete="(isDelete = true)" />
         <!-- <router-view class="task-details-view"></router-view> -->
@@ -46,8 +52,9 @@ export default {
 
     data() {
         return {
+            isBGCLoaded: false,
+            isLoaderShown: true,
             menuIsHidden: true,
-            // style: 'src/assets/img/bgc-img-5.jpg',
             rgb: {
                 value: '',
                 isDark: false,
@@ -78,6 +85,19 @@ export default {
         socketService.on('activity pushed', this.pushedActivity)
     },
 
+    unmounted() {
+        this.$store.commit({
+            type: 'setFilterBy', filterBy: {
+                title: '',
+                membersIds: [],
+                isNoMembers: false,
+                isAssignToMe: false,
+                labelIds: [],
+                isNoLabels: false
+            }
+        })
+    },
+
     methods: {
         async setBoardId() {
             if (!this.$route.params.id) return
@@ -85,6 +105,7 @@ export default {
             this.$store.commit({ type: 'setBoard', boardId: id })
             try {
                 if (this.board.style.bgColor) {
+                    this.isBGCLoaded = true
                     this.rgb.value = this.hexToRgbA(this.board.style.bgColor)
                     this.rgb.isDark = true
                 } else {
@@ -92,6 +113,7 @@ export default {
                     const avgColor = await this.avgColor()
                     this.rgb.value = avgColor.value
                     this.rgb.isDark = avgColor.isDark
+                    this.isLoaderShown = false
 
                 }
                 this.$emit('setRGB', this.rgb)
@@ -162,7 +184,6 @@ export default {
             catch (err) {
                 console.log(err);
             }
-
         },
 
         async addNewTask(groupId, task, activity) {
@@ -207,22 +228,26 @@ export default {
         },
         toggleMember(memberId) {
             console.log(memberId);
+        },
+        changeActiveBoard() {
+            this.isBGCLoaded = false
+            this.isLoaderShown = true
+
         }
     },
-    unmounted() {
-        this.$store.commit({
-            type: 'setFilterBy', filterBy: {
-                title: '',
-                membersIds: [],
-                isNoMembers: false,
-                isAssignToMe: false,
-                labelIds: [],
-                isNoLabels: false
-            }
-        })
-    },
+
+
 
     computed: {
+        user() {
+            return this.$store.getters.loggedinUser
+        },
+        board() {
+            return this.$store.getters.board
+        },
+        boards() {
+            return this.$store.getters.boards
+        },
         boardBGC() {
             if (this.board.style.bgColor) return { backgroundColor: this.board.style.bgColor }
 
@@ -231,18 +256,9 @@ export default {
         color() {
             return this.rgb
         },
-        board() {
-            return this.$store.getters.board
-        },
-        boards() {
-            return this.$store.getters.boards
-        },
         style() {
             return this.$store.getters.board?.style
         },
-        user() {
-            return this.$store.getters.loggedinUser
-        }
     },
     watch: {
         $route(to, from) {

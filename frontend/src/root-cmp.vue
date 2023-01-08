@@ -1,8 +1,12 @@
 <template>
   <section class="main-layout">
     <user-msg />
-    <main v-if="boards" class="app-main">
-      <router-view @setRGB="setRGB" />
+
+    <main class="app-main">
+      <section v-if="!boards" class="loader">
+        <img src="./assets/svg/loader.svg" alt="">
+      </section>
+      <router-view v-else @setRGB="setRGB" />
     </main>
 
     <app-header v-if="isLoggedin" :rgb="getRGB" @logout="logout" @updateSeenNotifications="updateSeenNotifications"
@@ -80,7 +84,7 @@ export default {
       let apiUrl = `https://api.unsplash.com/search/photos?query=landscape&orientation=landscape&per_page=20&client_id=${this.clientId}`
       axios(apiUrl).then(({ data }) => {
         const imgUrls = data.results.map(res => res.urls.full).slice(0, 14)
-        utilService.saveToStorage(key, imgUrls)
+        // utilService.saveToStorage(key, imgUrls)
         // console.log(this.imgUrls);
       })
         .catch((err) => {

@@ -1,17 +1,17 @@
 <template>
   <section class="board-list">
-    <section class=" home boards-page">
+    <section class="boards-page">
       <app-nav />
-      <section class="board-main">
 
+
+      <section class="board-main">
         <section class="starred-boards">
           <div class="star-header-container">
             <span class="trellicons star">
             </span>
             <h3>Starred boards</h3>
           </div>
-          <ul v-if="boards" class="starred-board-list flex row wrap gap">
-
+          <ul class="starred-board-list flex row wrap gap">
             <li v-for="board in boards.filter(b => b.isStarred)" :key="board._id">
               <board-preview class="starred" :board="board" @click="goToBoard(board._id)"
                 @toggleStar="toggleStar(false, board)" />
@@ -24,7 +24,7 @@
             </span>
             <h3>Your boards</h3>
           </div>
-          <ul v-if="boards" class="boards-container flex row wrap gap">
+          <ul class="boards-container flex row wrap gap">
             <li v-for="board in boards" :key="board._id">
               <!-- <pre>{{ board }}</pre> -->
               <!-- <div class="board-title">{{ board.title }}</div> -->
@@ -78,10 +78,16 @@ export default {
       return this.$store.getters.boards
     }
   },
-  async created() {
-    console.log(`boards:`, { ...this.boards })
+  components: {
+    boardPreview,
+    appNav,
+    addBoardModal,
+    confirmModal
+  },
+  created() {
 
   },
+
   methods: {
     updateUser() {
       console.log('ADD NOTIFICATOIN');
@@ -146,12 +152,7 @@ export default {
       this.updateBoard(newBoard)
     }
   },
-  components: {
-    boardPreview,
-    appNav,
-    addBoardModal,
-    confirmModal
-  }
+
 
 
 }

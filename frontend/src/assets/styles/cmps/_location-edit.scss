@@ -1,0 +1,38 @@
+.location-edit {
+    // position: absolute;
+    // top: 25%;
+    // right: -130px;
+    // border-radius: 3px;
+    // background-color: white;
+    // padding-inline: 0.8rem;
+    // box-shadow: 0px 0px 1px 1px rgb(0 0 0 / 10%);
+    // color: #172b4d;
+    // width: 300px;
+    font-family: "segoe-regular";
+
+    .checklist-edit-header {
+        div {
+            justify-self: center;
+        }
+
+        button {
+            padding: 0;
+            // margin-top: 20px;
+        }
+    }
+
+    .checklist-edit-main {
+        padding: 0 12px 12px 12px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .btn-add {
+        @include btn-add-save;
+    }
+
+    .trellicons {
+        color: grey;
+        font-size: 1rem;
+    }
+}

@@ -1,0 +1,64 @@
+.dates-edit {
+    // .btn-save {
+    //     @include btn-add-save($type: save);
+    //     width: 100%;
+    //     margin-block-end: 0.5rem;
+    // }
+    // .btn-remove {
+    //     width: 100%;
+    //     @include btn-add-save($type: cancel);
+    // }
+
+    input[type="time"] {
+        width: 100%;
+        text-align: center;
+    }
+
+    .vuejs3-datepicker__calendar {
+        position: absolute;
+        z-index: 100;
+        background: transparent;
+        width: 100%;
+        box-shadow: none;
+        border-radius: 4px;
+        margin-top: 4px;
+    }
+    header {
+        display: none;
+        width: 100%;
+        position: static;
+    }
+
+    .label-color-list {
+        margin-block: 0.5rem;
+    }
+    .vuejs3-datepicker__calendar-topbar {
+        background-color: #40b983;
+        color: #fff;
+        border-radius: 4px 4px 0 0;
+        padding: 25px;
+        display: none;
+    }
+    .vuejs3-datepicker__calendar header {
+        display: block;
+        position: static;
+        line-height: 40px;
+        box-shadow: none;
+    }
+
+    .vuejs3-datepicker__calendar .cell.selected {
+        background: #f4f5f7;
+        color: $textDark;
+        outline: 1px solid $textDark;
+    }
+    .vuejs3-datepicker__calendar .cell:not(.blank):not(.disabled).day:hover {
+        border: none;
+        background: #f4f5f7;
+    }
+    .vuejs3-datepicker__calendar .cell:not(.blank):not(.disabled).day,
+    .vuejs3-datepicker__calendar .cell:not(.blank):not(.disabled).month,
+    .vuejs3-datepicker__calendar .cell:not(.blank):not(.disabled).year {
+        cursor: pointer;
+        transition: 0s;
+    }
+}

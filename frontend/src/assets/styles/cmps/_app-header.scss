@@ -1,0 +1,280 @@
+header {
+    // background-color: $clr5;
+    padding: 6px 8px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 1rem;
+    box-shadow: inset 0px -1px 0px rgb(0 0 0 / 10%);
+    transition: all 0.5s ease-out;
+    position: fixed;
+    width: 100%;
+    // position: relative;
+
+    .bell-icon {
+        position: relative;
+        padding-inline: 4px;
+        border-radius: 3px;
+
+        &:hover {
+            filter: brightness(90%);
+            cursor: pointer;
+        }
+
+        span {
+            position: absolute;
+            top: -8px;
+            right: -13px;
+            // background-color: var(--ds-background-danger-bold, #de350b);
+            // color: var(--ds-text-inverse, #ffffff);
+            border-radius: 50%;
+            padding-block: 2px;
+            padding-inline: 6px;
+            font-size: 1rem;
+        }
+    }
+
+    .trello-home {
+        font-size: 1.2rem;
+        font-weight: lighter;
+    }
+
+    .header-btn {
+        height: 32px;
+        min-width: 32px;
+        padding: 0 0.5rem;
+        font-size: 20px;
+        border-radius: 3px;
+
+        &:last-of-type {
+            margin-inline-start: -9px;
+            // margin-block-start: -3px;
+            margin-block-end: 0.06rem;
+        }
+
+        span {
+            padding: none;
+        }
+
+        &:hover {
+            background-color: rgba($textDark, 0.2);
+
+            &.isDark {
+                background-color: rgba($textLight, 0.2);
+            }
+        }
+    }
+
+    .create-btn {
+        position: relative;
+        @include btn($type: regular);
+        font-family: "segoe-regular";
+        font-size: 0.875rem;
+        width: 60px;
+
+        & span {
+            position: absolute;
+            top: 7px;
+        }
+    }
+
+    & * {
+        color: $textDark;
+        // font-family: "segoe-regular";
+    }
+
+    &.isDark {
+        box-shadow: inset 0px -1px 0px rgb(255 255 255 / 10%);
+
+        * {
+            color: $textLight;
+        }
+    }
+
+    .member-initials {
+        @include btn($type: "initials");
+        height: 2rem;
+        width: 2rem;
+        margin: 0;
+        box-shadow: inset 0px -1px 0px rgb(0 0 0 / 33%);
+    }
+
+    .member-image {
+        display: flex;
+        cursor: pointer;
+        background-size: cover;
+        background-position: center;
+        border-radius: 50%;
+        margin: 0;
+        height: 2rem;
+        width: 2rem;
+        background-color: aquamarine;
+
+        &:hover {
+            filter: brightness(1.1);
+        }
+    }
+
+    .search-boards {
+        min-width: 200px;
+        height: 2rem;
+        border-radius: 5px;
+        background-color: rgba($textLight, 0.1);
+        border: 1px solid rgba($textDark, 0.2);
+        padding: 0 0.5rem;
+
+        input {
+            background-color: transparent;
+            outline: none;
+            box-shadow: none !important;
+            min-width: 158px;
+            height: 2rem;
+            // color: white;
+            border: none;
+
+            &:focus {
+                width: 735px;
+            }
+
+            &::placeholder {
+                color: $textDark;
+            }
+        }
+
+        &.isDark {
+            background-color: rgba($textLight, 0.1);
+            border: 1px solid rgba($textLight, 0.2);
+
+            * {
+                color: $textLight;
+            }
+
+            input {
+                color: $textLight;
+
+                &::placeholder {
+                    color: $textLight;
+                }
+            }
+        }
+
+        &.whiteBackground {
+            background-color: white !important;
+            color: $textDark !important;
+
+            * {
+                color: $textDark;
+            }
+
+            input {
+                color: $textDark;
+
+                &::placeholder {
+                    color: $textDark;
+                }
+            }
+        }
+    }
+
+    .search-results {
+        & * {
+            font-size: 0.75rem;
+            color: #172b4d !important;
+        }
+
+        box-shadow: 3px 3px 1px 1px rgb(0 0 0 / 33%);
+        position: fixed;
+        width: 780px;
+        top: 45px;
+        right: 117px;
+        background-color: white;
+        border-radius: 3px;
+
+        .title {
+            padding-block: 10px;
+            // margin-block-start: 10px;
+            font-weight: bold;
+            padding: 0.5rem;
+        }
+
+        .search-result {
+            padding: 0 0.5rem;
+            height: 2rem;
+
+            div,
+            img {
+                height: 14px;
+                width: 20px;
+                border-radius: 3px;
+            }
+
+            span:last-of-type {
+                font-size: 0.7rem;
+                position: absolute;
+                right: 250px;
+            }
+
+            &:hover {
+                background-color: rgba($textDark, 0.1);
+            }
+        }
+    }
+
+    nav {
+        background-color: $clr4;
+        padding: 5px 0;
+    }
+
+    nav a:not(:first-child) {
+        border-top: 1px solid $clr1;
+        padding: 0 5px;
+        margin: 10px;
+    }
+
+    nav .active {
+        color: $clr1;
+    }
+
+    .user-buttons {
+        span {
+            margin-block-end: -0.1rem;
+        }
+
+        .profile-btn {
+            height: 32px;
+            width: 32px;
+            // background-color: #de350b;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            font-weight: bold;
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+}
+.add-board-in-board-nav {
+    & > section {
+        position: fixed;
+        top: 50%;
+        left: 120px;
+    }
+}
+
+@media (max-width: 480px) {
+    .search-boards {
+        display: none;
+    }
+    // .board-header {
+    //     // display: none;
+    //     // flex-direction: column !important;
+    //     flex-wrap: nowrap !important;
+
+    //     & div {
+    //         flex-wrap: nowrap !important;
+    //     }
+    // }
+} ;

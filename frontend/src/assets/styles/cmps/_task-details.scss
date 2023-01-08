@@ -1,0 +1,321 @@
+.screen {
+    height: 100vh;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 50;
+}
+
+.task-details-container {
+    padding: 50px;
+}
+
+.task-details {
+    z-index: 60;
+    max-width: 768px;
+    min-width: 768px;
+    backdrop-filter: brightness(0.8);
+    display: grid;
+    grid-template-areas:
+        "cover cover"
+        "header header"
+        "main aside";
+    grid-template-columns: minmax(576px, 1fr) 192px;
+    grid-template-rows: auto 85px 1fr;
+
+    position: absolute;
+    margin-top: 0.5rem;
+    right: 50%;
+    margin-bottom: 50px;
+    transform: translateX(50%);
+
+    font-size: 1rem;
+    color: $textDark;
+    background-color: $taskDetailsBGC;
+
+    .task-title {
+        width: 100%;
+    }
+
+    & > *:not(.task-cover) {
+        padding: 0 16px 16px 16px;
+    }
+    border-radius: 3px;
+    min-height: 600px;
+    & * :not(.trellicons):not(.fa-regular):not(.fa-solid):not(.trello-home) {
+        font-family: "segoe-regular";
+    }
+
+    .large {
+        font-size: 1.5rem;
+
+        &.trellicons {
+            top: 0;
+            margin-inline-end: 1rem;
+        }
+
+        &.fa-regular {
+            top: 0;
+            margin-inline-end: 1rem;
+        }
+    }
+    .fa-solid {
+        margin-inline-end: 1rem;
+    }
+
+    .small {
+        font-size: 0.8rem;
+    }
+
+    .task-details-aside {
+        grid-area: aside;
+        padding: 0 16px 16px 8px;
+
+        & * {
+            color: $txtMedium;
+        }
+        .btn {
+            @include btn($type: "task-details");
+            .trello-home,
+            .fa-regular,
+            .trellicons {
+                top: 0;
+                margin-inline-end: 1rem;
+                font-size: 1rem;
+            }
+
+            &-join {
+                margin-block-end: 1rem;
+            }
+
+            &:hover {
+                background-color: rgba($textDark, 0.1);
+                border-radius: 0;
+            }
+        }
+
+        h4 {
+            font-weight: bold;
+            font-size: 0.75rem;
+        }
+
+        .btns-actions {
+            margin-block-start: 5rem;
+
+            .delete-btn {
+                @include btn($type: "task-details");
+                background-color: #b04632;
+                & * {
+                    color: $textLight;
+                }
+                // text-align: center;
+                // padding-inline-start: 13px;
+                // > * {
+                //     color: $clr1;
+                //     padding-inline-end: 20px;
+                // }
+            }
+        }
+    }
+
+    .task-cmp {
+        padding-block: 1rem;
+    }
+
+    .task-cmp-title {
+        // height: 30px;
+        font-size: 1rem;
+        font-weight: bold;
+    }
+
+    .task-cover {
+        grid-area: cover;
+
+        .btn {
+            @include btn();
+            position: absolute;
+            right: 0.2rem;
+            top: 0.5rem;
+            font-size: 1.5rem;
+
+            border-radius: 50%;
+            background-color: transparent;
+
+            &:hover {
+                background-color: rgba($textDark, 0.3);
+            }
+        }
+    }
+
+    .task-header {
+        grid-area: header;
+
+        input {
+            height: 30px;
+            font-size: 20px;
+            font-weight: bold;
+            border: none;
+            background-color: transparent;
+            width: 100%;
+            padding: 0;
+        }
+    }
+
+    .task-main {
+        grid-area: main;
+        display: flex;
+        flex-direction: column;
+        padding: 0 8px 16px 16px;
+    }
+
+    .desc-container {
+        display: flex;
+        flex-direction: column;
+
+        .desc-header {
+            font-weight: 600;
+        }
+
+        .save-btn {
+            align-self: flex-start;
+            padding: 0;
+            margin-block-start: 0.5rem;
+            font-size: 1rem;
+            background-color: #0079bf;
+            color: $clr1;
+            padding: 6px 12px;
+            border-radius: 3px;
+            margin-inline-end: 10px;
+            transition: 0.2s;
+
+            &:hover {
+                filter: brightness(95%);
+            }
+        }
+
+        .cancel-btn {
+            padding: 6px 12px;
+            margin-block-start: 0.5rem;
+            font-size: 1rem;
+            transition: 0.2s;
+
+            &:hover {
+                background: rgb(237, 237, 237);
+
+                // filter: brightness(55%);
+            }
+        }
+    }
+
+    .pad-40 {
+        margin-inline-start: 40px;
+    }
+
+    textarea {
+        border: none;
+
+        min-height: 60px;
+        padding: 8px 12px;
+        background-color: $taskDetailsBtn;
+        border-radius: 3px;
+        resize: none;
+
+        &:hover {
+            cursor: pointer;
+            // filter: brightness(95%);
+        }
+
+        &.desc-open {
+            background-color: white;
+            height: 110px;
+            box-shadow: inset 0 0 0 1px var(--ds-border-focused, #0079bf);
+
+            &:hover {
+                cursor: auto;
+            }
+        }
+
+        &::after {
+            background-color: black;
+        }
+        &:focus-visible {
+            outline-color: $clr2;
+            background-color: #ffff;
+        }
+    }
+
+    .close-task {
+        @include btn($type: "close");
+        height: 40px;
+        width: 40px;
+        font-size: 20px;
+        border-radius: 50%;
+
+        &:hover {
+            background-color: rgba($textDark, 0.1);
+            color: $textLight;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .task-details {
+        width: 100%;
+
+        min-height: 100vh;
+        max-width: 100%;
+        min-width: 100%;
+        grid-template-areas:
+            "cover "
+            "header "
+            "aside"
+            "main ";
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 85px 1fr auto;
+
+        margin-top: 0;
+        margin-bottom: 0;
+
+        .task-main {
+            // display: none;
+        }
+        .task-header {
+            // width: 100%;
+        }
+        .btns-block {
+            display: flex;
+            justify-content: start;
+            align-items: start;
+            gap: 5px;
+            .btn {
+                width: 130px;
+                // margin-inline-end: 0.5rem;
+                flex: 1 1 125px;
+                margin: 0;
+            }
+            // display: none;
+            flex-direction: row !important;
+            flex-wrap: wrap !important;
+        }
+
+        .task-details-aside {
+            .add-to-card {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .btns-actions {
+                h4 {
+                    margin-block-end: 0.5rem;
+                }
+                margin-block-start: 0.5rem;
+            }
+        }
+    }
+
+    .task-tags {
+        flex-wrap: wrap !important;
+    }
+} ;

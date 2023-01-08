@@ -1,0 +1,281 @@
+.task-preview-container {
+    overflow-y: auto;
+    overflow-x: hidden;
+    // height: 400px;
+    min-height: rem(5px);
+    max-height: calc(100vh - 165px);
+    padding: 0 rem(4px);
+    margin: 0 rem(4px);
+}
+
+.task-preview {
+    box-shadow: 0px 2px 0px 0px rgb(0 0 0 / 10%);
+    height: fit-content;
+    width: 100%;
+    margin-bottom: rem(9px);
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    .task-preview-cover {
+        // margin-bottom: rem(5px);
+        border-radius: 3px 3px 0 0;
+    }
+
+    cursor: pointer;
+    background-color: #ffffff;
+    border-radius: 3px;
+
+    &:hover {
+        background-color: #c8dae2;
+    }
+}
+
+.task-preview-details {
+    flex-wrap: wrap;
+    width: 100%;
+    // gap: rem(8px);
+    min-height: 5px;
+    height: 100%;
+    padding: rem(6px) rem(8px) rem(2px);
+
+
+    .labels-preview {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        max-height: fit-content;
+        margin-bottom: rem(4px);
+
+
+        ul {
+            gap: 5px;
+            width: 100%;
+            flex-wrap: wrap;
+            min-height: rem(17px);
+            align-items: center;
+
+        }
+
+        li {
+            display: flex;
+            justify-items: center;
+            text-align: center;
+            padding: 0;
+
+            &:not(:first-child) {
+                padding-right: rem(5px);
+            }
+
+            height: rem(8px);
+            // margin: rem(4px) 0;
+            border-radius: 3px;
+            min-width: rem(40px);
+            cursor: pointer;
+
+            &.open {
+                // width: fit-content;
+                height: 18px !important;
+                margin: 0;
+                padding: 0 rem(10px);
+                // transition: all 0.5s;
+                transition: all 0.5s;
+            }
+
+            span {
+                font-family: "segoe-regular-light";
+                padding-left: rem(2px);
+                padding-right: rem(4px);
+                font-size: rem(10px);
+                font-weight: 100;
+                color: black;
+                transition: all 0.7s;
+            }
+
+            .color-circle {
+                align-self: center;
+                display: inline-block;
+                border-radius: 50%;
+                height: 0.5rem;
+                width: 0.5rem;
+                margin-right: 0.2rem;
+                margin-left: 0.2rem;
+                filter: brightness(0.7);
+            }
+        }
+    }
+
+    .task-title {
+        height: fit-content;
+        margin-bottom: rem(5px);
+
+        //   padding-top: rem(4px);
+        h3 {
+
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
+                "Open Sans", "Helvetica Neue", sans-serif !important;
+            font-weight: 400;
+            font-size: rem(14px) !important;
+            padding: 0;
+            // margin-bottom: rem(8px);
+        }
+
+    }
+
+    .task-preview-icons {
+        // display: grid;
+        // grid-template-columns: repeat(3, auto);
+        // grid-auto-flow: row dense;
+        // justify-items:stretch;
+        // justify-content:space-evenly;
+        // flex-wrap: wrap;
+        // gap: rem(10px);
+        width: 100%;
+        padding-bottom: rem(4px);
+        // position: relative;
+        // justify-content: space-between;
+        // align-content: center;
+        // height: rem(35px);
+        height: fit-content;
+
+        // margin-top: rem(8px);
+        .preview-icons {
+            gap: 8px
+        }
+
+        .task-date-preview {
+
+            // gap: rem(3px);
+            // align-items: center;
+            // justify-content: space-between;
+            // width: fit-content;
+            div {
+                position: relative;
+                border-radius: 3px;
+                width: fit-content;
+                padding: 0 rem(5px);
+                height: fit-content;
+                align-items: center;
+                gap: rem(3px);
+
+                span {
+                    &.square-icon {
+                        position: absolute;
+                        left: 6px;
+                        opacity: 0;
+                    }
+
+                }
+
+                &:hover {
+
+
+                    .square-icon {
+                        opacity: 1;
+
+                    }
+
+                    .icon-clock {
+
+                        opacity: 0;
+
+                    }
+                }
+
+
+
+            }
+
+            .date-str {
+                width: fit-content;
+                font-size: rem(12px);
+            }
+        }
+
+        .desc-icon {
+            height: fit-content;
+        }
+
+        .task-todos {
+            align-items: center;
+            border-radius: 3px;
+            width: fit-content;
+            padding: 0 rem(3px);
+            height: fit-content;
+
+            .checklist-icon {
+                position: relative;
+                bottom: -1px;
+    
+            }
+
+            :not(:first-of-type) {
+                font-size: rem(12px);
+                text-align: center;
+            }
+
+            :first-of-type {
+                text-align: center;
+                font-size: rem(16px);
+            }
+
+            span {
+                margin-right: rem(3px);
+            }
+        }
+
+        .attachments {
+            align-items: center;
+            gap: rem(3px);
+
+            :not(:first-of-type) {
+                font-size: rem(12px);
+                text-align: center;
+            }
+
+            :first-of-type {
+                text-align: center;
+                font-size: rem(16px);
+            }
+        }
+
+        // .task-todos :not(:first-of-type) {
+        //     font-size: rem(12px);
+        // }
+
+        .members-task-preview {
+            // align-self: flex-end;
+            // padding: 0 rem(6px) rem(6px) 0 ;
+            grid-column: -1;
+            margin: 0;
+            // justify-content: flex-end;
+            // justify-self: flex-end;
+            // position: fixed;
+            // right: 0px; bottom: 0px;
+            // position: absolute;
+            // margin-left: rem(10px);
+            // right: -5px;
+            // bottom: 0;
+        }
+    }
+}
+
+.background-img {
+    width: 100%;
+    height: 200px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    padding: 0;
+}
+
+.background-color {
+    width: 100%;
+    height: 40px;
+    padding: 0;
+}
+
+.smooth-dnd-ghost {
+    transform: rotate(5deg);
+}

@@ -1,0 +1,204 @@
+.board-menu {
+    width: 339px;
+    height: calc(100vh - 44px);
+    right: 0;
+    position: absolute;
+    // padding: 0 0.8rem;
+    color: $textDark;
+    background-color: #f4f5f7;
+    box-shadow: inset 1px 0px 0px 0px rgb(0 0 0 / 10%);
+    box-shadow: -10px 1px 20px 10px rgb(0 0 0 / 10%);
+    transition: all 0.3s ease-out;
+
+    & * :not(.title span):not(.trellicons):not(.fa-regular):not(.fa-solid):not(.fa-brands) {
+        color: $textDark;
+        font-size: 0.875rem;
+        font-family: "segoe-regular";
+    }
+
+    .delete-btn {
+        span {
+        }
+    }
+
+    .trellicons,
+    .fa-brands,
+    .fa-regular,
+    .fa-solid {
+        font-size: 20px;
+        width: 25px;
+    }
+
+    .title,
+    .mini-title,
+    .fullname {
+        font-weight: bold;
+    }
+
+    .mini-title {
+        margin: 0.25rem 0rem;
+    }
+
+    section:not(.menu-container):not(.title) {
+        box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.1);
+        padding: 0.5rem;
+        &:last-of-type {
+            box-shadow: none;
+        }
+    }
+    .title {
+        font-family: "segoe-semi-bold";
+        box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.1);
+        padding: 0.375rem 0 0.5rem 0;
+        span {
+            font-size: 1rem;
+        }
+    }
+
+    .board-menu-page {
+        height: 100%;
+        // height: calc(100vh - 220px);
+    }
+
+    .menu-container {
+        height: 100%;
+        .activities {
+            @include scroll-bar;
+            padding-inline-end: 0 !important;
+            margin-inline-end: -0.5rem;
+            .activities-container {
+                padding-inline-end: 0.5rem !important;
+                font-size: 0.8rem;
+                height: calc(100vh - 300px);
+                overflow-y: scroll;
+            }
+        }
+    }
+
+    span:first-of-type:not(.fullname):not(.title span):not(.btn-close span) {
+        margin-inline-end: 0.5rem;
+    }
+    .btn-back,
+    .btn-close {
+        top: 2px;
+        background-color: transparent;
+        span {
+            font-size: 1rem !important;
+            margin: 0;
+        }
+    }
+    .btn {
+        @include btn("board-nav");
+
+        &:hover {
+            background-color: rgba($textDark, 0.1);
+            border-radius: 0;
+        }
+    }
+
+    .activity {
+        padding-block: 0.3rem;
+        .btn:first-of-type {
+            @include btn($type: "initials");
+        }
+        .member-image {
+            cursor: pointer;
+            background-size: cover;
+            background-position: center;
+            border-radius: 50%;
+            margin-inline-end: 0.5rem;
+            height: 2rem;
+            aspect-ratio: 1/1;
+            box-shadow: inset 0px -1px 0px rgb(0 0 0 / 33%);
+
+            &:hover {
+                filter: brightness(1.1);
+            }
+        }
+
+        .member-initials {
+            @include btn($type: "initials");
+            height: 2rem;
+            aspect-ratio: 1/1;
+            margin-inline-end: 0.5rem;
+            box-shadow: inset 0px -1px 0px rgb(0 0 0 / 33%);
+        }
+
+        .activity-time {
+            font-size: 0.75rem !important;
+            color: rgba($textDark, 0.8) !important;
+        }
+    }
+
+    .colors,
+    .photos,
+    .costume {
+        .btn {
+            border-radius: 0.5rem;
+            height: 96px;
+            width: 150px;
+            background-size: cover;
+
+            &:hover {
+                opacity: 0.5;
+            }
+        }
+    }
+
+    .colors {
+        .btn {
+            background-image: url(https://a.trellocdn.com/prgb/dist/images/colors@2x.ec32a2ed8dd8198b8ef0.jpg);
+        }
+    }
+
+    .photos {
+        .btn {
+            background-image: url(https://a.trellocdn.com/prgb/dist/images/photos-thumbnail@3x.8f9c1323c9c16601a9a4.jpg);
+        }
+    }
+
+    .images {
+        height: 100%;
+        position: relative;
+
+        & > .loader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    .costume {
+        .btn {
+            background-color: #eaecf0;
+            span {
+                font-size: 1.5rem;
+                margin: 0;
+            }
+        }
+    }
+
+    .color-sample {
+        border-radius: 0.5rem;
+        height: 96px;
+        width: 148px;
+        background-size: cover;
+        object-fit: cover;
+        &:hover {
+            opacity: 0.5;
+        }
+    }
+
+    input {
+        // width: 100%;
+        height: 36px;
+        margin: 1rem 0.5rem 0.5rem 0.5rem;
+        border: 1px solid rgba($textDark, 0.1);
+        padding-inline-start: 1rem;
+    }
+
+    &.menuIsHidden {
+        margin-right: -340px;
+    }
+}

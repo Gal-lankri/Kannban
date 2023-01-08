@@ -1,0 +1,31 @@
+.confirm-modal {
+    position: fixed;
+    top: 50%;
+    right: 50%;
+    z-index: 100000;
+    transform: translate(50%, -50%);
+    background-color: white;
+    padding: 12px;
+    border-radius: 3px;
+    box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .confirm-modal-header {
+        margin: 8px 0;
+        color: $textDark;
+    }
+
+    .btn {
+        &-ok {
+            @include btn-add-save($type: "cancel");
+            // background-color: rgb(7, 71, 166);
+        }
+        &-cancel {
+            @include btn-add-save($type: "save");
+            // background-color: rgb(7, 71, 166);
+        }
+    }
+}

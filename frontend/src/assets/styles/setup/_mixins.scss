@@ -1,0 +1,231 @@
+/* Breakpoint mixins */
+
+@mixin for-mobile-layout {
+  @media (max-width: calc($mobile-breakpoint + 40px)) {
+    @content;
+  }
+}
+
+@mixin for-narrow-layout {
+  @media (min-width: calc($mobile-breakpoint + 40px)) {
+    @content;
+  }
+}
+
+@mixin for-normal-layout {
+  @media (min-width: calc($narrow-breakpoint + 40px)) {
+    @content;
+  }
+}
+
+@mixin for-wide-layout {
+  @media (min-width: calc($normal-breakpoint + 40px)) {
+    @content;
+  }
+}
+
+// @mixin layoutGTC($max) {
+//     grid-template-columns:
+//       minmax($layoutPadding, 1fr)
+//       minmax(auto, $max)
+//       minmax($layoutPadding, 1fr);
+//   }
+
+/* Media  Mixins */
+@mixin aspect-ratio($width, $height) {
+  position: relative;
+  // overflow: hidden;
+  &::before {
+    display: block;
+    content: "";
+    width: 100%;
+    padding-top: calc(($height / $width) * 100%);
+  }
+  > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  > img {
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+// Mixin for removing hover efects on iphone screen
+@mixin hover-supported {
+  @media not all and (pointer: coarse) {
+    &:hover {
+      @content;
+    }
+  }
+}
+
+// Buttons
+
+@mixin btn($type: regular, $bg: $clr1, $clr: $clr3, $padding: em(8px) em(8px), $hover: darken($bg, 50%)) {
+  display: inline-flex;
+  align-items: center;
+  // justify-content: center;
+  text-decoration: none;
+  // text-transform: uppercase;
+  border-radius: 3px;
+  padding: $padding;
+  line-height: 1.25;
+  font-size: 1rem;
+  font-variation-settings: "wght" 430;
+  border: none;
+  cursor: pointer;
+
+  transition: background-color 0.2s;
+
+  @if $type == regular {
+    height: 32px;
+    min-width: 32px;
+    padding: 0 0.5rem;
+    margin-inline: 0.2rem;
+
+    &:hover {
+      filter: brightness(120%) !important;
+    }
+
+    &.isDark:hover {
+      filter: brightness(80%) !important;
+    }
+  } @else if $type == "board-nav" {
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+  } @else if $type == "initials" {
+    font-size: 0.8rem;
+    color: white !important;
+    border-radius: 50%;
+    background-color: $userBgc1;
+    &:hover {
+      background-color: rgba($userBgc1, 0.8);
+    }
+  } @else if $type == "task-details" {
+    font-size: 0.9rem;
+    font-size: 0.9rem;
+    background-color: #eaecf0;
+    margin-inline: 0;
+    margin-block-start: 0.5rem;
+    padding: 0.5rem 1rem;
+    &:active {
+      color: #0079bf !important;
+      background-color: #e4f0f6 !important;
+    }
+    &:hover {
+      background-color: rgba($textDark, 0.1);
+      // border-radius: 0;
+    }
+  } @else if $type == "close" {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    font-size: 1rem;
+    height: 40px;
+    width: 40px;
+    background-color: transparent;
+    display: inline;
+    margin: 4px;
+    padding: 4px;
+    color: rgba($textDark, 0.6);
+    background-color: rgba($textLight, 0.6);
+
+    &:hover {
+      color: rgba($textDark, 1);
+    }
+  } @else if $type == "back" {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    font-size: 1rem;
+    height: 40px;
+    width: 40px;
+    background-color: transparent;
+    display: inline;
+    margin: 4px;
+    padding: 4px;
+    color: rgba($textDark, 0.6);
+
+    &:hover {
+      color: rgba($textDark, 1);
+    }
+  }
+}
+
+@mixin btn-add-save($type: "save") {
+  align-self: flex-start;
+  padding: 0;
+  // margin-top: 20px;
+  font-size: 0.8rem;
+  padding: 6px 12px;
+  border-radius: 3px;
+  margin-block: 0.5rem;
+
+  @if $type == "save" {
+    background-color: #0079bf;
+    color: $textLight;
+  }
+  @if $type == "cancel" {
+    color: $textDark;
+    background-color: #eaecf0;
+  }
+  &:hover {
+    filter: brightness(0.8);
+  }
+}
+// Type
+
+@mixin type($type: bold) {
+  // type options:
+  // 1.bold
+  // 2.boldCondensed
+  // 3.condensed
+  @if $type == bold {
+    font-variation-settings: "wght" 430;
+  } @else if $type == boldCondensed {
+    font-variation-settings: "wght" 430, "wdth" 80;
+    letter-spacing: em(6.72px);
+  } @else if $type == condensed {
+    font-variation-settings: "wdth" 80;
+    letter-spacing: em(6.72px);
+  } @else if $type == light {
+    font-variation-settings: "wght" 200;
+  }
+}
+
+@mixin scroll-bar() {
+  /* ===== Scrollbar CSS ===== */
+  /* Firefox */
+  * {
+    scrollbar-width: auto;
+    scrollbar-color: #bfc4ce #d9dce2;
+  }
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-button {
+    width: 0px;
+    height: 0px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(#bfc4ce, 0.6);
+    border: 0px none #ffffff;
+    border-radius: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: rgba(#a5a5a5, 0.2);
+    // background: #d9dce2;
+    border: 0px none #ffffff;
+    border-radius: 8px;
+  }
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+}

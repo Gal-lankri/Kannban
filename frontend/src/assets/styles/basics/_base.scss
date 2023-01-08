@@ -1,0 +1,69 @@
+:root {
+    font-family: "segoe-regular";
+}
+
+* {
+    box-sizing: border-box;
+}
+
+::selection {
+    background-color: $clr1;
+    color: $clr6;
+}
+
+html {
+    font-family: montserrat;
+    line-height: 1.6;
+    color: $clr2;
+}
+
+body {
+    margin: 0;
+
+    // overflow-y: hidden;
+    background-color: #ffffff;
+}
+
+.logo {
+    font-family: "charlie-bold";
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "segoe-bold";
+    margin: 0;
+    line-height: 1;
+    font-size: 1rem;
+}
+
+// img {
+//     width: 100%;
+// }
+
+p {
+    margin: 0 0 1em;
+    max-width: 40ch;
+}
+
+a {
+    text-decoration: none;
+}
+// a:hover {
+//     text-decoration: underline;
+// }
+
+button {
+    margin: 0;
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+button::first-letter {
+    text-transform: capitalize !important;
+}

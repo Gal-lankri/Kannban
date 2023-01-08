@@ -1,0 +1,127 @@
+.home-page {
+    position: relative;
+    margin-top: -44px;
+    width: 100%;
+    // background-image: linear-gradient(60deg, rgb(82, 67, 170), rgb(237, 80, 180));
+    height: fit-content;
+    // background-color: #253858;
+
+    // border: 1px solid gold;
+
+    a {
+        text-decoration: none;
+        color: $textLight;
+        font-family: "charlie-light";
+    }
+
+    .header {
+        // border: 1px solid gold;
+        z-index: 100;
+        position: absolute;
+        top: 0;
+        height: 60px;
+        width: 100%;
+        background-color: #fafbfc;
+        padding-inline-start: 1rem;
+
+        .logo {
+            font-size: 2rem;
+            font-family: "charlie-bold";
+            margin-inline-end: 1rem;
+            span {
+                color: #0065ff;
+            }
+            span:last-of-type {
+                color: #253858;
+                margin-top: 0.1rem;
+            }
+        }
+
+        .login-btn {
+            cursor: pointer;
+            color: white;
+            background-color: #0065ff;
+            font-family: "charlie-regular";
+            font-size: 1.2rem;
+            height: 100%;
+            padding: 0.5rem;
+            width: 200px;
+            text-align: center;
+            &:hover {
+                &:hover {
+                    filter: none;
+                    background-color: rgb(7, 71, 166);
+                }
+            }
+        }
+    }
+
+    section:nth-of-type(2) {
+        position: relative;
+        top: 60px;
+        background-image: linear-gradient(60deg, rgb(82, 67, 170), rgb(237, 80, 180));
+
+        .wave {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            color: #fafbfc;
+        }
+
+        .demo-invite {
+            padding: 2rem;
+            z-index: 100;
+
+            color: $textLight;
+            .img1 {
+                margin-top: 5rem;
+                width: 580px;
+            }
+
+            h1 {
+                margin-top: 0rem;
+                font-family: "charlie-semibold";
+                font-size: rem(48px);
+                line-height: 1.25;
+                width: 480px;
+            }
+
+            p {
+                font-size: 1.5rem;
+            }
+
+            button {
+                @include btn-add-save($type: "save");
+                font-family: "charlie-semibold";
+                padding: 0.5rem 3rem;
+                box-shadow: outset 0px 0px 1px 1px rgb(0 0 0 / 10%);
+                font-size: 2rem;
+                background-color: #0065ff;
+                &:hover {
+                    filter: none;
+                    background-color: rgb(7, 71, 166);
+                }
+            }
+        }
+        // border: 1px solid gold;
+    }
+}
+
+@media (max-width: 768px) {
+    .home-page {
+        .demo-invite {
+            & * {
+                width: 100% !important;
+            }
+            width: 100% !important;
+            padding: 1rem !important;
+            flex-direction: column;
+            margin: 0;
+
+            img {
+                // width: 80% !important;
+                margin-top: 1rem !important;
+            }
+        }
+    }
+} ;

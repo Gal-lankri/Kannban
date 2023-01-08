@@ -1,0 +1,166 @@
+.group {
+    position: relative;
+    background-color: $clr12;
+    border-radius: 3px;
+    height: fit-content;
+    max-height: 100%;
+    color: $clr13;
+    min-width: 272px;
+    max-width: 273px;
+    font-size: rem(14px) !important;
+    // padding: rem(8px);
+    // gap: rem(8px);
+    // box-shadow: 0px 0px -1px -1px rgba(0, 0, 0, 0.33) outset;
+    border: 1px solid rgba(grey, 0.2);
+    
+
+    // overflow-y: scroll;
+    .smooth-dnd-container.vertical > .smooth-dnd-draggable-wrapper {
+        overflow: unset;
+    }
+
+    .main-title {
+        position: relative;
+        height: rem(40px);
+        padding: rem(10px) rem(5px) rem(10px) rem(16px);
+        
+
+        // margin:  0 rem(4px);
+        input {
+            // height: 30px;
+            color: #172b4d;
+            padding: 0;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            background-color: transparent;
+            // padding-top: rem(3px);
+            // padding-bottom: rem(3px);
+            height: fit-content;
+
+            &:focus-visible {
+                outline-color: $clr2;
+                background-color: #ffff;
+            }
+        }
+
+        .btn-menu {
+            @include btn-add-save($type: "cancel");
+            position: absolute;
+            right: 0.1rem;
+            top: 0;
+            color: #717c90;
+            // margin: 0;
+            // padding-block: 0.2rem;
+        }
+    }
+
+    .task-editor {
+        position: absolute;
+        top: 130px;
+        right: -110px;
+        z-index: 200;
+        padding: 0;
+
+        .btn-close {
+            &:hover {
+                background-color: transparent;
+            }
+        }
+
+        & > section {
+            padding: 0.75rem;
+            margin-inline: 0.75rem;
+            // margin: 0;
+        }
+
+        button {
+            @include btn($type: "board-nav");
+            color: $textDark;
+            text-align: center;
+            padding: 0.5rem 0.75rem;
+            &:hover {
+                background-color: rgba($textDark, 0.1);
+                // border-radius: 0;
+            }
+            &:last-of-type {
+                margin-block-end: 10px;
+            }
+        }
+    }
+}
+
+.smooth-dnd-ghost {
+    transform: rotate(5deg);
+}
+
+.add-card-container {
+    position: sticky;
+    bottom: 0;
+    padding: 0 rem(10px) rem(8px) rem(8px) ;
+    background-color: $clr12;
+    width: 100%;
+
+    div{
+        right: 0;
+        background-color: aqua;
+        width: rem(15px);
+        height:  rem(15px);
+    }
+}
+
+button.add-card-btn {
+    text-align: left;
+    padding: rem(4px) rem(4px);
+
+    margin: rem(2px) 0 0 0;
+    color: $clr9;
+    border-radius: 3px;
+    font-size: rem(14px);
+    width: 100%;
+
+    &:hover {
+        background-color: rgba($textDark, 0.1);
+        border-radius: 3px;
+        color: $clr13;
+    }
+   
+    .add-card-txt {
+        font-size: rem(14px);
+    }
+    
+    .plus-icon {
+        padding-left: rem(8px);
+        font-size: rem(14px);
+        padding-right: rem(5px);
+    }
+}
+
+.add-card-form {
+    height: fit-content;
+    justify-items: center;
+    padding-bottom: rem(8px);
+  
+    textarea {
+        box-shadow: 0px 2px 0px 0px rgb(0 0 0 / 10%);
+        padding-left: rem(8px);
+        height: rem(60px);
+        margin: 0;
+        width: 100%;
+        margin: auto;
+        resize: none;
+        border: none;
+        border-radius: 3px;
+        padding: 0 rem(4px);
+        outline: unset;
+    }
+
+    .x-icon {
+        font-size: rem(16px);
+        padding-left: rem(15px);
+        color: $clr9;
+        &:hover {
+            color: $colorP10;
+        }
+    }
+}

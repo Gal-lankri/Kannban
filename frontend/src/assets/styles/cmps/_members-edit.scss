@@ -1,0 +1,42 @@
+.members-editor {
+    // top: 155px;
+    // right: -130px;
+    @include scroll-bar;
+    .members-container {
+        max-height: 300px;
+        overflow-y: scroll;
+    }
+    .member {
+        margin-block-end: 1rem;
+        cursor: pointer;
+
+        &:hover {
+            background-color: rgba($textDark, 0.1);
+        }
+    }
+    .member-user {
+        padding: 4px;
+
+        div:last-of-type {
+            font-size: 1rem;
+        }
+    }
+
+    .member-image {
+        background-size: cover;
+        background-position: center;
+        border-radius: 50%;
+        margin-inline-end: 0.5rem;
+        height: 2rem;
+        aspect-ratio: 1/1;
+        box-shadow: inset 0px -1px 0px rgb(0 0 0 / 33%);
+    }
+
+    .member-initials {
+        @include btn($type: "initials");
+        height: 2rem;
+        aspect-ratio: 1/1;
+        margin-inline-end: 0.5rem;
+        box-shadow: inset 0px -1px 0px rgb(0 0 0 / 33%);
+    }
+}

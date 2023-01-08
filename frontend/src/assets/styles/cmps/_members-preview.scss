@@ -1,0 +1,118 @@
+.members-preview {
+    color: $textDark;
+    margin-inline-end: 0.5rem;
+
+    & * {
+        font-size: 0.8rem;
+    }
+
+    h4 {
+        font-weight: bold;
+        font-size: 0.75rem;
+        color: $txtMedium;
+    }
+
+    .members-container {
+        margin-block-start: 0.5rem;
+    }
+
+    .member-image {
+        cursor: pointer;
+        background-size: cover;
+        background-position: center;
+        border-radius: 50%;
+        margin-inline-end: 0.3rem;
+        height: 2rem;
+        aspect-ratio: 1/1;
+        box-shadow: inset 0px -1px 0px rgb(0 0 0 / 33%);
+
+        &:hover {
+            filter: brightness(1.1);
+        }
+    }
+
+    .btn-plus {
+        height: 2rem;
+        width: 2rem;
+        // padding: 40px;
+        // border: 1px solid black;
+        border-radius: 50%;
+        background-color: $taskDetailsBtn;
+        cursor: pointer;
+
+        &:hover {
+            filter: brightness(0.9);
+        }
+    }
+
+    .member-initials {
+        @include btn($type: "initials");
+        height: 2rem;
+        aspect-ratio: 1/1;
+        margin-inline-end: 0.5rem;
+        box-shadow: inset 0px -1px 0px rgb(0 0 0 / 33%);
+    }
+}
+
+.members-task-preview {
+    position: relative;
+    right: 0;
+    color: $textDark;
+
+    // margin-inline-end: 0.5rem;
+    & * {
+        font-size: 0.8rem;
+    }
+
+    h4 {
+        font-weight: bold;
+        font-size: 0.75rem;
+        color: $txtMedium;
+    }
+
+    .members-container {
+        // display: flex;
+        // flex-wrap: wrap;
+        gap:rem(4px);
+        // // margin-block-start: 0.5rem;
+        // justify-content: end;
+    }
+
+    .member-image {
+        cursor: pointer;
+        background-size: cover;
+        background-position: center;
+        border-radius: 50%;
+        // margin-inline-end: 0.3rem;
+        // margin-top: rem(5px);
+        height: 1.75rem;
+        aspect-ratio: 1/1;
+        box-shadow: inset 0px -1px 0px rgb(0 0 0 / 33%);
+
+        &:hover {
+            filter: brightness(1.1);
+        }
+    }
+
+    .btn-plus {
+        height: 2rem;
+        width: 2rem;
+        // padding: 40px;
+        // border: 1px solid black;
+        border-radius: 50%;
+        background-color: $taskDetailsBtn;
+        cursor: pointer;
+
+        &:hover {
+            filter: brightness(0.9);
+        }
+    }
+
+    .member-initials {
+        @include btn($type: "initials");
+        height: 1.75rem;
+        aspect-ratio: 1/1;
+        // margin-inline-end: 0.5rem;
+        box-shadow: inset 0px -1px 0px rgb(0 0 0 / 33%);
+    }
+}

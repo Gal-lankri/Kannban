@@ -1,0 +1,68 @@
+.cover-edit {
+    background-color: #f4f5f7;
+    .colors-pallet {
+        width: 100%;
+        gap: 4px;
+        margin-block: 0.5rem;
+
+        .color-sample {
+            height: 30px;
+            width: 50px;
+
+            border-radius: 3px;
+        }
+    }
+
+    .remove-cover-btn {
+        margin: 4px 0 0;
+        width: 100%;
+        border-radius: 3px;
+        padding: 6px 12px;
+        line-height: 20px;
+        color: #172b4d;
+        background-color: #f4f5f7;
+
+        &:hover {
+            filter: brightness(95%);
+        }
+    }
+
+    .btn-upload {
+        @include btn-add-save($type: "cancel");
+        width: 100%;
+    }
+
+    .photos-container {
+        // display: grid;
+        // grid-template-columns: 136px 136px;
+        // grid-template-columns: 100px 100px;
+        margin-block-start: 0.5rem;
+
+        position: relative;
+        gap: 10px;
+        min-height: 80px;
+        img {
+            object-fit: cover;
+            height: 50px;
+            width: 80px;
+            // width: 33%;
+            border-radius: 5px;
+
+            &:hover {
+                cursor: pointer;
+                filter: brightness(95%);
+            }
+        }
+
+        & > .loader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    input {
+        margin-block-start: 1rem;
+    }
+}

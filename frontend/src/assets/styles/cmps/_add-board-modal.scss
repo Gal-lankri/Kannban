@@ -1,0 +1,86 @@
+.created-board-header {
+    // display: flex;
+    // align-items: center;
+}
+
+.add-board-modal {
+    // background-color: white;
+    // width: 304px;
+    padding: 0 12px 12px 12px;
+    // display: flex;
+    flex-direction: column;
+    // gap: 5px;
+
+    .colors-pallet {
+        width: 100%;
+
+        > *:not(:last-child) {
+            &:hover {
+                cursor: pointer;
+                filter: brightness(95%);
+            }
+        }
+
+        > :last-child {
+            display: flex;
+            text-align: center;
+            background-color: white;
+            justify-content: center;
+
+            &:hover {
+                filter: brightness(80%);
+                cursor: pointer;
+            }
+        }
+
+        .color-sample {
+            height: 54px;
+            width: 86px;
+
+            border-radius: 3px;
+        }
+    }
+
+    .btn-upload {
+        @include btn-add-save($type: "cancel");
+        width: 100%;
+    }
+    .btn-add {
+        @include btn-add-save($type: "save");
+        width: 100%;
+
+        &.required {
+            opacity: 0.3;
+        }
+    }
+
+    .photos-container {
+        display: flex;
+        gap: 10px;
+        padding-bottom: 8px;
+
+        img {
+            object-fit: cover;
+            height: 54px;
+            width: 86px;
+            // width: 33%;
+            border-radius: 5px;
+
+            &:hover {
+                cursor: pointer;
+                filter: brightness(95%);
+            }
+        }
+    }
+
+    input {
+        border: none;
+
+        &.required {
+            border: 1px solid red;
+            &::placeholder {
+                color: red;
+            }
+        }
+    }
+}

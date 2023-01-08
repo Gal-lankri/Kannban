@@ -1,0 +1,15 @@
+.board-details {
+    height: 100%;
+    width: 100vw;
+    background-size: cover;
+    position: fixed;
+    // background-size: cover;
+
+    .main {
+        width: calc(100vw - 270px);
+        margin-block-end: 8px;
+        padding: 0 0 8px 12px;
+        height: calc(100vh - 44px);
+        @include scroll-bar;
+    }
+}

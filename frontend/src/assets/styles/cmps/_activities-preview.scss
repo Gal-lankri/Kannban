@@ -1,0 +1,57 @@
+.activities-preview {
+    font-size: 0.8rem;
+    span:first-of-type:not(.fullname) {
+        margin-inline-end: 1rem;
+    }
+
+    .title {
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .btn {
+        @include btn-add-save($type: "cancel");
+    }
+    .activity {
+        width: 100%;
+        padding-block: 0.3rem;
+        .btn:first-of-type {
+            @include btn($type: "initials");
+            margin-inline-end: 0.6rem;
+            height: 2rem;
+            width: 2rem;
+        }
+        .member-image {
+            cursor: pointer;
+            background-size: cover;
+            background-position: center;
+            border-radius: 50%;
+            margin-inline-end: 0.6rem;
+            height: 2rem;
+            aspect-ratio: 1/1;
+            box-shadow: inset 0px -1px 0px rgb(0 0 0 / 33%);
+            margin-block-start: 0.2rem;
+
+            &:hover {
+                filter: brightness(1.1);
+            }
+        }
+        .activity-time {
+            font-size: 0.75rem !important;
+            color: rgba($textDark, 0.8) !important;
+        }
+
+        .member-initials {
+            @include btn($type: "initials");
+            height: 2rem;
+            aspect-ratio: 1/1;
+            margin-inline-end: 0.6rem;
+            box-shadow: inset 0px -1px 0px rgb(0 0 0 / 33%);
+            margin-block-start: 0.2rem;
+        }
+    }
+
+    .fullname {
+        font-weight: bold;
+    }
+}

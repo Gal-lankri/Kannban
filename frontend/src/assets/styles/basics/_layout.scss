@@ -1,0 +1,29 @@
+.main-layout {
+    @include scroll-bar;
+
+    display: grid;
+    grid-template-rows: 44px 1fr;
+    grid-template-areas:
+        "appHeader"
+        "appMain";
+    height: 100vh;
+    margin: 0;
+    width: 100%;
+}
+
+#app {
+}
+
+.app-header {
+    grid-area: appHeader;
+}
+
+.app-main {
+    grid-area: appMain;
+}
+
+@media (max-width: 768px) {
+    .main-layout {
+        height: calc(100vh - 50px);
+    }
+} ;

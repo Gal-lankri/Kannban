@@ -1,0 +1,118 @@
+form > * {
+    // display: block;
+    // width: 200px;
+    // margin: 10px 0px;
+}
+
+.btn-close {
+    @include btn("close");
+}
+.btn-back {
+    @include btn("back");
+}
+
+.btn-save {
+    @include btn-add-save($type: save);
+    width: 100%;
+    margin: 0;
+    margin-block-start: 0.5rem;
+}
+.btn-remove {
+    @include btn-add-save($type: cancel);
+    width: 100%;
+    margin: 0;
+    margin-block-start: 0.5rem;
+}
+
+.task-editor {
+    position: fixed;
+    top: 50%;
+    right: 30%;
+    transform: translate(50%, -50%);
+
+    border-radius: 3px;
+    background-color: white;
+    padding-inline: 0.8rem;
+    padding-block-end: 0.8rem;
+    box-shadow: 0px 0px 18px 11px rgb(0 0 0 / 35%);
+    color: $textDark;
+    width: 300px;
+
+    & *:not(.trellicons) {
+        font-size: 0.9rem;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .title {
+        text-align: center;
+        padding-block: 13px;
+        box-shadow: inset 0px -1px 0px rgb(0 0 0 / 10%);
+        margin-block-end: 10px;
+    }
+    h4,
+    .mini-title {
+        // padding-block: 10px;
+        margin-block: 0.5rem;
+        // font-weight: bold;
+        font-weight: bold;
+        font-size: 0.75rem;
+        color: $txtMedium;
+    }
+
+    h4 {
+        margin-block-start: 0.5rem;
+        font-weight: bold;
+        font-size: 0.75rem;
+        color: $txtMedium;
+    }
+
+    select,
+    textarea,
+    input {
+        // background-color: $taskDetailsBtn;
+        // border: 1px solid #dfe1e6;
+        background-color: #fafbfc;
+        border: 1px solid #adadad;
+        padding: 8px 12px;
+        border-radius: 3px;
+        // border: none;
+        // margin-block-start: 1rem;
+        &:hover {
+            cursor: auto;
+            // filter: brightness(95%);
+        }
+        &:focus-visible {
+            outline-color: $clr2;
+            background-color: #ffff;
+        }
+    }
+    select,
+    textarea,
+    input[type="search"],
+    input[type="file"],
+    input[type="text"] {
+        width: 100%;
+        // margin-block-start: 0.5rem;
+    }
+
+    input[type="file"] {
+        margin: 0;
+    }
+
+    .no-results {
+        font-style: italic;
+        font-weight: lighter;
+        padding-block: 1rem;
+    }
+
+    ul {
+        margin-block: 0.5rem;
+    }
+}
+
+@media (max-width: 780px) {
+    .task-editor {
+        position: fixed;
+        top: 50%;
+        right: 50%;
+    }
+} ;

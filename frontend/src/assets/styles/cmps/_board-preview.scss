@@ -1,0 +1,69 @@
+.board-preview {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+    color: $clr1;
+    padding: 8px 8px 0 8px;
+    background-size: cover;
+    backdrop-filter: brightness(0.3);
+
+    .board-title {
+        z-index: 80px;
+    }
+
+    & * :not(.trellicons) {
+        font-family: "segoe-bold";
+    }
+
+    .board-title {
+        font-size: 1rem;
+        font-weight: 700;
+    }
+
+    .board-icon {
+        top: 0;
+        left: 0;
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        opacity: 0.8;
+        border-radius: 3px;
+    }
+
+    .star {
+        position: absolute;
+        align-self: flex-end;
+        opacity: 0;
+        right: -10px;
+        bottom: 5px;
+        transition: 0.5s;
+    }
+
+    &:hover {
+        cursor: pointer;
+        filter: brightness(90%);
+
+        .star {
+            align-self: flex-end;
+            opacity: 1;
+            right: 10px;
+            bottom: 5px;
+        }
+    }
+
+    h2 {
+        margin: 0;
+    }
+
+    .star-icon {
+        align-self: flex-end;
+        right: 10px;
+        bottom: 5px;
+        position: absolute;
+        opacity: 1;
+        color: gold;
+    }
+}

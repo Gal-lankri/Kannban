@@ -1,0 +1,193 @@
+.boards-page-container {
+    display: grid;
+    grid-template-columns: auto minmax(auto, 1100px) auto;
+
+    > * {
+        grid-column: 2;
+    }
+
+    h3 {
+        bottom: 0;
+        line-height: 25px;
+    }
+
+    .boards-page {
+        display: grid;
+        grid-template-columns: 272px auto;
+        margin: 40px 0px 0;
+
+        .board-title {
+            position: absolute;
+        }
+
+        .board-main {
+            h2 {
+                font-family: "segoe-italic";
+                color: var(--ds-text, #172b4d);
+                font-size: 16px;
+                font-weight: 700;
+                line-height: 24px;
+            }
+        }
+
+        .add-board-modal {
+            position: fixed;
+            right: 300px;
+        }
+    }
+
+    .board-list {
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        // margin-top: 24px;
+        margin: 0;
+        justify-content: flex-start;
+        padding: 0 0 20px;
+
+        font-family: "segoe-regular";
+
+        & * {
+        }
+
+        & > :last-child {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f2f5;
+            color: $textDark;
+
+            &:hover {
+                cursor: pointer;
+                filter: brightness(95%);
+            }
+        }
+        li {
+            color: $clr6;
+            border-radius: 3px;
+            // padding: 5px;
+            margin: 0px;
+            margin-inline-start: 0;
+            width: 23.5%;
+            height: 96px;
+            margin-bottom: 4px;
+            max-width: 193px;
+        }
+        // a {
+        //     color: $clr1;
+        //     padding: 10px;
+        // }
+        // pre {
+        //     background-color: #ddd;
+        //     font-size: .5em;
+        //     color: #333;
+        //     padding: .2em;
+        //     margin: .2em;
+        // }
+    }
+
+    .starred-boards {
+        color: var(--ds-text, #172b4d);
+
+        h3 {
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 24px;
+        }
+    }
+
+    .star-header-container {
+        display: flex;
+        align-items: center;
+        padding-bottom: 10px;
+        font-size: 24px;
+        position: relative;
+        margin-inline-start: 40px;
+
+        .star {
+            // padding-inline-end: 40px;
+            align-self: flex-end;
+            left: -40px;
+            position: absolute;
+            top: -4px;
+            bottom: 100px;
+            height: 32px;
+            line-height: 32px;
+            width: 32px;
+        }
+    }
+
+    .starred-board-list {
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        // margin-top: 24px;
+        margin: 0;
+        justify-content: flex-start;
+        padding: 0 0 20px;
+        height: fit-content;
+
+        li {
+            color: $clr6;
+            border-radius: 3px;
+            // padding: 5px;
+            margin: 0;
+            margin-inline-start: 0;
+            width: 23.5%;
+            height: 96px;
+            margin-bottom: 4px;
+            background-size: cover;
+            max-width: 193px;
+        }
+    }
+}
+
+.full-boards-list {
+    .boards-header-container {
+        font-family: "segoe-italic";
+        color: var(--ds-text, #172b4d);
+        display: flex;
+        align-items: center;
+        padding-bottom: 10px;
+        font-size: 24px;
+        position: relative;
+        margin-inline-start: 40px;
+
+        .icon-template-board {
+            // padding-inline-end: 40px;
+            align-self: flex-end;
+            left: -40px;
+            position: absolute;
+            top: -7px;
+            bottom: 100px;
+        }
+    }
+}
+@media (max-width: 768px) {
+    .boards-page-container {
+        grid-template-columns: 1rem 1fr 1rem;
+
+        .app-nav-container nav {
+            margin: 0 !important;
+            padding: 0 !important;
+            margin-block-end: 1rem;
+            width: 100%;
+        }
+
+        .boards-container {
+            width: 100% !important;
+            flex-direction: row !important;
+            margin-block-end: 20px;
+        }
+
+        .boards-page {
+            display: grid;
+            grid-template-columns: 1fr;
+            margin: 40px 0px 0;
+        }
+
+        li {
+            flex: 1 1 193px;
+        }
+    }
+} ;

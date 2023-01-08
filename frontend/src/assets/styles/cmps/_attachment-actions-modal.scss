@@ -1,0 +1,60 @@
+.attachment-actions-modal {
+    position: absolute;
+    background-color: #f4f5f7;
+    top: 50px;
+    right: -115px;
+    z-index: 10000;
+    padding: 0 12px 12px;
+    box-shadow: var(--ds-shadow-overlay,0 8px 16px -4px #091e4240,0 0 0 1px var(--ds-border,#091e4214));
+    border-radius: 3px;
+
+
+    .modal-header {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        line-height: 40px;
+        border-bottom: 1px solid var(--ds-border, #091e4221);
+
+        div {
+            flex-grow: 1;
+            text-align: center;
+        }
+
+    }
+
+    .modal-main {
+        div {
+            color: var(--ds-text-subtle, #5e6c84);
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 16px;
+            margin-bottom: 4px;
+        }
+
+        input {
+            margin: 4px 0 12px;
+            width: 100%;
+            background: var(--ds-surface-overlay, #fff);
+            border-radius: 3px;
+            box-shadow: var(--ds-shadow-overlay, 0 8px 16px -4px #091e4240, 0 0 0 1px var(--ds-border, #091e4214));
+            border: none;
+            padding: 8px 12px;
+
+            &:hover {
+                filter: brightness(90%);
+            }
+        }
+
+        button {
+            color: var(--ds-text-inverse, #fff);
+            background-color: var(--ds-background-brand-bold, #0079bf);
+            padding-left: 24px;
+            padding-right: 24px;
+            &:hover {
+                filter: brightness(90%);
+            }
+        }
+    }
+}

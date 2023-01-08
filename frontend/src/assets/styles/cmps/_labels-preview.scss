@@ -1,0 +1,53 @@
+.labels-preview {
+    display: flex;
+
+    & * {
+        font-size: 0.875rem;
+    }
+    .labels-container {
+        margin-block-start: 0.5rem;
+    }
+
+    .label-preview {
+        min-width: 50px;
+        height: 2rem;
+        border-radius: 3px;
+
+        .color-circle {
+            // filter: brightness(90%);
+            border-radius: 50%;
+            height: 1rem;
+            width: 1rem;
+            margin-right: 0.5rem;
+            margin-left: 0.5rem;
+        }
+
+        span {
+            margin-right: 0.5rem;
+            margin-left: 0.5rem;
+        }
+    }
+    > * {
+        margin-inline-end: 5px;
+    }
+
+    h4 {
+        font-weight: bold;
+        font-size: 0.75rem;
+        color: $txtMedium;
+    }
+
+    .btn-plus {
+        height: 2rem;
+        width: 2rem;
+        // padding: 40px;
+        // border: 1px solid black;
+        border-radius: 3px;
+        background-color: $taskDetailsBtn;
+        cursor: pointer;
+
+        &:hover {
+            filter: brightness(0.5);
+        }
+    }
+}

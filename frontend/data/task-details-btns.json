@@ -1,0 +1,26 @@
+[
+    {
+        "txt": "Members",
+        "class": "trellicons member-icon"
+    },
+    {
+        "txt": "Labels",
+        "class": "trellicons labels-icon"
+    },
+    {
+        "txt": "checklist",
+        "class": "trellicons checklist-icon"
+    },
+    {
+        "txt": "Dates",
+        "class": "trellicons dates-icon"
+    },
+    {
+        "txt": "Location",
+        "class": "trellicons location-icon"
+    },
+    {
+        "txt": "Cover",
+        "class": "trellicons cover-icon"
+    }
+]

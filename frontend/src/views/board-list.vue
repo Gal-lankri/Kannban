@@ -2,8 +2,6 @@
   <section class="board-list">
     <section class="boards-page">
       <app-nav />
-
-
       <section class="board-main">
         <section class="starred-boards">
           <div class="star-header-container">

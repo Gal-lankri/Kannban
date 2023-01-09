@@ -6,7 +6,7 @@ async function getBoards(req, res) {
   try {
     logger.debug('Getting Boards')
     const filterBy = {
-      txt: req.query._id || ''
+      userId: req.query._id || ''
     }
     console.log('filterBy',filterBy )
     const boards = await boardService.query(filterBy)

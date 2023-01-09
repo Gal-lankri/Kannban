@@ -3,7 +3,7 @@
         :style="{ backgroundColor: getBackground, backgroundImage: `url(${getBackground})` }"></div>
     <section v-if="task" class="task-preview-details flex column " @click="goTo">
         <section v-if="labels" class="labels-preview">
-            <ul class="clean-list flex">
+            <ul class="clean-list flex ">
                 <li :title="(label.title)" @click.stop="togglePreviewLabels" v-for="label in labels" :key="label.id"
                     :style="{ backgroundColor: label.color, height: isPreviewLabelsOpen ? '17px' : '', transition: isPreviewLabelsOpen ? 'all 0.7s' : 'all 0.7s', filter: !isPreviewLabelsOpen ? 'saturate(5)' : 'saturate(1.5)' }">
                     <div v-if="isPreviewLabelsOpen" :style="{ backgroundColor: label.color }" class="color-circle">

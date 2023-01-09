@@ -1,5 +1,6 @@
 .login-signup {
     height: calc(100vh - 44px);
+    padding-inline: 1rem;
 
     .logo {
         margin-block-start: -2rem;
@@ -19,18 +20,26 @@
 }
 
 .login-main-layout {
-    // display: grid;
     box-shadow: 0px 0px 14px 3px rgb(191 191 191 / 50%);
-
-    width: 400px;
+    max-width: 400px;
     left: 50%;
     transform: translateX(-50%);
     background-color: $textLight;
     position: relative;
 
+    span {
+        font-family: "segoe-italic";
+        text-decoration: none;
+        color: #0052cc;
+        font-size: 14px;
+
+        &:hover:not(:first-of-type) {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    }
+
     .member-cover {
-        // background-color: #0079bf;
-        // height: 500px;
         .member-image {
             background-size: cover;
             background-position: center;
@@ -49,6 +58,10 @@
             margin-inline-end: 0.5rem;
             box-shadow: inset 0px -1px 0px rgb(0 0 0 / 33%);
         }
+    }
+
+    p {
+        margin: 0;
     }
 }
 
@@ -69,15 +82,14 @@
     }
 
     .login-btn {
-        background-color: #0052cc;
         color: #f9fafc;
-        // height: 40px;
         border-radius: 3px;
         padding: 0.5rem;
+        background-color: #bbbbbb;
         width: 100%;
 
-        &:last-of-type {
-            background-color: #bbbbbb;
+        &:hover {
+            background-color: #0052cc;
         }
     }
 }
@@ -87,12 +99,6 @@
     position: absolute;
     width: 350px;
     bottom: 0;
-    // // margin-bottom: -155px;
-    // // z-index: -999;
-    // max-width: 30%;
-    // height: 50%;
-    // background-size: contain;
-    // background-repeat: no-repeat;
 }
 
 .bottom-right-img {
@@ -106,18 +112,11 @@
 }
 
 .login-signup-container {
-    // z-index: 100;
     display: flex;
     flex-direction: column;
     gap: 20px;
     text-align: center;
-    // box-shadow: inset 0px -1px 0px rgb(0 0 0 / 33%);
     padding: 32px 40px;
-
-    span {
-        color: #c4bac5;
-        font-size: 11px;
-    }
 
     form {
         display: flex;
@@ -170,9 +169,6 @@
     opacity: 0;
 }
 
-.g-btn {
-}
-
 .google-btn {
     box-shadow: rgb(0 0 0 / 20%) 1px 1px 5px 0px !important;
     display: flex;
@@ -203,18 +199,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
-    span {
-        font-family: "segoe-italic";
-        text-decoration: none;
-        color: #0052cc;
-        font-size: 14px;
-
-        &:hover {
-            text-decoration: underline;
-            cursor: pointer;
-        }
-    }
 
     .fa-circle {
         font-size: 3px;

@@ -104,19 +104,19 @@
         padding: 0 0 20px;
         height: fit-content;
     }
-}
 
-li {
-    color: $clr6;
-    border-radius: 3px;
-    margin: 0;
-    // width: 100%;
-    height: 96px;
-    margin-bottom: 4px;
-    background-size: cover;
-    flex: 1 1 193px;
-    max-width: 100%;
-    min-width: 193px;
+    li {
+        color: $clr6;
+        border-radius: 3px;
+        margin: 0;
+        // width: 100%;
+        height: 96px;
+        margin-bottom: 4px;
+        background-size: cover;
+        flex: 1 1 193px;
+        max-width: 100%;
+        min-width: 193px;
+    }
 }
 
 .full-boards-list {

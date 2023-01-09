@@ -1,8 +1,10 @@
 <template>
     <section class="tasks-filter" v-click-outside="close">
-        <div class="tasks-filter-header title">
-            <h2>Filter</h2>
-            <span class="trellicons x-icon" @click="close"></span>
+        <div class="title">
+            <span>Filter</span>
+            <button class="btn-close" @click="close">
+                <span class="trellicons x-icon"></span>
+            </button>
         </div>
 
         <form class="tasks-filter-main flex column gap" @change.prevent="doFilter">
@@ -21,9 +23,9 @@
                 <h4>Members</h4>
                 <label for="no-members" class="no-members flex row gap">
                     <input id="no-members" type="checkbox" v-model="filterBy.isNoMembers">
-                    <span class="trellicons members-icon">
-
-                    </span>
+                    <div class="member-image flex justify-center align-center">
+                        <span class="trellicons members-icon"></span>
+                    </div>
                     <span>No members</span>
                 </label>
                 <label for="self-assign" class="flex row gap">
@@ -35,8 +37,6 @@
                     </span>
                     <span>Cards assigned to me</span>
                 </label>
-                <!-- <label for="task-members">
-                    <input id="task-members" type="checkbox"> -->
                 <div class="members-dropdown flex column gap">
                     <div class="header" @click="isShowMembers = !isShowMembers">
                         <!-- <input type="checkbox" v-model="isShowMembers"> -->
@@ -60,7 +60,9 @@
                 <div class="board-labels labels-dropdown flex column gap">
                     <label class="no-labels flex row gap">
                         <input type="checkbox" v-model="filterBy.isNoLabels">
-                        <span class="trellicons labels-icon"></span>
+                        <div class="member-image flex justify-center align-center">
+                            <span class="trellicons labels-icon"></span>
+                        </div>
                         <span>No labels</span>
                     </label>
                     <label v-for="(label, index) in labels.slice(0, 3)" :key="label.id" class="flex row align-center">
@@ -73,7 +75,6 @@
                     </label>
 
                     <div class="header" @click="showAllLabels = !showAllLabels">
-                        <!-- <input type="/checkbox" @change="(showAllLabels = !showAllLabels)"> -->
                         <span>Select labels</span>
                         <span class="fa-solid caret-down">
                         </span>

@@ -1,5 +1,5 @@
 <template>
-    <section class="labels-preview  flex column">
+    <section class="labels-preview  flex row">
         <h4 class="title">Labels</h4>
         <section class="labels-container flex row align-center justify-start gap5 wrap">
             <div v-for="label in taskLabels" :key="label.id" :style="{ backgroundColor: rgbaColors[label.id] }"

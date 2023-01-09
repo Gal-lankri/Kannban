@@ -1,12 +1,11 @@
 <template>
   <div class="login-signup">
-    <p>{{ msg }}</p>
     <div class="logo gap flex row align-center justify-center">
       <span class="fa-brands trello-icon "></span>
       <span class="">Kannban</span>
     </div>
     <section class="login-main-layout ">
-      <div v-if="loggedinUser" class="user-loggedin flex column justify-center align-center gap20">
+      <section v-if="loggedinUser" class="user-loggedin flex column justify-center align-center gap20">
         <div class="flex align-center member-cover ">
           <div v-if="loggedinUser.imgUrl" class="member-image" :style="memberImage(loggedinUser.imgUrl)"> </div>
           <span v-else class="member-initials">
@@ -19,12 +18,14 @@
         <h2>
           {{ loggedinUser.email }}
         </h2>
-        <div class="flex gap5 column w-100">
-          <button class="btn login-btn" @click="$router.push('/board')">Back to Kannban</button>
+        <div class="flex gap5 row w-100">
+          <button class="btn login-btn" @click="$router.push('/board')">Back</button>
+          <button class="btn login-btn" @click="$router.push('/')">Homepage</button>
           <button class="btn login-btn" @click="doLogout">Logout</button>
         </div>
-      </div>
-      <div v-else class="login-signup-container">
+      </section>
+
+      <section v-else class="login-signup-container">
         <!-- <h1 v-else>Sign up to Kanban</h1> -->
         <form v-if="!isSignUp" @submit.prevent="doLogin">
           <h1>Log in to Kanban</h1>
@@ -35,6 +36,7 @@
               @keyup.enter="($event) => $event.target.blur()">
             <button class="btn login-btn">Log in</button>
           </div>
+          <span v-if="msg">{{ msg }}</span>
           <div>OR</div>
         </form>
         <form v-else @submit.prevent="doSignup">
@@ -69,7 +71,7 @@
             Already have an account? Log In
           </span>
         </div>
-      </div>
+      </section>
     </section>
     <img class="bottom-right-img"
       src="https://aid-frontend.prod.atl-paas.net/atlassian-id/front-end/5.0.385/static/media/trello-right.16b9c9bb.svg"
@@ -153,7 +155,7 @@ export default {
         if (user) {
           await this.$store.dispatch({ type: 'loadBoards' })
           this.$router.push('/board')
-      }
+        }
         else console.log('User name and password dont match');
       } catch (err) {
         console.log(err)

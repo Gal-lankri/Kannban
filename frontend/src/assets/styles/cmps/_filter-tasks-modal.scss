@@ -206,11 +206,6 @@
     .no-members {
         display: flex;
         align-items: center;
-
-        input {
-            // align-self: flex-end;
-            // margin: 0;
-        }
     }
 
     label {
@@ -222,12 +217,14 @@
 .voice-recognition {
     height: 30px;
     width: 30px;
-    // background-color: white;
-    // border-radius: 50%;
     display: flex;
     justify-content: center;
-    &:hover {
-        filter: brightness(95%);
+
+    button {
+        &.isRecording,
+        &:hover {
+            color: red;
+        }
     }
 }
 

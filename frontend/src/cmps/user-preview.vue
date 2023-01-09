@@ -15,31 +15,6 @@
         </div>
 
         <div class="user-preview-main">
-            <div>
-                <div class="links">
-                    <div>
-                        <span>
-                            Profile and visibility
-                        </span>
-                    </div>
-                    <div>
-                        <span>
-                            Activity
-                        </span>
-                    </div>
-                    <div>
-                        <span>
-                            Cards
-                        </span>
-                    </div>
-                    <div>
-                        <span>
-                            Settings
-                        </span>
-                    </div>
-                    <div></div>
-                </div>
-            </div>
             <button @click="logout">Log out</button>
         </div>
     </section>

@@ -134,8 +134,7 @@
 </template>
 <script>
 import axios from 'axios'
-import { utilService } from '../services/util.service';
-import { ref } from 'vue';
+import { utilService } from '../services/util.service'
 
 export default {
     name: 'board-menu',
@@ -144,9 +143,6 @@ export default {
     components: {},
     created() {
         this.debounceHandler = utilService.debounce(this.getPhotos, 600)
-
-    },
-    mounted() {
     },
     data() {
         return {
@@ -154,39 +150,31 @@ export default {
             page: 'main',
             imageDownloadUrl: '',
             imgUrls: '',
-            imgReady: false,
             showBGCMenu: false,
             searchTxt: '',
             colors: ['#0079bf', '#d29034', '#519839', '#b04632', '#89609e', '#cd5a91', '#4bbf6b', '#00aecc', '#838c91'],
             clientId: 'wONkEH1Be08ksV3ijwHHpfu8tfvmD6SnhsRpvZBWVgg',
-
-        };
+        }
     },
     methods: {
         imgLoaded() {
             ++this.isShowImg
-            console.log(`this.isShowImg++:`, this.isShowImg)
-
         },
         confirmDelete() {
             this.$emit('confirmDelete')
         },
         getPhotos(ev = null) {
             this.isShowImg = 0
-            if (ev) {
+            if (ev) ev.preventDefault()
 
-                ev.preventDefault();
-            }
             let apiUrl = `https://api.unsplash.com/search/photos?query=${this.searchTxt ? this.searchTxt : "landscape"
-                }&orientation=landscape&per_page=1200&client_id=${this.clientId}`;
+                }&orientation=landscape&per_page=1200&client_id=${this.clientId}`
             axios(apiUrl).then(({ data }) => {
-                console.log(`data:`, data)
-                this.imgUrls = data.results.map((res) => res.urls.full).slice(0, 12);
+                this.imgUrls = data.results.map((res) => res.urls.full).slice(0, 12)
             })
-
         },
         memberImage(imgUrl) {
-            return { backgroundImage: `url(${imgUrl})` };
+            return { backgroundImage: `url(${imgUrl})` }
         },
         getInitials(fullname) {
             return utilService.getInitials(fullname)
@@ -195,18 +183,11 @@ export default {
             return utilService.timeAgo(timestamp)
         },
         toggleMenuPage(page) {
-            console.log(`page:`, page)
             this.page = page
-            if (this.page === 'bgImg') {
-                this.debounceHandler()
-                const container = document.querySelector(".images")
-                console.log(`container:`, container)
-                console.log(`refs:`, this.$refs.images)
-            }
-
+            if (this.page === 'bgImg') this.debounceHandler()
         },
         toggleBoardMenu() {
-            this.$emit("toggleBoardMenu", this.toggleBoardMenu);
+            this.$emit("toggleBoardMenu", this.toggleBoardMenu)
         },
         setBoardStyle(style) {
             if (style.startsWith('#')) {
@@ -214,25 +195,22 @@ export default {
             } else {
                 this.board.style = { backgroundImage: style }
             }
-            this.$store.dispatch({ type: "updateBoard", board: this.board });
+            this.$store.dispatch({ type: "updateBoard", board: this.board })
         }
     },
+
     computed: {
         getActivitiesLength() {
             return this.activities.length
         },
         activitiesReverse() {
-
             const activities = JSON.parse(JSON.stringify(this.activities))
             return activities.reverse()
-
         },
         board() {
             const board = JSON.parse(JSON.stringify(this.$store.getters.board || {}))
-
             return board
         },
-
     },
-};
+}
 </script>

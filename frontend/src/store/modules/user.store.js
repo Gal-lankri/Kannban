@@ -14,7 +14,6 @@ export const userStore = {
         users({ users }) { return users },
         loggedinUser({ loggedinUser }) {
             return loggedinUser
-            // || { _id: 'fsdfds', fullname: 'Guest guest', email: 'guest', password: '123', isAdmin: true, imgUrl: 'src/assets/img/user1.jpg' }
         },
         watchedUser({ watchedUser }) { return watchedUser }
     },
@@ -70,10 +69,9 @@ export const userStore = {
             }
         },
         async updateSeenNotifications(context) {
-            // const preUser = JSON.parse(JSON.stringify(context.state.user))
             context.commit({ type: 'updateSeenNotifications' })
             try {
-                const user = await userService.update(context.state.loggedinUser)
+                await userService.update(context.state.loggedinUser)
             }
             catch (err) {
                 console.log('error in update user notifications', err);
@@ -82,17 +80,16 @@ export const userStore = {
         async removeNotification(context, { notId }) {
             context.commit({ type: 'removeNotification', notId })
             try {
-                const user = await userService.update(context.state.loggedinUser)
+                await userService.update(context.state.loggedinUser)
             }
             catch (err) {
                 console.log('error in update user notifications', err);
             }
         },
         async addNotification(context, { notification }) {
-            // const prevUser = context.state.loggedinUser
             context.commit({ type: 'addNotification', notification })
             try {
-                const user = await userService.update(context.state.loggedinUser)
+                await userService.update(context.state.loggedinUser)
             }
             catch (err) {
                 console.log('error in update user notifications', err);
@@ -131,7 +128,6 @@ export const userStore = {
             }
         },
         async loadUsers({ commit }) {
-            // TODO: loading
             try {
                 const users = await userService.getUsers()
                 commit({ type: 'setUsers', users })
@@ -167,7 +163,6 @@ export const userStore = {
                 console.log('userStore: Error in updateUser', err)
                 throw err
             }
-
         },
         setWatchedUser({ commit }, payload) {
             commit(payload)

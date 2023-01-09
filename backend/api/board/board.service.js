@@ -3,11 +3,11 @@ const logger = require('../../services/logger.service')
 const utilService = require('../../services/util.service')
 const ObjectId = require('mongodb').ObjectId
 
-async function query(filterBy = { txt: '' }) {
+async function query(filterBy = { userId: '' }) {
     try {
-        console.log(filterBy.txt);
+        console.log('userID',filterBy.userId);
         const collection = await dbService.getCollection('board')
-        var boards = await collection.find({"createdBy._id": filterBy.txt}).toArray()
+        var boards = await collection.find({"members": {$elemMatch: {_id: filterBy.userId}}}).toArray()
         return boards
     } catch (err) {
         logger.error('cannot find boards', err)

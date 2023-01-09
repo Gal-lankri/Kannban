@@ -1,5 +1,12 @@
 <template>
   <div class="login-signup">
+    <img class="bottom-right-img"
+      src="https://aid-frontend.prod.atl-paas.net/atlassian-id/front-end/5.0.385/static/media/trello-right.16b9c9bb.svg"
+      alt="">
+    <img class="bottom-left-img"
+      src="https://aid-frontend.prod.atl-paas.net/atlassian-id/front-end/5.0.385/static/media/trello-left.7317ad1f.svg"
+      alt="">
+
     <div class="logo gap flex row align-center justify-center">
       <span class="fa-brands trello-icon "></span>
       <span class="">Kannban</span>
@@ -73,12 +80,6 @@
         </div>
       </section>
     </section>
-    <img class="bottom-right-img"
-      src="https://aid-frontend.prod.atl-paas.net/atlassian-id/front-end/5.0.385/static/media/trello-right.16b9c9bb.svg"
-      alt="">
-    <img class="bottom-left-img"
-      src="https://aid-frontend.prod.atl-paas.net/atlassian-id/front-end/5.0.385/static/media/trello-left.7317ad1f.svg"
-      alt="">
   </div>
 </template>
 

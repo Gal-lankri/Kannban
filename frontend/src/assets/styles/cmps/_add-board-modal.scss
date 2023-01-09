@@ -1,15 +1,5 @@
-.created-board-header {
-    // display: flex;
-    // align-items: center;
-}
-
 .add-board-modal {
-    // background-color: white;
-    // width: 304px;
     padding: 0 12px 12px 12px;
-    // display: flex;
-    flex-direction: column;
-    // gap: 5px;
 
     .colors-pallet {
         width: 100%;
@@ -55,20 +45,21 @@
     }
 
     .photos-container {
+        height: 54px;
         display: flex;
         gap: 10px;
         padding-bottom: 8px;
 
+        .loader,
         img {
             object-fit: cover;
             height: 54px;
             width: 86px;
-            // width: 33%;
             border-radius: 5px;
 
             &:hover {
                 cursor: pointer;
-                filter: brightness(95%);
+                filter: brightness(80%);
             }
         }
     }
@@ -82,5 +73,9 @@
                 color: red;
             }
         }
+    }
+
+    .bgcPicked {
+        outline: 3px solid $userBgc3;
     }
 }

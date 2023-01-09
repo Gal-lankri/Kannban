@@ -105,9 +105,11 @@ export default {
             this.$store.commit({ type: 'setBoard', boardId: id })
             try {
                 if (this.board.style.bgColor) {
+                    console.log(`this.board:`, this.board)
                     this.isBGCLoaded = true
                     this.rgb.value = this.hexToRgbA(this.board.style.bgColor)
                     this.rgb.isDark = true
+                    this.isLoaderShown = false
                 } else {
 
                     const avgColor = await this.avgColor()

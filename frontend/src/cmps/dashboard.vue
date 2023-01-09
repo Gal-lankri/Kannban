@@ -1,24 +1,52 @@
 <template>
-    <h1>DASHBOARD</h1>
+    <section class="dashboard flex column justify-between">
+        <section class="flex row justify-between">
+
+            <div>
+                <div>task 0n this board: {{ tasksAmount }}</div>
+                <div class="members-container">Members on board:
+                    <div v-for="member in members">{{ member.fullname }}</div>
+                    <div v-for="member in members">{{ member.fullname }}</div>
+                    <pre></pre>
+                </div>
+            </div>
+
+            <section class=" up-charts flex row justify-between align-end wrap">
+                <chart-pie></chart-pie>
+                <chart-pie></chart-pie>
+                <chart-pie></chart-pie>
+                <!-- <chart-treemap></chart-treemap> -->
+
+            </section>
+        </section>
+        <chart-spline></chart-spline>
+    </section>
+
 </template>
+
+
 <script>
-import { isReferencedIdentifier } from '@vue/compiler-core'
+import chartSpline from '../cmps/chart-spline.vue';
+import chartPie from '../cmps/chart-pie.vue';
+import chartTreemap from '../cmps/chart-treemap.vue';
 
 export default {
+
     name: '',
     props: [],
-    components: {},
+    components: { chartSpline, chartPie, chartTreemap },
     mounted() {
-        // console.log(this.users)
-        // console.log(this.boardMemberIds)
-        // console.log(this.taskMemberIds)
-        // console.log(this.availableMembersIds)
-        // console.log(this.tasksAmount)
-        // console.log(this.labels)
-        // console.log(this.mapLabels)
-        // console.log(this.nextDueDate)
-        // console.log(this.locations)
-        // console.log(this.levels)
+        console.log(`dashboard:`)
+        console.log(this.users)
+        console.log(this.boardMemberIds)
+        console.log(this.taskMemberIds)
+        console.log(this.availableMembersIds)
+        console.log('task amount', this.tasksAmount)
+        console.log(this.labels)
+        console.log(this.mapLabels)
+        console.log(this.nextDueDate)
+        console.log(this.locations)
+        console.log(this.levels)
     },
     data() {
         return {
@@ -36,6 +64,10 @@ export default {
                 users[user._id] = user
             })
             return users
+        },
+        members() {
+            console.log(this.$store.getters.board.members)
+            return this.$store.getters.board.members
         },
         boardMemberIds() {
             var members = []

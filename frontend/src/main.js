@@ -14,6 +14,7 @@ import GAuth from 'vue3-google-oauth2'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import contenteditable from 'vue-contenteditable'
+import VueApexCharts from "vue3-apexcharts";
 import {
     focusDirective,
     rainbowDirective,
@@ -22,6 +23,8 @@ import {
 } from './directives'
 
 const app = createApp(rootCmp)
+
+app.use(VueApexCharts)
 app.use(router)
 app.use(store)
 

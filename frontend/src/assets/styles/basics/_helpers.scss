@@ -44,6 +44,10 @@
         flex-direction: column;
     }
 
+    &.row {
+        flex-direction: row;
+    }
+
     &.justify-center {
         justify-content: center;
     }
@@ -80,16 +84,6 @@
         flex-wrap: wrap;
     }
 
-    &.jusitfy-start {
-        justify-content: flex-start;
-    }
-    &.jusitfy-end {
-        justify-content: flex-end;
-    }
-    &.shrink {
-        flex-shrink: 1;
-    }
-
     &.gap5 {
         gap: 5px;
     }
@@ -117,6 +111,10 @@
 
 .grow {
     flex-grow: 1;
+}
+
+.shrink {
+    flex-shrink: 1;
 }
 
 .z-index-100 {

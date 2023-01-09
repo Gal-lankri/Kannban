@@ -18,12 +18,12 @@
                     </button>
                 </section>
                 <div class="flex column">
-                    <button @click="removeGroup" class="remove btn">
+                    <!-- <button @click="removeGroup" class="remove btn">
                         <span> Move list</span>
                     </button>
                     <button @click="copyGroup" class="remove btn">
                         <span> Copy list</span>
-                    </button>
+                    </button> -->
                     <button @click="toggleModal" class="remove btn">
                         <span> Remove list</span>
                     </button>
@@ -105,7 +105,6 @@ export default {
     },
 
     async created() {
-        console.log('************************HIIIIIIIIIIIIII')
         // console.log(this.filterBy);
         this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks))
         // this.tasksToShow = this.group.tasks
@@ -121,6 +120,7 @@ export default {
 
     methods: {
         async onDrop(dropResult) {
+            console.log('dropResult',dropResult )
             const { removedIndex, addedIndex, payload, element } = dropResult;
             if (removedIndex === null && addedIndex === null) return
 
@@ -149,14 +149,13 @@ export default {
             const { isSource, payload, willAcceptDropt } = dragResult;
             if (!isSource) return
             this.prevBoard = JSON.parse(JSON.stringify(this.$store.getters.board))
-            console.log(JSON.parse(JSON.stringify(this.$store.getters.board.groups)), '000000000');
         },
-        applyDrag(arr, dragResult) {
+        applyDrag(tasks, dragResult) {
             const { removedIndex, addedIndex, payload } = dragResult
             // console.log('PAYLOAD', payload)
 
-            if (removedIndex === null && addedIndex === null) return arr;
-            const result = [...arr];
+            if (removedIndex === null && addedIndex === null) return tasks;
+            const result = [...tasks];
             // console.log(result);
             let itemToAdd = payload;
             if (payload === null) return
@@ -173,7 +172,8 @@ export default {
                 // console.log(this.tasksToShow);
             }
             else if (addedIndex !== null) result.splice(addedIndex, 0, itemToAdd.itemToMove);
-            // console.log('RESULT', result)
+            console.log('RESULT', result)
+
             return result;
         },
         getShouldAcceptDrop(index, sourceContainerOptions, payload) {
@@ -275,7 +275,6 @@ export default {
     watch: {
         filterBy: {
             handler: function (filterBy, oldVal) {
-                // console.log('hiiiiiiiiiiiiiiii');
                 const regex = new RegExp(filterBy.title, 'i');
                 this.tasksToShow = this.group.tasks.filter(task => regex.test(task.title))
                 if (filterBy.isNoMembers)

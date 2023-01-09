@@ -3,25 +3,81 @@
     width: 99%;
     height: 99%;
 
-    background-color: rgba(black, 0.6);
+    background-color: rgba($textDark, 0.9);
 
     border-radius: 3px;
     padding: 2rem;
+    color: $textDark;
+
+    &.isDark {
+        * {
+            color: $textLight;
+        }
+    }
 
     h1 {
         color: white;
     }
 
-    .members-container {
+    .data {
+        text-align: center;
         border-radius: 3px;
-        height: 100px;
-        overflow-y: scroll;
-        padding: 0.5rem;
-        background-color: rgba($textDark, 0.8);
+        // padding: 0.5rem;
+        height: 200px;
+        border: 1px solid #e27c7c;
+    }
+
+    .bold {
+        color: rgba(#e27c7c, 0.8);
+        font-size: 3rem;
+        font-weight: bold;
+    }
+    .members-container {
+        text-align: center;
+        border-radius: 3px;
+        // padding: 0.5rem;
+        height: 100%;
+        border: 1px solid #e27c7c;
+
+        .members {
+            border-radius: 0 0 3px 3px;
+            background-color: rgba(#e27c7c, 0.8);
+            overflow-y: scroll;
+            max-height: 300px;
+            padding: 1rem;
+        }
+
+        .member-image {
+            background-size: cover;
+            background-position: center;
+            border-radius: 50%;
+            margin-inline-end: 0.5rem;
+            height: 2rem;
+            aspect-ratio: 1/1;
+            box-shadow: inset 0px -1px 0px rgb(0 0 0 / 33%);
+        }
+
+        .member-initials {
+            @include btn($type: "initials");
+            height: 2rem;
+            aspect-ratio: 1/1;
+            margin-inline-end: 0.5rem;
+            box-shadow: inset 0px -1px 0px rgb(0 0 0 / 33%);
+        }
     }
 
     .isMember {
         color: yellow !important;
         font-weight: bold;
+    }
+
+    text {
+        color: white;
+    }
+
+    .chart-spline {
+        border-radius: 3px;
+        // padding: 1rem;
+        // border-top: 1px solid #e27c7c;
     }
 }

@@ -1,25 +1,56 @@
 <template>
-    <section class="dashboard flex column justify-between">
-        <section class="flex row justify-between">
+    <section class="dashboard flex column justify-around gap20" :style="background" :class="{ isDark: isDark }">
+        <section class="flex row justify-around grow gap20">
+            <div class="members-container flex column justify-between gap20">
+                <div>Total board members:</div>
+                <div class="bold">{{ members.length }}</div>
+                <div>Members on board:</div>
+                <div class="members flex column gap ">
 
-            <div>
-                <div>task 0n this board: {{ tasksAmount }}</div>
-                <div class="members-container">Members on board:
-                    <div v-for="member in members">{{ member.fullname }}</div>
-                    <div v-for="member in members">{{ member.fullname }}</div>
-                    <pre></pre>
+                    <div v-for="member in members" :key="member._id" class="flex align-center ">
+                        <div v-if="member.imgUrl" class="member-image" :style="memberImage(member.imgUrl)"> </div>
+                        <span v-else class="member-initials">
+                            {{ getInitials(member.fullname) }}
+                        </span>
+                        <span class="fullname">{{ member.fullname + " " }}</span>
+                    </div>
                 </div>
+
+
             </div>
 
-            <section class=" up-charts flex row justify-between align-end wrap">
-                <chart-pie></chart-pie>
-                <chart-pie></chart-pie>
-                <chart-pie></chart-pie>
-                <!-- <chart-treemap></chart-treemap> -->
+            <div class=" gap flex column justify-between">
 
-            </section>
+
+                <div class=" up-charts flex row justify-around align-start wrap">
+                    <chart-pie title="Tasks By Labels" :data="labelsChartData" type="donut"
+                        :color="textColor"></chart-pie>
+                    <chart-pie title="Tasks Completed" :data="tasksChartData" type="pie" :color="textColor"></chart-pie>
+                    <chart-pie title="Tasks By Member" :data="labelsChartData" type="donut"
+                        :color="textColor"></chart-pie>
+                </div>
+                <div class="data flex row justify-around align-center ">
+                    <div>
+                        <div>Tasks on this board:</div>
+                        <div class="bold">{{ tasksTotal }}</div>
+                    </div>
+                    <div>
+                        <div>Upcoming deadline:</div>
+                        <div class="bold"> {{
+                            nextDueDate.dueDate ? new Date(nextDueDate.dueDate).toLocaleDateString('en-GB') :
+                                'Not found'
+                        }}</div>
+                    </div>
+                    <div>
+                        <div>Last Activity:</div>
+                        <div class="bold">{{ lastActivity }}</div>
+                    </div>
+                </div>
+            </div>
         </section>
-        <chart-spline></chart-spline>
+        <section class="chart-spline">
+            <chart-spline title="Board Progress" :data="progressChartData" :color="textColor"></chart-spline>
+        </section>
     </section>
 
 </template>
@@ -29,48 +60,77 @@
 import chartSpline from '../cmps/chart-spline.vue';
 import chartPie from '../cmps/chart-pie.vue';
 import chartTreemap from '../cmps/chart-treemap.vue';
-
+import { utilService } from '../services/util.service';
 export default {
 
     name: '',
-    props: [],
+    props: ['rgb'],
     components: { chartSpline, chartPie, chartTreemap },
+    created() {
+    },
     mounted() {
-        console.log(`dashboard:`)
-        console.log(this.users)
-        console.log(this.boardMemberIds)
-        console.log(this.taskMemberIds)
-        console.log(this.availableMembersIds)
-        console.log('task amount', this.tasksAmount)
-        console.log(this.labels)
-        console.log(this.mapLabels)
-        console.log(this.nextDueDate)
-        console.log(this.locations)
-        console.log(this.levels)
+        // console.log(`dashboard:`)
+        // console.log(this.users)
+        // console.log(this.boardMemberIds)
+        // console.log(this.taskMemberIds)
+        // console.log(this.availableMembersIds)
+        // console.log('task amount', this.tasksTotal)
+        // console.log('labels map', this.labelsChartData)
+        // console.log(this.nextDueDate)
+        // console.log(this.locations)
+        // console.log(this.levels)
     },
     data() {
         return {
+
             tasksNoDueDate: 0,
-            tasksCompleted: 0,
             tasksWithDate: 0,
 
         }
     },
-    methods: {},
+    methods: {
+        getInitials(fullname) {
+            return utilService.getInitials(fullname);
+        },
+        memberImage(imgUrl) {
+            return { backgroundImage: `url(${imgUrl})` };
+        },
+    },
     computed: {
+        background() {
+            if (!this.rgb) return
+            return this.rgb.isDark ? utilService.getBCG(this.rgb.value, -20, 0.8) : utilService.getBCG(this.rgb.value, +30, 0.8)
+        },
+        textColor() {
+            if (!this.rgb) return
+            return this.rgb.isDark ? 'white' : '#172b4d'
+        },
+        isDark() {
+            if (!this.rgb) return false
+            return this.rgb.isDark
+        },
         users() {
-            var users = {}
+            let users = {}
             this.$store.getters.users.forEach(user => {
                 users[user._id] = user
             })
             return users
         },
         members() {
-            console.log(this.$store.getters.board.members)
             return this.$store.getters.board.members
         },
+        lastActivity() {
+
+            const timestamp = this.$store.getters.activities[this.$store.getters.activities.length - 1]?.createdAt
+
+            console.log(`timestamp:`, timestamp)
+            return timestamp ? utilService.timeAgo(timestamp) : 'Not found'
+
+
+
+        },
         boardMemberIds() {
-            var members = []
+            let members = []
             this.$store.getters.board.members.forEach(member => {
                 if (members.includes(member._id)) return
                 members.push(member._id)
@@ -78,7 +138,7 @@ export default {
             return members
         },
         taskMemberIds() {
-            var members = []
+            let members = []
             this.$store.getters.board.groups.forEach(group => {
                 group.tasks.forEach(task => {
                     if (!task.memberIds) return
@@ -91,29 +151,44 @@ export default {
             return members
         },
         availableMembersIds() {
-            var members = []
+            let members = []
             this.$store.getters.board.members.forEach(member => {
                 if (this.taskMemberIds.includes(member._id)) return
                 members.push(member._id)
             })
             return members
         },
-        tasksAmount() {
-            var tasksAmount = 0
+
+
+        tasksTotal() {
+            let tasksTotal = 0
             this.$store.getters.board.groups.forEach(group => {
-                tasksAmount += group.tasks.length
+                tasksTotal += group.tasks.length
             })
-            return tasksAmount
+            return tasksTotal
         },
-        labels() {
-            var labels = {}
-            this.$store.getters.board.labels.forEach(label => {
-                labels[label.id] = label
+        tasksCompleted() {
+            let tasksCompleted = 0
+            this.$store.getters.board.groups.forEach(group => {
+                group.tasks?.forEach(task => {
+                    if (task.isComplete) ++tasksCompleted
+                })
             })
-            return labels
+            return tasksCompleted
         },
-        mapLabels() {
-            var mapLabels = {}
+
+        tasksChartData() {
+            let tasksDone = this.tasksCompleted
+            let tasksLeft = this.tasksTotal - tasksDone
+            let series = [tasksDone, tasksLeft]
+            const labels = ['Tasks Completed', 'Tasks Left']
+            return [series, labels]
+        },
+
+
+        labelsChartData() {
+            let boardLabels = this.$store.getters.board.labels
+            let mapLabels = {}
             this.$store.getters.board.groups.forEach(group => {
                 group.tasks.forEach(task => {
                     if (!task.labelIds) return
@@ -123,7 +198,24 @@ export default {
                     })
                 })
             })
-            return mapLabels
+            let series = Object.values(mapLabels)
+            const labels = boardLabels.map(label => {
+                return label.title
+            })
+
+            return [series, labels]
+        },
+        progressChartData() {
+            let series = this.$store.getters.board.groups.map(group => {
+                return group.tasks ? group.tasks.length : 0
+            })
+            let labels = this.$store.getters.board.groups.map(group => {
+                return group.title
+            })
+
+            return [series, labels]
+
+
         },
         nextDueDate() {
             let timestamp = 1670918400000167
@@ -131,7 +223,6 @@ export default {
             const now = Date.now()
             this.$store.getters.board.groups.forEach(group => {
                 group.tasks.forEach(task => {
-                    // console.log(typeof task.dueDate)
                     if (task.dueDate !== undefined) {
                         if (((task.dueDate - now) > 0) && (task.dueDate < timestamp)) {
                             timestamp = task.dueDate
@@ -145,6 +236,7 @@ export default {
                     }
                 })
             })
+            console.log(`soonTask:`, soonTask)
             return soonTask
         },
         locations() {

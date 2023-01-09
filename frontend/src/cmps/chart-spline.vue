@@ -1,8 +1,7 @@
 <template>
-    <section class="chart-spline">
+    <section v-if="data && title && color" class="chart-spline">
 
 
-        <h1>Chart Spline</h1>
         <apexchart type="area" height="350" :options="chartOptions" :series="series"></apexchart>
 
     </section>
@@ -14,21 +13,34 @@ import VueApexCharts from "vue3-apexcharts";
 
 export default {
     name: '',
-    props: [],
+    props:
+    {
+        title: String,
+        type: String,
+        color: String,
+        data: Array,
+    },
     components: { apexchart: VueApexCharts, },
-    created() { },
+    created() {
+    },
+    mounted() {
+        this.$nextTick(() => {
+            this.series[0].data = this.data?.at(0)
+            this.chartOptions.xaxis.categories = this.data?.at(1)
+            window.dispatchEvent(new Event('resize'));
+        });
+
+
+    },
     data() {
         return {
             series: [{
                 name: 'series1',
-                data: [31, 40, 28, 51, 42, 109, 100]
-            },
-            {
-                name: 'series2',
-                data: [11, 32, 45, 32, 34, 52, 41]
+                data: []
             }],
             chartOptions: {
                 chart: {
+                    foreColor: this.color,
                     height: 350,
                     type: 'area'
                 },
@@ -38,19 +50,22 @@ export default {
                 stroke: {
                     curve: 'smooth'
                 },
+
+                title: {
+                    text: this.title,
+                    align: 'center',
+                },
                 xaxis: {
-                    type: 'datetime',
-                    categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
+                    type: 'category',
+                    categories: []
                 },
                 tooltip: {
                     x: {
                         format: 'dd/MM/yy HH:mm'
                     },
                 },
-                colors: ['#F44336', '#E91E63', '#9C27B0'],
-                fill: {
-                    colors: ['#F44336', '#E91E63', '#9C27B0']
-                },
+                colors: ["#6dd5c5"],
+
                 dataLabels: {
                     style: {
                         colors: ['#F44336', '#E91E63', '#9C27B0']
@@ -92,20 +107,7 @@ export default {
                     width: 0,
                     dashArray: 0,
                 },
-                title: {
-                    text: 'fsfsf',
-                    align: 'left',
-                    margin: 10,
-                    offsetX: 0,
-                    offsetY: 0,
-                    floating: false,
-                    style: {
-                        fontSize: '14px',
-                        fontWeight: 'bold',
-                        fontFamily: undefined,
-                        color: '#263238'
-                    },
-                },
+
                 label: {
                     borderColor: '#c2c2c2',
                     borderWidth: 1,
@@ -159,5 +161,9 @@ export default {
     },
     methods: {},
     computed: {},
+
+
+
+
 }
 </script>

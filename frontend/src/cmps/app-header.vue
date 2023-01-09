@@ -5,7 +5,7 @@
                 <span class="fa-brands trello-icon "></span>
                 <span class="logo">Kannban</span>
             </router-link>
-            <button v-if="this.$route.params?.id" class="create-btn flex align-center justify-center"
+            <button v-if="this.$route.params?.id && rgb" class="create-btn flex align-center justify-center"
                 :style="buttonBackground" @click="isAddBoard = true">
                 <span>Create</span>
             </button>
@@ -55,21 +55,19 @@
 
 <script>
 
-import { router } from '../router'
 import { utilService } from '../services/util.service'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { boardService } from '../services/board.service.local'
-
 import addBoardModal from '../cmps/add-board-modal.vue'
 import userPreview from './user-preview.vue'
 import notificationModal from './notification-modal.vue'
+
 export default {
     name: 'app-header',
     props: ['rgb'],
     emits: ['showAddMembers', 'boards', 'logout', 'updateSeenNotifications', 'removeNotification', 'removeAllNotification'],
     components: { userPreview, notificationModal, addBoardModal },
     created() {
-        // console.log(this.isDefaultBGC)
     },
     data() {
         return {
@@ -109,7 +107,6 @@ export default {
             return utilService.getInitials(fullname)
         },
         changeDivStyle() {
-            // console.log('focus')
             this.isInputInFocus = true
         },
         outOfFocus() {
@@ -147,7 +144,6 @@ export default {
             if (this.isDefaultBGC) {
                 return { backgroundColor: '#026aa7' }
             }
-
             if (!this.rgb) return
             return this.rgb.isDark ? utilService.getBCG(this.rgb.value, -20, 1) : utilService.getBCG(this.rgb.value, +30, 1)
         },
@@ -168,7 +164,6 @@ export default {
             return boards.filter(board => regex.test(board.title)).slice(0, 5)
         },
         isDefaultBGC() {
-            // console.log(this.$route.params)
             if (!this.$route.params?.id) return true
             else return false
         }
@@ -176,23 +171,10 @@ export default {
     },
     watch: {
         isDefaultBGC() {
-            // console.log(this.isDefaultBGC)
             this.headerBackground
 
         },
-        // notifications: {
-        //     handler: function (val, oldVal) {
-        //         console.log('hi');
-        //         if(notifications && notifications.length && !notification[0].isSeen)
-        //             this.isSeenNotifications = true
-        //         else this.isSeenNotifications = false
-        //     },
-        //     deep: true
-        // }
-
     },
-
-
 }
 
 </script>

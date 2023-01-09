@@ -130,13 +130,17 @@
         }
     }
 
+    .no-results {
+        display: none;
+    }
+
     .colors,
     .photos,
     .costume {
         .btn {
             border-radius: 0.5rem;
             height: 96px;
-            width: 150px;
+            width: 143px;
             background-size: cover;
 
             &:hover {
@@ -160,6 +164,9 @@
     .images {
         height: 100%;
         position: relative;
+        align-content: baseline;
+
+        overflow-y: scroll;
 
         & > .loader {
             position: absolute;
@@ -182,7 +189,7 @@
     .color-sample {
         border-radius: 0.5rem;
         height: 96px;
-        width: 148px;
+        width: 143px;
         background-size: cover;
         object-fit: cover;
         &:hover {

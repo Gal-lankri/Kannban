@@ -9,13 +9,12 @@
 //     color: var(--ds-text, #172b4d);
 // }
 
-
 .user-preview {
     background-color: white;
     position: fixed;
     right: 0;
     top: 47px;
-    color: var(--ds-text-subtle, #5E6C84);
+    color: var(--ds-text-subtle, #5e6c84);
     z-index: 100;
     padding: 12px;
     width: 305px;
@@ -30,10 +29,10 @@
         font-family: "segoe-semi-bold";
         border-bottom: 1px solid var(--ds-border, rgba(9, 30, 66, 0.13));
         padding-bottom: 8px;
+        width: 100%;
 
         .header-links {
             display: flex;
-            justify-content: center;
             align-items: center;
             gap: 4px;
             font-size: 14px;
@@ -58,7 +57,6 @@
             font-weight: bold;
 
             &:hover {
-
                 cursor: pointer;
             }
         }
@@ -75,11 +73,11 @@
         p {
             font-size: 12px;
             line-height: 16px;
-            color: var(--ds-text-subtle, #5E6C84);
+            color: var(--ds-text-subtle, #5e6c84);
             margin-bottom: 8px;
         }
 
-        >* {
+        > * {
             color: var(--ds-text, #172b4d);
         }
 
@@ -93,23 +91,23 @@
         flex-direction: column;
         width: 100%;
 
-        >* {
-            color: var(--ds-text-subtle, #5E6C84);
+        > * {
+            color: var(--ds-text-subtle, #5e6c84);
             text-align: start;
             background-color: white;
             padding: 6px 0;
         }
 
         .links {
-            >*:not(:last-child) {
+            > *:not(:last-child) {
                 padding: 6px 0;
-                background: var(--ds-background-neutral-subtle, #FFFFFF);
+                background: var(--ds-background-neutral-subtle, #ffffff);
                 font-size: 14px;
                 line-height: 20px;
                 font-weight: 400;
 
                 span {
-                    color: var(--ds-text-subtle, #5E6C84);
+                    color: var(--ds-text-subtle, #5e6c84);
                 }
 
                 &:hover {
@@ -118,10 +116,10 @@
                 }
             }
 
-            >:last-child {
+            > :last-child {
                 &::after {
                     background-color: var(--ds-border, rgba(9, 30, 66, 0.13));
-                    content: ' ';
+                    content: " ";
                     display: block;
                     height: 1px;
                     margin: 8px 10px;
@@ -134,7 +132,5 @@
                 filter: brightness(95%);
             }
         }
-
     }
-
 }

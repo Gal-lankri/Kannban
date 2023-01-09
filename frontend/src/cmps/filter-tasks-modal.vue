@@ -10,7 +10,7 @@
                 <h4>Keyword</h4>
                 <div class="text-filter-input">
                     <input type="text" placeholder="Enter a keyword..." v-model="filterBy.title"
-                        @keyup.enter="doFilter">
+                        @keyup.enter="doFilter($event)">
                     <voice-recognition @searchByVoice="searchByVoice" />
                 </div>
                 <small>Search cards, members, labels, and more.</small>
@@ -128,7 +128,9 @@ export default {
             this.filterBy.title = transcript
             this.$emit('doFilter', this.filterBy)
         },
-        doFilter() {
+        doFilter(ev) {
+            ev.preventDefault();
+
             // console.log(this.filterBy);
             this.$emit('doFilter', this.filterBy)
         },

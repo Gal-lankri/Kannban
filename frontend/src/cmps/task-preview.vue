@@ -5,7 +5,10 @@
         <section v-if="labels" class="labels-preview">
             <ul class="clean-list flex ">
                 <li :title="(label.title)" @click.stop="togglePreviewLabels" v-for="label in labels" :key="label.id"
-                    :style="{ backgroundColor: label.color, height: isPreviewLabelsOpen ? '17px' : '', transition: isPreviewLabelsOpen ? 'all 0.7s' : 'all 0.7s', filter: !isPreviewLabelsOpen ? 'saturate(5)' : 'saturate(1.5)' }">
+                    :style="{
+                        backgroundColor: label.color, height: isPreviewLabelsOpen ? '17px' : '', transition: isPreviewLabelsOpen ? 'all 0.7s' : 'all 0.7s',
+                        filter: !isPreviewLabelsOpen ? 'saturate(5)' : 'saturate(1.5)'
+                    }">
                     <div v-if="isPreviewLabelsOpen" :style="{ backgroundColor: label.color }" class="color-circle">
                     </div>
                     <span v-if="isPreviewLabelsOpen">{{ label.title }}</span>
@@ -21,10 +24,12 @@
                     <!-- <input class="trellicons icon-clock" type="checkbox" 
                         v-model="isComplete" /> -->
                     <div class="btn-date flex" @click.stop="toggleIsComplete"
-                        :style="{ backgroundColor: getIsComplete ? '#61bd4f' : '', color: getIsComplete ? '#ffff' : ''}">
+                        :style="{ backgroundColor: getIsComplete ? '#61bd4f' : '', color: getIsComplete ? '#ffff' : '' }">
                         <span class="trellicons icon-clock"></span>
                         <span class="fa-regular square-icon"></span>
-                        <span class="date-str" :style="{ color: getIsComplete ? '#ffff' : '' }"> {{ getDueDateStr }}</span>
+                        <span class="date-str" :style="{ color: getIsComplete ? '#ffff' : '' }"> {{
+                            getDueDateStr
+                        }}</span>
                         <span v-if="getDueDateStr < Date.now()" class="time-tag"
                             :style="{ backgroundColor: '#ec9488' }"></span>
 
@@ -32,10 +37,10 @@
                     <!-- <span class="date-str">{{ getDueDateStr }}</span> -->
                 </div>
                 <span v-if="task.description" class="trellicons desc-icon" title="This card has a description"></span>
-                <div class="attachments flex" v-if="task.attachments && task.attachments.length " title="Attachments">
-                    <span  class="trellicons attachment" ></span>
+                <div class="attachments flex" v-if="task.attachments && task.attachments.length" title="Attachments">
+                    <span class="trellicons attachment"></span>
                     <span>{{
-                            task.attachments.length
+                        task.attachments.length
                     }}</span>
                 </div>
                 <span v-if="task.location" class="trellicons location-icon"></span>

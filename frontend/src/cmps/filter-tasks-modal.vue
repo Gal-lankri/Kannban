@@ -1,5 +1,5 @@
 <template>
-    <section class="tasks-filter">
+    <section class="tasks-filter" v-click-outside="close">
         <div class="tasks-filter-header title">
             <h2>Filter</h2>
             <span class="trellicons x-icon" @click="close"></span>

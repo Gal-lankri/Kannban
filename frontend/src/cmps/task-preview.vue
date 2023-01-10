@@ -75,6 +75,7 @@
 <script>
 
 import membersPreview from './members-preview.vue'
+import { showErrorMsg } from '../services/event-bus.service'
 
 export default {
     name: 'task-preview',
@@ -108,8 +109,6 @@ export default {
     created() {
         this.taskLabelsIds = this.task.labelIds
         this.getIsComplete ? this.isComplete = true : this.isComplete = false
-        // console.log(this.isComplete);
-
     },
 
     methods: {
@@ -125,14 +124,12 @@ export default {
             this.updateTask(!this.getIsComplete)
         },
         async updateTask(data) {
-            // console.log(data)
             let taskToUpdate = JSON.parse(JSON.stringify(this.task))
             taskToUpdate.isComplete = data
             const txt = data ? `Marked ${this.task.title} as complete` : `Unmarked ${this.task.title} as complete`
             taskToUpdate.isComplete = data
 
             try {
-                // console.log('hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii', this.task);
                 this.$store.commit({ type: 'updateTask', payload: { task: taskToUpdate, groupId: this.groupId } })
                 let updatedTask = await this.$store.dispatch({
                     type: "updateTask",
@@ -158,6 +155,7 @@ export default {
                     },
                 })
             } catch (prevTask) {
+                showErrorMsg('Only board creator may change board attributes')
                 this.$store.commit({ type: 'updateTask', payload: { task: prevTask, groupId: this.groupId } })
                 this.task = JSON.parse(JSON.stringify(this.getTask))
                 console.log("Failed in task update")

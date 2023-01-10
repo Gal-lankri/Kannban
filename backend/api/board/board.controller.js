@@ -8,7 +8,6 @@ async function getBoards(req, res) {
     const filterBy = {
       userId: req.query._id || ''
     }
-    console.log('filterBy',filterBy )
     const boards = await boardService.query(filterBy)
     res.json(boards)
   } catch (err) {
@@ -20,7 +19,6 @@ async function getBoards(req, res) {
 async function getBoardById(req, res) {
   try {
     const boardId = req.params.id
-
     const board = await boardService.getById(boardId)
     res.json(board)
   } catch (err) {

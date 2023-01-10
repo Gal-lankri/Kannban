@@ -1,10 +1,10 @@
 <template>
-
     <section v-if="isLoaderShown" class="loader">
         <img src="../assets/svg/loader.svg" alt="">
         <img :src="board.style.backgroundImage" alt="" @load="isBGCLoaded = true" style="visibility: hidden">
     </section>
     <section v-else class="board-details flex row" :style="boardBGC">
+        <!-- <user-msg></user-msg> -->
         <section class="main flex column grow">
             <board-header :board="board" :class="{ isDark: rgb.isDark, menuIsShown: !menuIsHidden }" :rgb="rgb"
                 @toggleBoardMenu="toggleBoardMenu" @filterTasks="filterTasks" />
@@ -43,6 +43,8 @@ import taskDetails from '../views/task-details.vue'
 import filterTasksModal from '../cmps/filter-tasks-modal.vue'
 import addBoardMembers from '../cmps/add-board-members.vue'
 import confirmModal from '../cmps/confirm-modal.vue'
+import userMsg from '../cmps/user-msg.vue'
+import { eventBus, showErrorMsg } from '../services/event-bus.service'
 
 const fac = new FastAverageColor();
 
@@ -75,7 +77,8 @@ export default {
         taskDetails,
         filterTasksModal,
         addBoardMembers,
-        confirmModal
+        confirmModal,
+        userMsg
     },
 
     created() {
@@ -108,6 +111,7 @@ export default {
                     this.isBGCLoaded = true
                     this.rgb.value = this.hexToRgbA(this.board.style.bgColor)
                     this.rgb.isDark = true
+                    this.isLoaderShown = false
                 } else {
 
                     const avgColor = await this.avgColor()
@@ -128,6 +132,7 @@ export default {
                 this.$router.push('/board')
             }
             catch (err) {
+                showErrorMsg('Only board creator may change board attributes')
                 console.log('fail in remove board');
             }
         },
@@ -172,6 +177,7 @@ export default {
                 await this.$store.dispatch({ type: 'addGroup', board: board, group, activity })
             }
             catch (err) {
+                showErrorMsg('Only board creator may change board attributes')
                 console.log(err)
             }
         },
@@ -182,23 +188,29 @@ export default {
                 await this.$store.dispatch({ type: 'removeGroup', board: board, groupId, activity })
             }
             catch (err) {
+                showErrorMsg('Only board creator may change board attributes')
                 console.log(err);
             }
         },
 
         async addNewTask(groupId, task, activity) {
-            // var board = JSON.parse(JSON.stringify(this.board))
             const boardId = this.board._id
             try {
                 await this.$store.dispatch({ type: 'addTask', boardId, groupId, task, activity })
             }
             catch (err) {
+                showErrorMsg('Only board creator may change board attributes')
                 console.log(err);
             }
         },
 
-        addMember(member) {
-            this.$store.dispatch({ type: 'addMember', member })
+        async addMember(member) {
+            try {
+                await this.$store.dispatch({ type: 'addMember', member })
+            } catch (err) {
+                console.log(err)
+                showErrorMsg('Only board creator may change board attributes')
+            }
         },
 
         hexToRgbA(hex) {

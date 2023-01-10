@@ -24,13 +24,13 @@ import { userService } from './services/user.service'
 
 export default {
   async created() {
-    const user = userService.getLoggedinUser()
-    if (user) store.commit({ type: 'setLoggedinUser', user })
-
+    let user = userService.getLoggedinUser()
+    if (!user) user = await this.$store.dispatch({ type: "login", userCred: { email: 'dima-demo@mystartup.org', password: '123', imgUrl: 'https://res.cloudinary.com/dnznyz6om/image/upload/v1670495585/htkfdnkkhbrxd3nddln7.webp' } })
+    store.commit({ type: 'setLoggedinUser', user })
 
     try {
-      await this.$store.dispatch({ type: 'loadBoards' })
       await this.$store.dispatch({ type: 'loadUsers' })
+      await this.$store.dispatch({ type: 'loadBoards' })
     } catch (err) {
       console.log(err)
     }

@@ -82,8 +82,12 @@ export default {
     addBoardModal,
     confirmModal
   },
-  created() {
-
+  async created() {
+    try {
+      await this.$store.dispatch({ type: 'loadBoards' })
+    } catch (err) {
+      console.log(err);
+    }
   },
 
   methods: {

@@ -2,6 +2,7 @@
     <div class="screen"></div>
 
     <section v-if="task" class="task-details" v-click-outside="closeDetails">
+        <user-msg></user-msg>
         <section class="task-cover">
             <button class="close-task" @click="closeDetails">
                 <span class="trellicons x-icon"></span>
@@ -112,7 +113,8 @@ import locationPreview from "../cmps/location-preview.vue";
 import attachmentEdit from "../cmps/attachment-edit.vue";
 import attachmentPreview from "../cmps/attachment-preview.vue";
 import confirmModal from "../cmps/confirm-modal.vue";
-
+import userMsg from '../cmps/user-msg.vue'
+import { eventBus, showErrorMsg } from '../services/event-bus.service'
 import { utilService } from "../services/util.service";
 
 export default {
@@ -147,6 +149,7 @@ export default {
         attachmentEdit,
         attachmentPreview,
         confirmModal,
+        userMsg
     },
 
     data() {
@@ -265,7 +268,6 @@ export default {
         async copyTask(data) {
             try {
                 const { task, toGroupId, toBoardId } = data;
-                // console.log(data, 'BOARDDDDDDDDDDDDDDDDDDD');
                 task.id = utilService.makeId();
                 this.$store.dispatch({
                     type: "copyTask",
@@ -288,7 +290,6 @@ export default {
         },
 
         async updateTask(type, data) {
-            // console.log("hi");
             let taskToUpdate = JSON.parse(JSON.stringify(this.task));
             var txt;
             switch (type) {
@@ -364,13 +365,11 @@ export default {
                     }
                     if (!taskToUpdate.attachments) taskToUpdate.attachments = [];
                     taskToUpdate.attachments.unshift(data);
-                    // console.log(data);
                     this.closeEditor();
                     break;
                 case "attachment-preview":
                     txt = `Updated  ${this.task.title} attachments`;
                     // if (taskToUpdate.style === data.url)
-                    // console.log(data.url);
                     taskToUpdate.attachments = data;
                     break;
             }
@@ -407,6 +406,7 @@ export default {
                 });
                 // this.task = updatedTask;
             } catch (err) {
+                showErrorMsg('Only board creator may change board attributes')
                 this.$store.commit({
                     type: "updateTask",
                     payload: { task: prevTask, groupId: this.groupId },

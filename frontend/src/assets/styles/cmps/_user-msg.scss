@@ -1,6 +1,8 @@
 
 
 .alert {
+ 
+    color: white;
     background-color: lightgray;
     position: absolute;
     top: 0;
@@ -8,9 +10,11 @@
     padding: 1em;
     &.alert-success {
         background-color: lightgreen;
+        z-index: 100;
     }
     &.alert-error {
-        background-color: lightcoral;
+        background-color: rgb(221, 44, 44);
+        z-index: 100;
     }
 }
 

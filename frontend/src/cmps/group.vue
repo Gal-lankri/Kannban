@@ -1,6 +1,5 @@
 <template>
     <div class="group flex column">
-
         <div class="main-title flex column justify-between">
             <div class="flex row align-center justify-between w-100">
                 <input v-model="newGroupTitle" @input="updateGroup" @keyup.enter="($event) => $event.target.blur()" />
@@ -18,12 +17,6 @@
                     </button>
                 </section>
                 <div class="flex column">
-                    <!-- <button @click="removeGroup" class="remove btn">
-                        <span> Move list</span>
-                    </button>
-                    <button @click="copyGroup" class="remove btn">
-                        <span> Copy list</span>
-                    </button> -->
                     <button @click="toggleModal" class="remove btn">
                         <span> Remove list</span>
                     </button>
@@ -35,7 +28,7 @@
             ref="group" @drop="onDrop" @drag-start="onDragStart"
             :shouldAcceptDrop="(e, payload) => (e.groupName === 'group-tasks' && !payload.loading)"
             :get-child-payload="getChildPayload" drop-class="" :drop-class="dragClass">
-            <Draggable class="task-preview" v-for="task in tasksToShow" :key="task.id">
+            <Draggable class="task-preview" v-for=" task in group.tasks" :key="task.id">
                 <task-preview :task="task" :groupId="this.group.id" :boardId="boardId" />
             </Draggable>
 
@@ -72,6 +65,8 @@ import { utilService } from "../services/util.service.js"
 import { Container, Draggable } from "vue3-smooth-dnd"
 import copyTaskEdit from './copy-task-edit.vue'
 import confirmModal from './confirm-modal.vue'
+import { showErrorMsg } from '../services/event-bus.service'
+
 export default {
     name: 'group',
     emits: ["addTask", "updateGroup", "removeGroup"],
@@ -106,8 +101,8 @@ export default {
 
     async created() {
         // console.log(this.filterBy);
-        this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks))
-        // this.tasksToShow = this.group.tasks
+        // this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks))
+        this.tasksToShow = this.group.tasks
         this.dropDebounce = utilService.debounce(this.onDrop, 500)
 
         // try {
@@ -123,8 +118,6 @@ export default {
             console.log('dropResult',dropResult )
             const { removedIndex, addedIndex, payload, element } = dropResult;
             if (removedIndex === null && addedIndex === null) return
-
-            // console.log('ON DROP! - group.vue', dropResult)
             // if(addedIndex !== null) this.$store.commit({type: 'updateTasks' ,payload: { tasks: this.tasksToShow, groupId: this.group.id } })
             try {
                 this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks || []))
@@ -139,13 +132,14 @@ export default {
 
             }
             catch (prevTasks) {
+                showErrorMsg('Only board creator may change board attributes')
                 this.$store.commit({ type: 'updateBoard', board: this.prevBoard })
                 this.$store.commit({ type: 'setBoard', boardId: this.prevBoard._id })
                 this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks || []))
-                console.log(this.tasksToShow, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
             }
         },
         onDragStart(dragResult) {
+            console.log('dragResult',dragResult )
             const { isSource, payload, willAcceptDropt } = dragResult;
             if (!isSource) return
             this.prevBoard = JSON.parse(JSON.stringify(this.$store.getters.board))
@@ -229,9 +223,6 @@ export default {
             this.isRemoveClicked = !this.isRemoveClicked
         },
         addTask() {
-            // this.$refs.group.containerElement['smooth-dnd-container-instance'].element.scrollTop = this.$refs.group.containerElement['smooth-dnd-container-instance'].element.scrollHeight + 100
-
-            // console.log('******************************', this.user)
             if (!this.currTask.title) return
             const activity = {
                 id: '',
@@ -243,9 +234,6 @@ export default {
                 },
                 task: this.currTask
             }
-
-            // this.currTask.id = utilService.makeId()
-            // console.log('******************************', this.currTask)
             this.$emit('addTask', this.group.id, { ...this.currTask }, JSON.parse(JSON.stringify(activity)))
             this.currTask = {
                 id: utilService.makeId(),

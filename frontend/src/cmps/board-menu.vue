@@ -119,14 +119,15 @@
             </section>
             <input type="text" placeholder="Search Photos..." @input="debounceHandler" v-model="searchTxt">
             <section class="images flex row wrap gap" ref="images">
-                <div v-if="(isShowImg !== imgUrls.length)" class="loader">
+                <div v-if="(isShowImg < imgUrls.length)" class="loader flex column gap">
+                    Loading photos {{ (isShowImg / imgUrls.length * 100).toFixed(0)}}%
                     <img src="../assets/svg/loader.svg" alt="">
                 </div>
                 <div v-show="(0 === imgUrls.length)" :class="{ 'no-results': imgUrls.length !== 0 }">{{
                     imgUrls.length === 0 ? "NO RESULTS"
                         : ""
                 }}</div>
-                <img v-show="(isShowImg === imgUrls.length)" v-for="(imgUrl, index) in imgUrls" :key="imgUrl"
+                <img v-show="(isShowImg >= imgUrls.length)" v-for="(imgUrl, index) in imgUrls" :key="imgUrl"
                     :src="imgUrl" class="color-sample" @click="setBoardStyle(imgUrl)" @load="imgLoaded">
             </section>
         </section>

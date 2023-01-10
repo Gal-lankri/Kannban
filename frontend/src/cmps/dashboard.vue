@@ -22,22 +22,22 @@
         </section>
 
         <section class="info flex row justify-center wrap gap ">
-            <article class="grow">
+            <article class="flex align-center justify-center column  grow">
                 <div>Total board members:</div>
                 <div class="bold">{{ members.length }}</div>
             </article>
-            <article class="grow">
+            <article class="flex align-center justify-center column  grow">
                 <div>Tasks on this board:</div>
                 <div class="bold">{{ tasksTotal }}</div>
             </article>
-            <article class="grow">
+            <article class="flex align-center justify-center column  grow">
                 <div>Upcoming deadline:</div>
                 <div class="bold"> {{
                     nextDueDate.dueDate ? new Date(nextDueDate.dueDate).toLocaleDateString('en-GB') :
                         'Not found'
                 }}</div>
             </article>
-            <article class="grow">
+            <article class="flex align-center justify-center column  grow">
                 <div>Last Activity:</div>
                 <div class="bold">{{ lastActivity }}</div>
             </article>

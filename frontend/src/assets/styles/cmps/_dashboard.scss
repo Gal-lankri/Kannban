@@ -30,6 +30,9 @@
     h1 {
         color: white;
     }
+    .apexcharts-toolbar {
+        display: none;
+    }
 
     .apexcharts-xaxistooltip *,
     .apexcharts-tooltip * {
@@ -46,13 +49,13 @@
             background-color: rgba(#e27c7c, 0.8);
             padding: 0.5rem 1rem;
             border-radius: 3px;
-            width: 200px;
+            max-width: 200px;
         }
     }
 
     .bold {
         // color: rgba(#e27c7c, 0.8);
-        font-size: 1rem;
+        font-size: 1.5rem;
         font-weight: bold;
     }
     .members-container {
@@ -110,18 +113,3 @@
         // border-top: 1px solid #e27c7c;
     }
 }
-
-@media (max-width: 960px) {
-    .dashboard {
-        display: grid;
-
-        // grid-template-columns: auto;
-        // grid-template-rows: auto 100px 100px auto;
-
-        // grid-template-areas:
-        //     "pies pies"
-        //     "info info"
-        //     "member member"
-        //     "spline spline";
-    }
-} ;

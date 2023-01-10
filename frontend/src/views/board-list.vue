@@ -24,14 +24,8 @@
           </div>
           <ul class="boards-container flex row wrap gap">
             <li v-for="board in boards" :key="board._id">
-              <!-- <pre>{{ board }}</pre> -->
-              <!-- <div class="board-title">{{ board.title }}</div> -->
               <board-preview :board="board" @click="goToBoard(board._id)" @toggleStar="toggleStar(true, board)">
               </board-preview>
-              <!-- <button @click="removeBoard(board._id)">x</button>
-                <button @click="updateBoard(board)">Update</button> -->
-              <!-- <button @click="addBoardMsg(board._id)">Add board msg</button>
-                <button @click="printBoardToConsole(board)">Print msgs to console</button> -->
             </li>
             <li @click="isAddBoard = true" class="btn-create">
               <span>Create new board</span>
@@ -39,11 +33,6 @@
           </ul>
         </section>
       </section>
-      <!-- <form @submit.prevent="addBoard()">
-          <h2>Add board</h2>
-          <input type="text" v-model="boardToAdd.title" />
-          <button>Save</button>
-        </form> -->
       <add-board-modal v-if="isAddBoard" @addBoard="addBoard" v-click-outside="() => isAddBoard = false"
         @closeEdit="(isAddBoard = false)" />
     </section>
@@ -54,8 +43,6 @@
 
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { boardService } from '../services/board.service.local'
-
-// import { getActionRemoveBoard, getActionUpdateBoard, getActionAddBoardMsg } from '../store/board.store'
 
 import boardPreview from '../cmps/board-preview.vue'
 import addBoardModal from '../cmps/add-board-modal.vue'

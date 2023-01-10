@@ -9,17 +9,19 @@
 
         <h4 class="mini-title">Background photo from Unsplash</h4>
         <div class="photos-container flex align-center justify-center">
-            <img v-if="!imgUrls" src="../assets/svg/loader.svg" alt="">
-            <img v-else v-for="index in 3" :key="index" :src="imgUrls[index]" @click="updateCover(imgUrls[index])" />
+            <div v-for="(imgUrl, index) in imgUrls" :key="imgUrl" class="loader">
+                <img v-if="!isImgReady[index]" src="../assets/svg/loader.svg" alt="">
+                <img v-show="isImgReady[index]" :src="imgUrls[index]" @click="updateCover(imgUrls[index], index)"
+                    @load="imgLoaded(index)" :class="{ bgcPicked: imgIsPicked[index] }" />
+            </div>
         </div>
         <input type="text" placeholder="Search Photos..." @input="debounceHandler" v-model="searchTxt"
             @keyup.enter="debounceHandler" />
         <h4 class="mini-title">Background color</h4>
         <div class="colors-pallet flex wrap row gap5 justify-between">
-            <div v-for="color in colors" :key="color" :style="{ backgroundColor: color }" class="color-sample"
-                @click="updateCover(color)">
+            <div v-for="(color, index) in colors" :key="color" :style="{ backgroundColor: color }" class="color-sample"
+                @click="updateCover(color, index)" :class="{ bgcPicked: colorIsPicked[index] }">
             </div>
-            <!-- <div class="color-sample">...</div> -->
         </div>
         <h4 class="mini-title">Board title</h4>
         <input class="" ref="title" type="text" v-model="title" v-focus :class="{ required: !title }" @input="print"
@@ -36,6 +38,9 @@ export default {
     name: "add-board-moadl",
     data() {
         return {
+            isImgReady: [false, false, false],
+            imgIsPicked: [false, false, false],
+            colorIsPicked: [false, false, false, false, false, false, false, false, false],
             imageDownloadUrl: "",
             clientId: "wONkEH1Be08ksV3ijwHHpfu8tfvmD6SnhsRpvZBWVgg",
             searchTxt: "",
@@ -62,10 +67,16 @@ export default {
         this.debounceHandler = utilService.debounce(this.getPhotos, 600);
         this.debounceHandler();
 
+        console.log(this.isImgReady)
+
     },
     methods: {
+        imgLoaded(idx) {
+            console.log(`this.isImgReady:`, this.isImgReady)
+
+            this.isImgReady[idx] = true
+        },
         print() {
-            // console.log(this.$refs.title.value)
             this.title = this.$refs.title.value
         },
         getPhotos() {
@@ -79,13 +90,22 @@ export default {
                 let apiUrl = `https://api.unsplash.com/search/photos?query=${this.searchTxt ? this.searchTxt : "landscape"
                     }&orientation=landscape&per_page=1200&client_id=${this.clientId}`;
                 axios(apiUrl).then(({ data }) => {
-                    this.imgUrls = data.results.map((res) => res.urls.full).slice(0, 4);
-
-                    // console.log(this.imgUrls);
+                    this.imgUrls = data.results.map((res) => res.urls.full).slice(0, 3);
                 });
             }
         },
-        updateCover(background) {
+        updateCover(background, idx) {
+            this.colorIsPicked.forEach((value, idx) => {
+                this.colorIsPicked[idx] = false
+            })
+            this.imgIsPicked.forEach((value, idx) => {
+                this.imgIsPicked[idx] = false
+            })
+            if (background.startsWith('#')) {
+                this.colorIsPicked[idx] = true
+            } else {
+                this.imgIsPicked[idx] = true
+            }
             this.bcg = background;
         },
 

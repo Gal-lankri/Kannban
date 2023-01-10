@@ -93,7 +93,6 @@ function saveLocalUser(user) {
 
 function getLoggedinUser() {
     return JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER))
-    // return { _id: 'fsdfds', fullname: 'Puki Norma', email: 'puki', password: '123', isAdmin: false, imgUrl: 'src/assets/img/user1.jpg' }
 }
 
 

@@ -1,4 +1,15 @@
 .dashboard {
+    display: grid;
+
+    grid-template-columns: 100%;
+    grid-template-rows: auto auto auto;
+
+    grid-template-areas:
+        "pies "
+        "info "
+        "spline ";
+
+    gap: 1rem;
     color: $textLight;
     width: 99%;
     height: 99%;
@@ -9,6 +20,7 @@
     padding: 2rem;
     color: $textDark;
 
+    overflow-y: scroll;
     &.isDark {
         * {
             color: $textLight;
@@ -19,20 +31,32 @@
         color: white;
     }
 
-    .data {
+    .apexcharts-xaxistooltip *,
+    .apexcharts-tooltip * {
+        color: $textDark !important;
+    }
+
+    .info {
+        grid-area: info;
         text-align: center;
         border-radius: 3px;
-        // padding: 0.5rem;
-        height: 200px;
-        border: 1px solid #e27c7c;
+        padding: 0.5rem;
+
+        article {
+            background-color: rgba(#e27c7c, 0.8);
+            padding: 0.5rem 1rem;
+            border-radius: 3px;
+            width: 200px;
+        }
     }
 
     .bold {
-        color: rgba(#e27c7c, 0.8);
-        font-size: 3rem;
+        // color: rgba(#e27c7c, 0.8);
+        font-size: 1rem;
         font-weight: bold;
     }
     .members-container {
+        grid-area: members;
         text-align: center;
         border-radius: 3px;
         // padding: 0.5rem;
@@ -43,7 +67,7 @@
             border-radius: 0 0 3px 3px;
             background-color: rgba(#e27c7c, 0.8);
             overflow-y: scroll;
-            max-height: 300px;
+            max-height: 200px;
             padding: 1rem;
         }
 
@@ -75,9 +99,29 @@
         color: white;
     }
 
+    .chart-pies {
+        grid-area: pies;
+    }
+
     .chart-spline {
+        grid-area: spline;
         border-radius: 3px;
         // padding: 1rem;
         // border-top: 1px solid #e27c7c;
     }
 }
+
+@media (max-width: 960px) {
+    .dashboard {
+        display: grid;
+
+        // grid-template-columns: auto;
+        // grid-template-rows: auto 100px 100px auto;
+
+        // grid-template-areas:
+        //     "pies pies"
+        //     "info info"
+        //     "member member"
+        //     "spline spline";
+    }
+} ;

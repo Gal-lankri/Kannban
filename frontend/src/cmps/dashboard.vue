@@ -1,53 +1,48 @@
 <template>
-    <section class="dashboard flex column justify-around gap20" :style="background" :class="{ isDark: isDark }">
-        <section class="flex row justify-around grow gap20">
-            <div class="members-container flex column justify-between gap20">
+    <section class="dashboard " :style="background" :class="{ isDark: isDark }">
+
+
+        <!-- <div class="members-container flex column justify-between gap20">
+            <div>Members on board:</div>
+            <div class="members flex column gap ">
+                <div v-for="member in members" :key="member._id" class="flex align-center ">
+                    <div v-if="member.imgUrl" class="member-image" :style="memberImage(member.imgUrl)"> </div>
+                    <span v-else class="member-initials">
+                        {{ getInitials(member.fullname) }}
+                    </span>
+                    <span class="fullname">{{ member.fullname + " " }}</span>
+                </div>
+            </div>
+        </div> -->
+
+        <section class=" chart-pies flex row wrap justify-around align-start ">
+            <chart-pie title="Tasks By Labels" :data="labelsChartData" type="donut" :color="textColor"></chart-pie>
+            <chart-pie title="Tasks Completed" :data="tasksChartData" type="pie" :color="textColor"></chart-pie>
+            <chart-pie title="Tasks By Member" :data="membersChartData" type="pie" :color="textColor"></chart-pie>
+        </section>
+
+        <section class="info flex row justify-center wrap gap ">
+            <article class="grow">
                 <div>Total board members:</div>
                 <div class="bold">{{ members.length }}</div>
-                <div>Members on board:</div>
-                <div class="members flex column gap ">
-
-                    <div v-for="member in members" :key="member._id" class="flex align-center ">
-                        <div v-if="member.imgUrl" class="member-image" :style="memberImage(member.imgUrl)"> </div>
-                        <span v-else class="member-initials">
-                            {{ getInitials(member.fullname) }}
-                        </span>
-                        <span class="fullname">{{ member.fullname + " " }}</span>
-                    </div>
-                </div>
-
-
-            </div>
-
-            <div class=" gap flex column justify-between">
-
-
-                <div class=" up-charts flex row justify-around align-start wrap">
-                    <chart-pie title="Tasks By Labels" :data="labelsChartData" type="donut"
-                        :color="textColor"></chart-pie>
-                    <chart-pie title="Tasks Completed" :data="tasksChartData" type="pie" :color="textColor"></chart-pie>
-                    <chart-pie title="Tasks By Member" :data="labelsChartData" type="donut"
-                        :color="textColor"></chart-pie>
-                </div>
-                <div class="data flex row justify-around align-center ">
-                    <div>
-                        <div>Tasks on this board:</div>
-                        <div class="bold">{{ tasksTotal }}</div>
-                    </div>
-                    <div>
-                        <div>Upcoming deadline:</div>
-                        <div class="bold"> {{
-                            nextDueDate.dueDate ? new Date(nextDueDate.dueDate).toLocaleDateString('en-GB') :
-                                'Not found'
-                        }}</div>
-                    </div>
-                    <div>
-                        <div>Last Activity:</div>
-                        <div class="bold">{{ lastActivity }}</div>
-                    </div>
-                </div>
-            </div>
+            </article>
+            <article class="grow">
+                <div>Tasks on this board:</div>
+                <div class="bold">{{ tasksTotal }}</div>
+            </article>
+            <article class="grow">
+                <div>Upcoming deadline:</div>
+                <div class="bold"> {{
+                    nextDueDate.dueDate ? new Date(nextDueDate.dueDate).toLocaleDateString('en-GB') :
+                        'Not found'
+                }}</div>
+            </article>
+            <article class="grow">
+                <div>Last Activity:</div>
+                <div class="bold">{{ lastActivity }}</div>
+            </article>
         </section>
+
         <section class="chart-spline">
             <chart-spline title="Board Progress" :data="progressChartData" :color="textColor"></chart-spline>
         </section>
@@ -78,14 +73,11 @@ export default {
         // console.log('labels map', this.labelsChartData)
         // console.log(this.nextDueDate)
         // console.log(this.locations)
-        // console.log(this.levels)
     },
     data() {
         return {
-
             tasksNoDueDate: 0,
             tasksWithDate: 0,
-
         }
     },
     methods: {
@@ -120,14 +112,8 @@ export default {
             return this.$store.getters.board.members
         },
         lastActivity() {
-
             const timestamp = this.$store.getters.activities[this.$store.getters.activities.length - 1]?.createdAt
-
-            console.log(`timestamp:`, timestamp)
             return timestamp ? utilService.timeAgo(timestamp) : 'Not found'
-
-
-
         },
         boardMemberIds() {
             let members = []
@@ -185,7 +171,6 @@ export default {
             return [series, labels]
         },
 
-
         labelsChartData() {
             let boardLabels = this.$store.getters.board.labels
             let mapLabels = {}
@@ -205,18 +190,51 @@ export default {
 
             return [series, labels]
         },
+
+
+        membersChartData() {
+            let boardMembers = this.$store.getters.board.members
+            let mapMembers = {}
+            this.$store.getters.board.groups.forEach(group => {
+                group.tasks.forEach(task => {
+                    if (!task.memberIds) return
+                    task.memberIds.forEach(id => {
+                        const member = boardMembers.find(member => {
+                            return member._id === id
+                        })
+
+                        if (!mapMembers[member.fullname]) mapMembers[member.fullname] = 1
+                        else mapMembers[member.fullname] += 1
+                    })
+                })
+            })
+            const series = Object.values(mapMembers)
+            const labels = Object.keys(mapMembers)
+
+
+            return [series, labels]
+        },
+
         progressChartData() {
-            let series = this.$store.getters.board.groups.map(group => {
+            let series1 = this.$store.getters.board.groups.map(group => {
                 return group.tasks ? group.tasks.length : 0
             })
             let labels = this.$store.getters.board.groups.map(group => {
                 return group.title
             })
 
-            return [series, labels]
+            let series2 = []
+            this.$store.getters.board.groups.forEach(group => {
+                let completedTasks = 0
+                group.tasks?.forEach(task => {
+                    if (task.isComplete) ++completedTasks
+                })
 
-
+                series2.push(completedTasks)
+            })
+            return [series1, series2, labels]
         },
+
         nextDueDate() {
             let timestamp = 1670918400000167
             let soonTask = {}
@@ -236,9 +254,9 @@ export default {
                     }
                 })
             })
-            console.log(`soonTask:`, soonTask)
             return soonTask
         },
+
         locations() {
             let mapLocations = {}
             this.$store.getters.board.groups.forEach(group => {
@@ -251,13 +269,8 @@ export default {
             })
             return mapLocations
         },
-        levels() {
-            let mapLevels = {}
-            this.$store.getters.board.groups.forEach(group => {
-                mapLevels[group.title] = group.tasks.length
-            })
-            return mapLevels
-        },
+
+
     },
     watch: {
         nextDueDate() {

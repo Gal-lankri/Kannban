@@ -43,7 +43,7 @@ export default {
                     type: 'donut',
 
                 },
-                colors: ["#54bebe", "#76c8c8", "#98d1d1", "#badbdb", "#dedad2", "#e4bcad", "#df979e", "#d7658b", "#c80064"],
+                colors: ["#ea5545", "#f46a9b", "#ef9b20", "#edbf33", "#ede15b", "#bdcf32", "#87bc45", "#27aeef", "#b33dc6"],
 
                 stroke: {
                     width: 0,
@@ -67,10 +67,10 @@ export default {
                     enabled: false
                 },
                 responsive: [{
-                    breakpoint: 480,
+                    breakpoint: 960,
                     options: {
                         chart: {
-                            width: 200
+                            width: 250
                         },
                     }
                 }],

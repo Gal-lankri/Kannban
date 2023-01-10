@@ -202,9 +202,11 @@ export default {
                         const member = boardMembers.find(member => {
                             return member._id === id
                         })
+                        if (member) {
 
-                        if (!mapMembers[member.fullname]) mapMembers[member.fullname] = 1
-                        else mapMembers[member.fullname] += 1
+                            if (!mapMembers[member.fullname]) mapMembers[member.fullname] = 1
+                            else mapMembers[member.fullname] += 1
+                        }
                     })
                 })
             })

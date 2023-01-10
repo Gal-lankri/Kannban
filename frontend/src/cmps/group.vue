@@ -82,6 +82,8 @@ export default {
             type: Object,
         },
     },
+    components: { taskPreview, Container, Draggable, copyTaskEdit, confirmModal },
+
     data() {
         return {
             isCardOpen: false,
@@ -91,98 +93,80 @@ export default {
             },
             isMenuOpen: false,
             newGroupTitle: JSON.parse(JSON.stringify(this.group.title)),
-            tasksCopy: [],
-            tasksToShow: [],
+            prevTasks: [],
+            editedTasks: [],
             dropCounter: 0,
             isRemoveClicked: false,
             prevBoard: null
         }
     },
 
-    async created() {
-        // console.log(this.filterBy);
-        // this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks))
-        this.tasksToShow = this.group.tasks
+    created() {
+
+        this.editedTasks = this.group.tasks
         this.dropDebounce = utilService.debounce(this.onDrop, 500)
 
-        // try {
-        //     this.debounceHandler = utilService.debounce(this.updateGroup, 500)
 
-        // } catch (err) {
-        //     console.log(err);
-        // }
     },
 
     methods: {
-        async onDrop(dropResult) {
-            console.log('dropResult',dropResult )
-            const { removedIndex, addedIndex, payload, element } = dropResult;
-            if (removedIndex === null && addedIndex === null) return
-            // if(addedIndex !== null) this.$store.commit({type: 'updateTasks' ,payload: { tasks: this.tasksToShow, groupId: this.group.id } })
-            try {
-                this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks || []))
-                this.tasksToShow = this.applyDrag(this.tasksToShow, dropResult)
-                // console.log('Tasks Copy', this.tasksToShow)
-                await this.$store.dispatch({
-                    type: 'updateTasks',
-                    payload: { tasks: this.tasksToShow, groupId: this.group.id, addedIndex }
-                })
-
-                this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks || []))
-
-            }
-            catch (prevTasks) {
-                showErrorMsg('Only board creator may change board attributes')
-                this.$store.commit({ type: 'updateBoard', board: this.prevBoard })
-                this.$store.commit({ type: 'setBoard', boardId: this.prevBoard._id })
-                this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks || []))
-            }
-        },
         onDragStart(dragResult) {
-            console.log('dragResult',dragResult )
-            const { isSource, payload, willAcceptDropt } = dragResult;
+            const { isSource, payload, willAcceptDropt } = dragResult
+
             if (!isSource) return
             this.prevBoard = JSON.parse(JSON.stringify(this.$store.getters.board))
         },
-        applyDrag(tasks, dragResult) {
-            const { removedIndex, addedIndex, payload } = dragResult
-            // console.log('PAYLOAD', payload)
 
-            if (removedIndex === null && addedIndex === null) return tasks;
-            const result = [...tasks];
-            // console.log(result);
-            let itemToAdd = payload;
+        async onDrop(dropResult) {
+            const { removedIndex, addedIndex, payload, element } = dropResult
+            if (removedIndex === null && addedIndex === null) return
+
+            this.editedTasks = JSON.parse(JSON.stringify(this.group.tasks || []))
+            this.editedTasks = this.applyDrag(this.editedTasks, dropResult)
+
+            try {
+                await this.$store.dispatch({
+                    type: 'updateTasks',
+                    payload: { tasks: this.editedTasks, groupId: this.group.id, addedIndex }
+                })
+            }
+            catch (prevTasks) {
+                showErrorMsg('Error in drag and drop')
+                this.$store.commit({ type: 'updateBoard', board: this.prevBoard })
+                this.$store.commit({ type: 'setBoard', boardId: this.prevBoard._id })
+                this.editedTasks = JSON.parse(JSON.stringify(this.group.tasks || []))
+            }
+        },
+
+        applyDrag(tasks, { removedIndex, addedIndex, payload }) {
+            console.log(`payload:`, payload)
+
+            if (removedIndex === null && addedIndex === null) return tasks
             if (payload === null) return
 
             if (removedIndex !== null) {
-                itemToAdd = result.splice(removedIndex, 1)[0];
-                // console.log('ITEM-TO-ADD', itemToAdd)
+                tasks.splice(removedIndex, 1)[0]
             }
-            if (addedIndex !== null && removedIndex !== null) {
-                // console.log(itemToAdd);
-                // console.log(itemToAdd.itemToMove);
-                result.splice(addedIndex, 0, itemToAdd);
-                // result.splice(addedIndex, 0, itemToAdd.itemToMove);
-                // console.log(this.tasksToShow);
+            else if (addedIndex !== null) {
+                console.log({ ...payload.itemToMove })
+                tasks.splice(addedIndex, 0, { ...payload.itemToMove })
             }
-            else if (addedIndex !== null) result.splice(addedIndex, 0, itemToAdd.itemToMove);
-            console.log('RESULT', result)
-
-            return result;
+            return tasks
         },
+
         getShouldAcceptDrop(index, sourceContainerOptions, payload) {
-            return true;
+            return true
         },
 
         getChildPayload(index) {
             // console.log('get child copy', index)
 
-            this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks))
+            this.editedTasks = JSON.parse(JSON.stringify(this.group.tasks))
 
-            // console.log('get child copy', this.tasksToShow);
+            // console.log('get child copy', this.editedTasks)
 
             return {
-                itemToMove: this.tasksToShow[index]
+                itemToMove: this.editedTasks[index]
             }
         },
         updateGroup() {
@@ -198,26 +182,26 @@ export default {
             }
             const group = JSON.parse(JSON.stringify(this.group))
             group.title = this.newGroupTitle
-            // console.log(group);
+            // console.log(group)
             this.$emit('updateGroup', group, activity)
         },
         copyGroup() {
             this.$stor.dispatch({ type: 'addGroup', group: JSON.parse(JSON.stringify(this.group)) })
         },
         toggleCard() {
-            // console.log(this.isCardOpen);
-            this.isCardOpen = !this.isCardOpen;
+            // console.log(this.isCardOpen)
+            this.isCardOpen = !this.isCardOpen
             // this.$refs.group.containerElement['smooth-dnd-container-instance'].element.scrollTop = this.$refs.group.containerElement['smooth-dnd-container-instance'].element.scrollHeight
             // console.log(this.$refs.group.containerElement['smooth-dnd-container-instance'])
             if (this.isCardOpen) {
                 setTimeout(() => {
                     // console.log(this.$refs.form)
                     this.$refs.form.scrollIntoView()
-                }, 100);
+                }, 100)
             }
         },
         toggleMenu() {
-            this.isMenuOpen = !this.isMenuOpen;
+            this.isMenuOpen = !this.isMenuOpen
         },
         toggleModal() {
             this.isRemoveClicked = !this.isRemoveClicked
@@ -263,35 +247,36 @@ export default {
     watch: {
         filterBy: {
             handler: function (filterBy, oldVal) {
-                const regex = new RegExp(filterBy.title, 'i');
-                this.tasksToShow = this.group.tasks.filter(task => regex.test(task.title))
+                const regex = new RegExp(filterBy.title, 'i')
+                this.editedTasks = this.group.tasks.filter(task => regex.test(task.title))
                 if (filterBy.isNoMembers)
-                    this.tasksToShow = this.tasksToShow.filter(task => !task.memberIds?.length)
+                    this.editedTasks = this.editedTasks.filter(task => !task.memberIds?.length)
                 if (filterBy.isAssignToMe)
-                    this.tasksToShow = this.tasksToShow.filter(task => task.memberIds?.includes(this.user._id))
+                    this.editedTasks = this.editedTasks.filter(task => task.memberIds?.includes(this.user._id))
                 if (filterBy.membersIds.length) {
-                    this.tasksToShow = this.tasksToShow.filter(task => {
+                    this.editedTasks = this.editedTasks.filter(task => {
                         if (!task.memberIds?.length) return false
                         return task.memberIds.some(memberId => filterBy.membersIds.includes(memberId))
                         // task.memberIds?.includes(this.user._id)
                     })
                 }
                 if (filterBy.isNoLabels) {
-                    this.tasksToShow = this.tasksToShow.filter(task => !task.labelIds?.length)
+                    this.editedTasks = this.editedTasks.filter(task => !task.labelIds?.length)
                 }
                 if (filterBy.labelIds.length) {
-                    this.tasksToShow = this.tasksToShow.filter(task => {
+                    this.editedTasks = this.editedTasks.filter(task => {
                         if (!task.labelIds?.length) return false
                         return task.labelIds.some(labelId => filterBy.labelIds.includes(labelId))
                     })
                 }
-                // console.log(this.tasksToShow);
+                // console.log(this.editedTasks)
             },
             deep: true
         },
         group: {
             handler: function (val, oldVal) {
-                this.tasksToShow = this.group.tasks
+                console.log(this.group.tasks)
+                // this.editedTasks = this.group.tasks
             },
             deep: true
         }
@@ -306,6 +291,5 @@ export default {
             return 'on-drag'
         }
     },
-    components: { taskPreview, Container, Draggable, copyTaskEdit, confirmModal },
-};
+}
 </script>

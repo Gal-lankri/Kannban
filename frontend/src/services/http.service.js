@@ -18,7 +18,6 @@ export const httpService = {
         return ajax(endpoint, 'POST', data)
     },
     put(endpoint, data) {
-        console.log(data)
         return ajax(endpoint, 'PUT', data)
     },
     delete(endpoint, data) {
@@ -39,12 +38,13 @@ async function ajax(endpoint, method = 'GET', data = null) {
         console.log(`Had Issues ${method}ing to the backend, endpoint: ${endpoint}, with data:`, data)
         console.dir(err)
         if (err.response && err.response.status === 401) {
+            console.log('You are not the creator');
             sessionStorage.clear()
-            window.location.assign('/')
+            window.location.assign(`/#/board/${data._id}`)
             // Depends on routing startegy - hash or history
             // window.location.assign('/#/login')
             // window.location.assign('/login')
-            // router.push('/login')
+            // router.push(`/board/${data._id}`)
         }
         throw err
     }

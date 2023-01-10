@@ -5,7 +5,6 @@ const ObjectId = require('mongodb').ObjectId
 
 async function query(filterBy = { userId: '' }) {
     try {
-        console.log('userID',filterBy.userId);
         const collection = await dbService.getCollection('board')
         var boards = await collection.find({"members": {$elemMatch: {_id: filterBy.userId}}}).toArray()
         return boards

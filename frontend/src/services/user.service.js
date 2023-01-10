@@ -92,15 +92,6 @@ function saveLocalUser(user) {
 }
 
 function getLoggedinUser() {
-    if (!sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER)) {
-        const user = {
-            "_id": "6391c850f66d9762b2800e50",
-            "fullname": "Dima Demo",
-            "imgUrl": "https://res.cloudinary.com/dnznyz6om/image/upload/v1670495585/htkfdnkkhbrxd3nddln7.webp",
-            "notifications": []
-        }
-        sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user))
-    }
     return JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER))
 }
 

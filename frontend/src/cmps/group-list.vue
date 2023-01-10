@@ -141,7 +141,6 @@ export default {
             this.$store.dispatch({ type: 'updateGroup', group, activity })
         },
         addTask(groupId, task, activity) {
-            // console.log('**************************', task)
             this.$emit('addTask', groupId, task, activity)
         }
     },

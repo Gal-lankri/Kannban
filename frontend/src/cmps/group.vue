@@ -7,7 +7,6 @@
                     <span class="fa-solid elipsis-icon"></span>
                 </button>
             </div>
-            <!-- <span v-if="group.tasks">{{ group.tasks.length }} cards</span> -->
 
             <div v-if="isMenuOpen" class=" task-editor" v-click-outside="() => isMenuOpen = false">
                 <section class=" title flex row justify-center">
@@ -28,10 +27,9 @@
             ref="group" @drop="onDrop" @drag-start="onDragStart"
             :shouldAcceptDrop="(e, payload) => (e.groupName === 'group-tasks' && !payload.loading)"
             :get-child-payload="getChildPayload" drop-class="" :drop-class="dragClass">
-            <Draggable class="task-preview" v-for=" task in group.tasks" :key="task.id">
+            <Draggable class="task-preview" v-for="task in group.tasks" :key="task.id">
                 <task-preview :task="task" :groupId="this.group.id" :boardId="boardId" />
             </Draggable>
-
             <form ref="form" class="add-card-form flex" v-if="isCardOpen" @submit.prevent="addTask">
                 <textarea v-model="currTask.title" type="textarea" name="add-task" rows="4"
                     placeholder="Enter a title for this card..." v-focus @keyup.enter="addTask"></textarea>
@@ -49,13 +47,7 @@
             </button>
         </div>
     </div>
-    <!-- <div class="confirm-modal">
-            <header class="confirm-modal-header"> Are you sure ?</header>
-            <div class="flex gap">
-                <button class="btn-ok">Delete</button>
-                <button class="btn-cancel">Go back</button>
-            </div>
-        </div> -->
+
     <confirm-modal v-if="isRemoveClicked" :msg="'Are you sure?'" @remove="removeGroup" @closeModal="toggleModal" />
 </template>
 
@@ -136,6 +128,8 @@ export default {
                 this.$store.commit({ type: 'setBoard', boardId: this.prevBoard._id })
                 this.editedTasks = JSON.parse(JSON.stringify(this.group.tasks || []))
             }
+
+
         },
 
         applyDrag(tasks, { removedIndex, addedIndex, payload }) {
@@ -159,16 +153,12 @@ export default {
         },
 
         getChildPayload(index) {
-            // console.log('get child copy', index)
-
-            this.editedTasks = JSON.parse(JSON.stringify(this.group.tasks))
-
-            // console.log('get child copy', this.editedTasks)
 
             return {
                 itemToMove: this.editedTasks[index]
             }
         },
+
         updateGroup() {
             if (!this.newGroupTitle) return
             const activity = {
@@ -244,11 +234,24 @@ export default {
         }
 
     },
+
+    computed: {
+        user() {
+            return this.$store.getters.loggedinUser
+
+        },
+        dragClass() {
+            return 'on-drag'
+        },
+        editedTask() {
+            return this.$store.getters.getEditedTask
+        }
+    },
     watch: {
         filterBy: {
             handler: function (filterBy, oldVal) {
                 const regex = new RegExp(filterBy.title, 'i')
-                this.editedTasks = this.group.tasks.filter(task => regex.test(task.title))
+                this.editedTasks = this.editedTasks.filter(task => regex.test(task.title))
                 if (filterBy.isNoMembers)
                     this.editedTasks = this.editedTasks.filter(task => !task.memberIds?.length)
                 if (filterBy.isAssignToMe)
@@ -275,21 +278,30 @@ export default {
         },
         group: {
             handler: function (val, oldVal) {
-                console.log(this.group.tasks)
+
                 // this.editedTasks = this.group.tasks
             },
             deep: true
-        }
-    },
-
-    computed: {
-        user() {
-            return this.$store.getters.loggedinUser
-
         },
-        dragClass() {
-            return 'on-drag'
+        editedTask: {
+            handler: function (val, oldVal) {
+
+                console.log('val', val.id)
+
+                this.editedTasks.forEach((task) => {
+                    console.log(task.id === val.id)
+                    if (task.id === val.id) task = val
+                })
+
+
+                console.log(this.editedTasks)
+
+
+            },
+            deep: true
+
         }
     },
+
 }
 </script>

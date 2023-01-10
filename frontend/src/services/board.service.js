@@ -38,17 +38,22 @@ async function query(filterBy = { title: '' }, loggedinUser) {
 }
 
 async function save(board) {
+    board = JSON.parse(JSON.stringify(board))
     try {
+        var savedBoard
         if (board._id) {
-            await httpService.put(`${BOARD_URL}${board._id}`, board)
+            savedBoard = await httpService.put(`${BOARD_URL}${board._id}`, board)
             socketService.emit('board updated', savedBoard)
         } else {
             board.createdBy = userService.getLoggedinUser()
-            await httpService.post(BOARD_URL, board)
+            savedBoard = await httpService.post(BOARD_URL, board)
         }
+        return savedBoard
     }
     catch (err) {
+        console.log(prevBoard);
         console.log(err);
+        throw prevBoard
     }
 }
 async function getById(boardId) {

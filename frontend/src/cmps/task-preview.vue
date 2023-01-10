@@ -231,6 +231,16 @@ export default {
         }
 
 
+    },
+    watch: {
+
+        task: {
+            handler: function (val, oldVal) {
+
+                console.log(val)
+            },
+            deep: true
+        },
     }
 }
 

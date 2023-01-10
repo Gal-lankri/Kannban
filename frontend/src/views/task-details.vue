@@ -77,9 +77,7 @@
             <attachment-preview :attachments="task.attachments" v-if="task.attachments?.length"
                 @updateCover="updateTask('cover-edit', $event)"
                 @updateAttachments="updateTask('attachment-preview', $event)" />
-            <!-- <checklists-preview v-if="task.checklists" :checklists="task.checklists"
-                @updateChecklists="updateTask('checklist-preview', $event)" /> -->
-            <!-- <checklists-preview v-if="task.checklists" :checklists="task.checklists" -->
+
             <checklists-preview v-if="task.checklists" @updateChecklists="updateTask('checklist-preview', $event)" />
             <activities-preview :taskId="task.id" />
         </section>
@@ -88,34 +86,34 @@
     <component :is="pickedEditor.editorType" @closeEdit="closeEditor" v-click-outside="closeEditor"
         @updateTask="updateTask(pickedEditor.editorType, $event)" @addChecklist="addChecklist"
         @updateLabel="updateLabel" @updateMembers="updateTask" @copyTask="copyTask"
-        @updateBoardLabels="updateBoardLabels" class="z-index-100" @removeLabel="removeBoardLabel">
+        @updateBoardLabels="updateBoardLabels" @removeLabel="removeBoardLabel">
     </component>
 
     <!-- <confirm-modal :msg="'Are you sure?'" v-if="isConfirmModal"/> -->
 </template>
 
 <script>
-import labelsPreview from "../cmps/labels-preview.vue";
-import labelsEdit from "../cmps/labels-edit.vue";
-import checklistEdit from "../cmps/checklist-edit.vue";
-import membersEdit from "../cmps/members-edit.vue";
-import checklistsPreview from "../cmps/checklists-preview.vue";
-import activitiesPreview from "../cmps/activities-preview.vue";
-import membersPreview from "../cmps/members-preview.vue";
-import descriptionPreview from "../cmps/description-preview.vue";
-import copyTaskEdit from "../cmps/copy-task-edit.vue";
-import datesEdit from "../cmps/dates-edit.vue";
-import datesPreview from "../cmps/dates-preview.vue";
-import coverEdit from "../cmps/cover-edit.vue";
-import coverPreview from "../cmps/cover-preview.vue";
-import locationEdit from "../cmps/location-edit.vue";
-import locationPreview from "../cmps/location-preview.vue";
-import attachmentEdit from "../cmps/attachment-edit.vue";
-import attachmentPreview from "../cmps/attachment-preview.vue";
-import confirmModal from "../cmps/confirm-modal.vue";
+import labelsPreview from "../cmps/labels-preview.vue"
+import labelsEdit from "../cmps/labels-edit.vue"
+import checklistEdit from "../cmps/checklist-edit.vue"
+import membersEdit from "../cmps/members-edit.vue"
+import checklistsPreview from "../cmps/checklists-preview.vue"
+import activitiesPreview from "../cmps/activities-preview.vue"
+import membersPreview from "../cmps/members-preview.vue"
+import descriptionPreview from "../cmps/description-preview.vue"
+import copyTaskEdit from "../cmps/copy-task-edit.vue"
+import datesEdit from "../cmps/dates-edit.vue"
+import datesPreview from "../cmps/dates-preview.vue"
+import coverEdit from "../cmps/cover-edit.vue"
+import coverPreview from "../cmps/cover-preview.vue"
+import locationEdit from "../cmps/location-edit.vue"
+import locationPreview from "../cmps/location-preview.vue"
+import attachmentEdit from "../cmps/attachment-edit.vue"
+import attachmentPreview from "../cmps/attachment-preview.vue"
+import confirmModal from "../cmps/confirm-modal.vue"
 import userMsg from '../cmps/user-msg.vue'
 import { eventBus, showErrorMsg } from '../services/event-bus.service'
-import { utilService } from "../services/util.service";
+import { utilService } from "../services/util.service"
 
 export default {
     emits: [
@@ -181,41 +179,41 @@ export default {
             isConfirmModal: false,
 
             // labelIds: this.$store.getters.labelIds
-        };
+        }
     },
 
     async created() {
-        this.debounceHandler = utilService.debounce(this.updateTask, 600);
-        const { id, taskId, groupId } = this.$route.params;
-        // console.log(taskId);
+        this.debounceHandler = utilService.debounce(this.updateTask, 600)
+        const { id, taskId, groupId } = this.$route.params
+        // console.log(taskId)
         try {
             // await this.$store.dispatch({ type: 'loadBoards' })
-            this.$store.commit({ type: "setBoard", boardId: id });
-            this.$store.commit({ type: "setEditedTask", taskId, groupId, boardId: id });
-            this.task = JSON.parse(JSON.stringify(this.getTask));
+            this.$store.commit({ type: "setBoard", boardId: id })
+            this.$store.commit({ type: "setEditedTask", taskId, groupId, boardId: id })
+            this.task = JSON.parse(JSON.stringify(this.getTask))
 
-            this.title = this.getTask.title;
-            this.description = this.task.description;
+            this.title = this.getTask.title
+            this.description = this.task.description
         } catch (err) {
-            console.log(err);
+            console.log(err)
         }
     },
 
     methods: {
         updateTitle(ev) {
-            if (typeof ev.data !== "string") return;
-            this.task.title += ev.data;
+            if (typeof ev.data !== "string") return
+            this.task.title += ev.data
         },
         pickEditor(type) {
-            this.pickedEditor.editorType = type;
-            this.pickedEditor.isOpen = true;
+            this.pickedEditor.editorType = type
+            this.pickedEditor.isOpen = true
         },
         closeEditor() {
             // await this.updateTask()
             this.pickedEditor = {
                 isOpen: false,
                 type: "",
-            };
+            }
         },
         updateLabel(label) {
             this.$store.dispatch({
@@ -238,7 +236,7 @@ export default {
                         },
                     },
                 },
-            });
+            })
         },
         async removeTask() {
             try {
@@ -258,17 +256,17 @@ export default {
                             },
                         },
                     },
-                });
-                // console.log('remove!');
-                this.closeDetails();
+                })
+                // console.log('remove!')
+                this.closeDetails()
             } catch (err) {
-                console.log("Failed in task remove", err);
+                console.log("Failed in task remove", err)
             }
         },
         async copyTask(data) {
             try {
-                const { task, toGroupId, toBoardId } = data;
-                task.id = utilService.makeId();
+                const { task, toGroupId, toBoardId } = data
+                task.id = utilService.makeId()
                 this.$store.dispatch({
                     type: "copyTask",
                     toBoardId,
@@ -282,105 +280,106 @@ export default {
                             imgUrl: this.user.imgUrl || "",
                         },
                     },
-                });
-                this.closeEditor();
+                })
+                this.closeEditor()
             } catch (err) {
-                console.log("Failed in task copy", err);
+                console.log("Failed in task copy", err)
             }
         },
 
         async updateTask(type, data) {
-            let taskToUpdate = JSON.parse(JSON.stringify(this.task));
-            var txt;
+            let taskToUpdate = JSON.parse(JSON.stringify(this.task))
+            var txt
             switch (type) {
                 case "labels-edit":
-                    if (!taskToUpdate?.labelIds) taskToUpdate.labelIds = [];
-                    taskToUpdate.labelIds = data.labelIds;
-                    txt = "Updated label";
-                    break;
+                    if (!taskToUpdate?.labelIds) taskToUpdate.labelIds = []
+                    taskToUpdate.labelIds = data.labelIds
+                    txt = "Updated label"
+                    break
                 case "description":
-                    txt = `Updated ${taskToUpdate.title} description`;
-                    taskToUpdate.description = data;
-                    break;
+                    txt = `Updated ${taskToUpdate.title} description`
+                    taskToUpdate.description = data
+                    break
                 case "title":
-                    txt = `Updated ${taskToUpdate.title} title to ${data}`;
-                    taskToUpdate.title = data;
-                    break;
+                    txt = `Updated ${taskToUpdate.title} title to ${data}`
+                    taskToUpdate.title = data
+                    break
                 case "checklist-edit":
-                    txt = `Added checklist ${data.title} in ${taskToUpdate.title}`;
-                    if (!taskToUpdate?.checklists) taskToUpdate.checklists = [];
-                    data.id = utilService.makeId();
-                    taskToUpdate.checklists.push(data);
-                    this.closeEditor();
-                    break;
+                    txt = `Added checklist ${data.title} in ${taskToUpdate.title}`
+                    if (!taskToUpdate?.checklists) taskToUpdate.checklists = []
+                    data.id = utilService.makeId()
+                    taskToUpdate.checklists.push(data)
+                    this.closeEditor()
+                    break
                 case "members-edit":
                     // console.log('update task', data)
-                    taskToUpdate.memberIds = data.memberIds;
+                    taskToUpdate.memberIds = data.memberIds
                     txt = `${data.action} ${data.fullname} ${data.action === "added" ? "to" : "from"
-                        } ${this.task.title}`;
-                    break;
+                        } ${this.task.title}`
+                    break
                 case "checklist-preview":
-                    txt = `Edited checklist ${data.title} in ${taskToUpdate.title}`;
-                    taskToUpdate.checklists = data;
-                    break;
+                    txt = `Edited checklist ${data.title} in ${taskToUpdate.title}`
+                    taskToUpdate.checklists = data
+                    break
                 case "dates-edit":
                     taskToUpdate.dueDate
                         ? (txt = `Changed due date for ${taskToUpdate.title}`)
-                        : (txt = `Added due date for ${taskToUpdate.title}`);
-                    taskToUpdate.dueDate = data;
-                    this.closeEditor();
-                    break;
+                        : (txt = `Added due date for ${taskToUpdate.title}`)
+                    taskToUpdate.dueDate = data
+                    this.closeEditor()
+                    break
                 case "dates-preview":
                     data
                         ? (txt = `Marked ${this.task.title} as complete`)
-                        : (txt = `Unmarked ${this.task.title} as complete`);
-                    taskToUpdate.isComplete = data;
-                    // console.log(taskToUpdate);
-                    break;
+                        : (txt = `Unmarked ${this.task.title} as complete`)
+                    taskToUpdate.isComplete = data
+                    // console.log(taskToUpdate)
+                    break
                 case "cover-edit":
-                    // console.log(data);
-                    txt = `Updated  ${this.task.title} cover`;
+                    // console.log(data)
+                    txt = `Updated  ${this.task.title} cover`
                     if (data.startsWith("#")) {
                         taskToUpdate.style = {
                             bgColor: data,
-                        };
+                        }
                     } else {
                         taskToUpdate.style = {
                             imgUrl: data,
-                        };
+                        }
                     }
-                    break;
+                    break
                 case "location-edit":
-                    if (!data) txt = `Removed  ${this.task.title} location`;
-                    else txt = `Updated  ${this.task.title} location to ${data.name}`;
-                    taskToUpdate.location = data;
-                    this.closeEditor();
-                    break;
+                    if (!data) txt = `Removed  ${this.task.title} location`
+                    else txt = `Updated  ${this.task.title} location to ${data.name}`
+                    taskToUpdate.location = data
+                    this.closeEditor()
+                    break
                 case "attachment-edit":
-                    txt = `Added  ${this.task.title} attachment`;
+                    txt = `Added  ${this.task.title} attachment`
                     if (data.type === "image") {
                         taskToUpdate.style = {
                             imgUrl: data.url,
-                        };
+                        }
                     }
-                    if (!taskToUpdate.attachments) taskToUpdate.attachments = [];
-                    taskToUpdate.attachments.unshift(data);
-                    this.closeEditor();
-                    break;
+                    if (!taskToUpdate.attachments) taskToUpdate.attachments = []
+                    taskToUpdate.attachments.unshift(data)
+                    this.closeEditor()
+                    break
                 case "attachment-preview":
-                    txt = `Updated  ${this.task.title} attachments`;
+                    txt = `Updated  ${this.task.title} attachments`
                     // if (taskToUpdate.style === data.url)
-                    taskToUpdate.attachments = data;
-                    break;
+                    taskToUpdate.attachments = data
+                    break
             }
             try {
-                var prevTask = JSON.parse(JSON.stringify(this.task));
+                var prevTask = JSON.parse(JSON.stringify(this.task))
                 this.$store.commit({
                     type: "updateTask",
                     payload: { task: taskToUpdate, groupId: this.groupId },
-                });
-                this.task = JSON.parse(JSON.stringify(this.getTask));
-                // console.log(this.task);
+                })
+                this.task = JSON.parse(JSON.stringify(this.getTask))
+                console.log(this.task)
+
                 let updatedTask = await this.$store.dispatch({
                     type: "updateTask",
                     payload: {
@@ -403,16 +402,15 @@ export default {
                             },
                         },
                     },
-                });
-                // this.task = updatedTask;
+                })
             } catch (err) {
                 showErrorMsg('Only board creator may change board attributes')
                 this.$store.commit({
                     type: "updateTask",
                     payload: { task: prevTask, groupId: this.groupId },
-                });
-                this.task = JSON.parse(JSON.stringify(this.getTask));
-                console.log("Failed in task update");
+                })
+                this.task = JSON.parse(JSON.stringify(this.getTask))
+                console.log("Failed in task update")
                 // this.task = prevTask
             }
         },
@@ -425,10 +423,10 @@ export default {
             //         groupId: this.groupId,
             //     },
             // })
-            this.$router.push(`/board/${this.$route.params.id}`);
+            this.$router.push(`/board/${this.$route.params.id}`)
         },
         confirm() {
-            this.isConfirmModal = true;
+            this.isConfirmModal = true
         },
         async removeBoardLabel(label) {
             try {
@@ -441,13 +439,13 @@ export default {
                         groupId: this.groupId,
                         taskId: this.task.id,
                     },
-                });
+                })
             } catch (err) {
-                console.log(err);
+                console.log(err)
             }
-            const labelIdx = taskToUpdate.labelIds.find((labelId) => labelId === data);
-            taskToUpdate.labelIds.splice(labelIdx, 1);
-            txt = "removed label";
+            const labelIdx = taskToUpdate.labelIds.find((labelId) => labelId === data)
+            taskToUpdate.labelIds.splice(labelIdx, 1)
+            txt = "removed label"
         },
         async addChecklist(checklist) {
             await this.$store.dispatch({
@@ -463,18 +461,18 @@ export default {
                         taskId: this.task.id,
                     },
                 },
-            });
-            this.closeEditor();
+            })
+            this.closeEditor()
         },
         openMembersEditor() {
-            this.pickEditor("members-edit");
+            this.pickEditor("members-edit")
         },
         openCreateLabel() {
-            this.isCreateLabel = true;
-            this.closeEditor();
+            this.isCreateLabel = true
+            this.closeEditor()
         },
         async updateBoardLabels(label) {
-            // console.log(label);
+            // console.log(label)
             this.$store.dispatch({
                 type: "updateBoardLabels",
                 label,
@@ -484,72 +482,72 @@ export default {
                 //     groupId: this.groupId,
                 //     taskId: this.task.id,
                 // },
-            });
+            })
         },
         toggleMember() {
-            const user = this.user;
-            const memberIds = JSON.parse(JSON.stringify(this.getTask.memberIds || []));
-            // console.log(user);
-            // console.log(memberIds);
-            // console.log("********************");
-            var action;
+            const user = this.user
+            const memberIds = JSON.parse(JSON.stringify(this.getTask.memberIds || []))
+            // console.log(user)
+            // console.log(memberIds)
+            // console.log("********************")
+            var action
             const memberIdx = memberIds.findIndex((id) => {
-                return user._id === id;
-            });
+                return user._id === id
+            })
             if (memberIdx < 0) {
-                memberIds.push(user._id);
-                action = "added";
+                memberIds.push(user._id)
+                action = "added"
             } else {
-                memberIds.splice(memberIdx, 1);
-                action = "removed";
+                memberIds.splice(memberIdx, 1)
+                action = "removed"
             }
 
             this.updateTask("members-edit", {
                 memberIds: memberIds,
                 fullname: user.fullname,
                 action,
-            });
+            })
             // this.$emit('updateMembers', 'members-edit', { memberIds: memberIds, fullname: user.fullname, action })
         },
     },
     computed: {
         getLabels() {
-            return this.$store.getters.labels;
+            return this.$store.getters.labels
         },
         getChecklists() {
-            return this.$store.getters.checklists;
+            return this.$store.getters.checklists
         },
 
         user() {
-            return this.$store.getters.loggedinUser;
+            return this.$store.getters.loggedinUser
         },
         getTask() {
-            const task = this.$store.getters.getEditedTask;
-            // console.log(task);
-            return task;
+            const task = this.$store.getters.getEditedTask
+            // console.log(task)
+            return task
         },
         getTaskLabels() {
-            if (!this.task?.labelIds) return [];
+            if (!this.task?.labelIds) return []
             return this.$store.getters.labels.map((label) => {
-                if (this.task.labelIds.includes(label.id)) return label;
-            });
+                if (this.task.labelIds.includes(label.id)) return label
+            })
         },
         getGroupName() {
-            const board = this.$store.getters.board;
-            // console.log(`board:`, board);
-            const group = board.groups.find((group) => group.id === this.$route.params.groupId);
-            // console.log(group.title, 'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT');
-            if (!group.title) return "";
-            return group.title;
+            const board = this.$store.getters.board
+            // console.log(`board:`, board)
+            const group = board.groups.find((group) => group.id === this.$route.params.groupId)
+            // console.log(group.title, 'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT')
+            if (!group.title) return ""
+            return group.title
 
             // return JSON.parse(JSON.stringify(this.$store.getters.getEditedTask)).title
         },
         isUserOnTask() {
-            const memberIds = JSON.parse(JSON.stringify(this.getTask.memberIds || []));
+            const memberIds = JSON.parse(JSON.stringify(this.getTask.memberIds || []))
 
-            const idx = memberIds.findIndex((id) => id === this.user._id);
-            return idx === -1 ? false : true;
+            const idx = memberIds.findIndex((id) => id === this.user._id)
+            return idx === -1 ? false : true
         },
     },
-};
+}
 </script>

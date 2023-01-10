@@ -374,8 +374,6 @@ export const boardStore = {
         },
 
         async updateTask(context, { payload }) {
-            //update the task add new activity
-            //and send socket to server task-updated.
             const groupId = payload.groupId
             const taskId = payload.task.id
             const prevGroup = context.state.board.groups.find(g => g.id === groupId)
@@ -383,6 +381,8 @@ export const boardStore = {
             // context.commit({ type: 'updateTask', payload })
             if (payload.activity) context.commit({ type: 'addActivity', activity: payload.activity })
             const board = context.state.board
+
+
             try {
                 const newBoard = await boardService.save(board)
                 context.commit({ type: 'updateBoard', board: newBoard })
@@ -391,7 +391,7 @@ export const boardStore = {
             }
             catch (err) {
 
-                console.log('boardStore: Error in updateLabels', err)
+                console.log('boardStore: Error in updateTask', err)
                 // // context.commit({
                 // //     type: 'updateTask', payload: {
                 // //         task: prevTkjkljask,

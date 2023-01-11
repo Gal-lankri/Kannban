@@ -317,7 +317,7 @@ export const boardStore = {
             let prevTasks = group.tasks
 
             context.commit({ type: 'updateTasks', payload })
-            // context.commit({ type: 'setBoard', boardId: context.state.board._id })
+            context.commit({ type: 'setBoard', boardId: context.state.board._id })
 
             if (addedIndex !== null) {
                 let activity = {

@@ -1,5 +1,6 @@
 <template>
     <div class="group flex column">
+
         <div class="main-title flex column justify-between">
             <div class="flex row align-center justify-between w-100">
                 <input v-model="newGroupTitle" @input="updateGroup" @keyup.enter="($event) => $event.target.blur()" />
@@ -16,6 +17,12 @@
                     </button>
                 </section>
                 <div class="flex column">
+                    <button @click="removeGroup" class="remove btn">
+                        <span> Move list</span>
+                    </button>
+                    <button @click="copyGroup" class="remove btn">
+                        <span> Copy list</span>
+                    </button>
                     <button @click="toggleModal" class="remove btn">
                         <span> Remove list</span>
                     </button>
@@ -27,9 +34,10 @@
             ref="group" @drop="onDrop" @drag-start="onDragStart"
             :shouldAcceptDrop="(e, payload) => (e.groupName === 'group-tasks' && !payload.loading)"
             :get-child-payload="getChildPayload" drop-class="" :drop-class="dragClass">
-            <Draggable class="task-preview" v-for="task in editedTasks" :key="task.id">
+            <Draggable class="task-preview" v-for="task in tasksToShow" :key="task.id">
                 <task-preview :task="task" :groupId="this.group.id" :boardId="boardId" />
             </Draggable>
+
             <form ref="form" class="add-card-form flex" v-if="isCardOpen" @submit.prevent="addTask">
                 <textarea v-model="currTask.title" type="textarea" name="add-task" rows="4"
                     placeholder="Enter a title for this card..." v-focus @keyup.enter="addTask"></textarea>
@@ -57,8 +65,6 @@ import { utilService } from "../services/util.service.js"
 import { Container, Draggable } from "vue3-smooth-dnd"
 import copyTaskEdit from './copy-task-edit.vue'
 import confirmModal from './confirm-modal.vue'
-import { showErrorMsg } from '../services/event-bus.service'
-
 export default {
     name: 'group',
     emits: ["addTask", "updateGroup", "removeGroup"],
@@ -74,8 +80,6 @@ export default {
             type: Object,
         },
     },
-    components: { taskPreview, Container, Draggable, copyTaskEdit, confirmModal },
-
     data() {
         return {
             isCardOpen: false,
@@ -85,85 +89,76 @@ export default {
             },
             isMenuOpen: false,
             newGroupTitle: JSON.parse(JSON.stringify(this.group.title)),
-            prevTasks: [],
-            editedTasks: [],
+            tasksCopy: [],
+            tasksToShow: [],
             dropCounter: 0,
             isRemoveClicked: false,
             prevBoard: null
         }
     },
 
-    created() {
+    async created() {
 
-        this.editedTasks = JSON.parse(JSON.stringify(this.group.tasks || []))
+        this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks))
         this.dropDebounce = utilService.debounce(this.onDrop, 500)
-
 
     },
 
     methods: {
-        onDragStart(dragResult) {
-            console.log(`dragResult:`, dragResult)
-            const { isSource, payload, willAcceptDropt } = dragResult
-
-            if (!isSource) return
-            this.prevBoard = JSON.parse(JSON.stringify(this.$store.getters.board))
-        },
-
         async onDrop(dropResult) {
             const { removedIndex, addedIndex, payload, element } = dropResult
             if (removedIndex === null && addedIndex === null) return
 
-            const tasks = JSON.parse(JSON.stringify(this.group.tasks || []))
-            this.editedTasks = this.applyDrag(tasks, dropResult)
-
-
+            this.tasksToShow = this.applyDrag(this.tasksToShow, dropResult)
 
             try {
-
                 await this.$store.dispatch({
                     type: 'updateTasks',
-                    payload: { tasks: this.editedTasks, groupId: this.group.id, addedIndex, type: 'dnd' }
+                    payload: { tasks: this.tasksToShow, groupId: this.group.id, addedIndex }
                 })
-
 
             }
             catch (prevTasks) {
-                showErrorMsg('Error in drag and drop')
                 this.$store.commit({ type: 'updateBoard', board: this.prevBoard })
                 this.$store.commit({ type: 'setBoard', boardId: this.prevBoard._id })
-                this.editedTasks = JSON.parse(JSON.stringify(this.group.tasks || []))
+                this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks || []))
             }
-
-
         },
+        onDragStart(dragResult) {
+            const { isSource, payload, willAcceptDropt } = dragResult
+            if (!isSource) return
+            this.prevBoard = JSON.parse(JSON.stringify(this.$store.getters.board))
+        },
+        applyDrag(arr, dragResult) {
+            const { removedIndex, addedIndex, payload } = dragResult
 
-        applyDrag(tasks, { removedIndex, addedIndex, payload }) {
-
-            if (removedIndex === null && addedIndex === null) return tasks
+            if (removedIndex === null && addedIndex === null) return arr
+            const result = [...arr]
+            let itemToAdd = payload
             if (payload === null) return
 
             if (removedIndex !== null) {
-                tasks.splice(removedIndex, 1)[0]
+                itemToAdd = result.splice(removedIndex, 1)[0]
             }
-            else if (addedIndex !== null) {
-                tasks.splice(addedIndex, 0, { ...payload.itemToMove })
-            }
-            return tasks
-        },
+            if (addedIndex !== null && removedIndex !== null) {
 
+                result.splice(addedIndex, 0, itemToAdd)
+
+            }
+            else if (addedIndex !== null) result.splice(addedIndex, 0, itemToAdd.itemToMove)
+            return result
+        },
         getShouldAcceptDrop(index, sourceContainerOptions, payload) {
             return true
         },
 
         getChildPayload(index) {
-            console.log(`index:`, index)
+            this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks))
 
             return {
-                itemToMove: this.editedTasks[index]
+                itemToMove: this.tasksToShow[index]
             }
         },
-
         updateGroup() {
             if (!this.newGroupTitle) return
             const activity = {
@@ -184,7 +179,6 @@ export default {
         },
         toggleCard() {
             this.isCardOpen = !this.isCardOpen
-
             if (this.isCardOpen) {
                 setTimeout(() => {
                     this.$refs.form.scrollIntoView()
@@ -198,6 +192,7 @@ export default {
             this.isRemoveClicked = !this.isRemoveClicked
         },
         addTask() {
+
             if (!this.currTask.title) return
             const activity = {
                 id: '',
@@ -209,6 +204,8 @@ export default {
                 },
                 task: this.currTask
             }
+
+
             this.$emit('addTask', this.group.id, { ...this.currTask }, JSON.parse(JSON.stringify(activity)))
             this.currTask = {
                 id: utilService.makeId(),
@@ -235,44 +232,26 @@ export default {
         }
 
     },
-
-    computed: {
-        user() {
-            return this.$store.getters.loggedinUser
-
-        },
-        board() {
-            return this.$store.getters.board
-
-        },
-        dragClass() {
-            return 'on-drag'
-        },
-        editedTask() {
-            return this.$store.getters.getEditedTask
-        }
-    },
     watch: {
         filterBy: {
             handler: function (filterBy, oldVal) {
                 const regex = new RegExp(filterBy.title, 'i')
-                this.editedTasks = this.editedTasks.filter(task => regex.test(task.title))
+                this.tasksToShow = this.group.tasks.filter(task => regex.test(task.title))
                 if (filterBy.isNoMembers)
-                    this.editedTasks = this.editedTasks.filter(task => !task.memberIds?.length)
+                    this.tasksToShow = this.tasksToShow.filter(task => !task.memberIds?.length)
                 if (filterBy.isAssignToMe)
-                    this.editedTasks = this.editedTasks.filter(task => task.memberIds?.includes(this.user._id))
+                    this.tasksToShow = this.tasksToShow.filter(task => task.memberIds?.includes(this.user._id))
                 if (filterBy.membersIds.length) {
-                    this.editedTasks = this.editedTasks.filter(task => {
+                    this.tasksToShow = this.tasksToShow.filter(task => {
                         if (!task.memberIds?.length) return false
                         return task.memberIds.some(memberId => filterBy.membersIds.includes(memberId))
-                        // task.memberIds?.includes(this.user._id)
                     })
                 }
                 if (filterBy.isNoLabels) {
-                    this.editedTasks = this.editedTasks.filter(task => !task.labelIds?.length)
+                    this.tasksToShow = this.tasksToShow.filter(task => !task.labelIds?.length)
                 }
                 if (filterBy.labelIds.length) {
-                    this.editedTasks = this.editedTasks.filter(task => {
+                    this.tasksToShow = this.tasksToShow.filter(task => {
                         if (!task.labelIds?.length) return false
                         return task.labelIds.some(labelId => filterBy.labelIds.includes(labelId))
                     })
@@ -283,22 +262,22 @@ export default {
         group: {
             handler: function (val, oldVal) {
                 setTimeout(() => {
-                    this.editedTasks = JSON.parse(JSON.stringify(this.group.tasks || []))
-                }, 600);
-
+                    this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks))
+                }, 600)
             },
             deep: true
-        },
-        editedTask: {
-            handler: function (val, oldVal) {
-                this.editedTasks.forEach((task) => {
-                    if (task.id === val.id) task = val
-                })
-            },
-            deep: true
-
         }
     },
 
+    computed: {
+        user() {
+            return this.$store.getters.loggedinUser
+
+        },
+        dragClass() {
+            return 'on-drag'
+        }
+    },
+    components: { taskPreview, Container, Draggable, copyTaskEdit, confirmModal },
 }
 </script>

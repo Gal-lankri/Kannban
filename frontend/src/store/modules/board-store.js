@@ -314,8 +314,6 @@ export const boardStore = {
             context.commit({ type: 'updateTasks', payload })
             try {
                 if (addedIndex !== null) {
-                    // console.log('removerIdx:', addedIndex)
-                    // console.log('task:', group.tasks[addedIndex])
                     var activity = {
                         txt: `Moved ${group.tasks[addedIndex].title}`,
                         byMember: {
@@ -401,7 +399,6 @@ export const boardStore = {
 
         async addTask(context, { boardId, groupId, task, activity }) {
             const prevBoard = JSON.parse(JSON.stringify(context.state.boards.find(board => board._id === boardId)))
-            console.log(prevBoard);
             // if (!board.groups[groupIdx].tasks) board.groups[groupIdx].tasks = []
             // board.groups[groupIdx].tasks.push(task)
             try {
@@ -411,7 +408,6 @@ export const boardStore = {
                 console.log(updatedBoard);
                 return updatedBoard
             } catch (err) {
-                console.log(prevBoard);
                 context.commit({ type: 'updateBoard', board: prevBoard })
                 context.commit({ type: 'setBoard', boardId: prevBoard._id })
                 context.commit({ type: 'removeActivity' })

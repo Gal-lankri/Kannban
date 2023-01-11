@@ -82,7 +82,6 @@ export default {
             return this.$router.push({ path: `/board/${id}` })
         },
         boardBGC(style) {
-            // console.log()
             if (style.bgColor) return { backgroundColor: style.bgColor }
             return { backgroundImage: `url(${style.backgroundImage})` }
         },
@@ -121,8 +120,7 @@ export default {
 
     },
     watch: {
-        boards: function (newVal, oldVal) { // watch it
-            // console.log(this.boards)
+        boards: function (newVal, oldVal) { 
         }
     }
 }

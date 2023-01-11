@@ -49,13 +49,6 @@
             </button>
         </div>
     </div>
-    <!-- <div class="confirm-modal">
-            <header class="confirm-modal-header"> Are you sure ?</header>
-            <div class="flex gap">
-                <button class="btn-ok">Delete</button>
-                <button class="btn-cancel">Go back</button>
-            </div>
-        </div> -->
     <confirm-modal v-if="isRemoveClicked" :msg="'Are you sure?'" @remove="removeGroup" @closeModal="toggleModal" />
 </template>
 
@@ -122,12 +115,12 @@ export default {
             try {
                 this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks || []))
                 this.tasksToShow = this.applyDrag(this.tasksToShow, dropResult)
-                // console.log('Tasks Copy', this.tasksToShow)
+                console.log('Tasks Copy', this.tasksToShow)
+                console.log(addedIndex);
                 await this.$store.dispatch({
                     type: 'updateTasks',
                     payload: { tasks: this.tasksToShow, groupId: this.group.id, addedIndex }
                 })
-
                 this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks || []))
 
             }

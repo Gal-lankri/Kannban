@@ -123,7 +123,6 @@ export default {
             this.$emit('addMember', member)
         },
         isMemberInBoard(memberId) {
-            // console.log(this.boardMembers);
             if (!this.boardMembers.length) return
             const member = this.boardMembers.find(member => member._id === memberId)
             return member !== -1
@@ -133,19 +132,12 @@ export default {
                 this.searchedMembers = []
                 return
             }
-            // console.log('members')
-            // const boardMembers = JSON.parse(JSON.stringify(this.$store.getters.members))
-            // console.log(this.users)
-            // console.log(this.boardMembersIds)
             const regex = new RegExp(this.filterByName, 'i');
             this.searchedMembers = this.users.filter(user => {
                 if (this.boardMembersIds.includes(user._id))
                     return false
                 return regex.test(user.fullname)
             })
-            // console.log(this.searchedMembers);
-            // console.log(this.users);
-            // console.log(this.boardMembersIds);
         },
         close() {
             this.$emit('close')

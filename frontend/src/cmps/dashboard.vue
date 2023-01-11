@@ -120,14 +120,8 @@ export default {
             return this.$store.getters.board.members
         },
         lastActivity() {
-
             const timestamp = this.$store.getters.activities[this.$store.getters.activities.length - 1]?.createdAt
-
-            console.log(`timestamp:`, timestamp)
             return timestamp ? utilService.timeAgo(timestamp) : 'Not found'
-
-
-
         },
         boardMemberIds() {
             let members = []

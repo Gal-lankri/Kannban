@@ -93,7 +93,6 @@ export default {
             this.$store.dispatch({ type: "updateBoard", board: this.board });
         },
         setBoardStar() {
-            // console.log('star')
             if (!this.board) return
             this.board.isStarred = !this.board.isStarred
             this.$store.dispatch({ type: "updateBoard", board: this.board });

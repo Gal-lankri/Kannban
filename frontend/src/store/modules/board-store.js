@@ -242,7 +242,7 @@ export const boardStore = {
         async updateBoardLabels(context, { label }) {
             try {
                 context.commit({ type: 'updateBoardLabels', label })
-                const board = await boardService.save(context.state.board)
+                await boardService.save(context.state.board)
             }
             catch (label) {
                 context.commit({ type: 'removeBoardLabel', labelId: label.id })
@@ -254,7 +254,7 @@ export const boardStore = {
         async removeBoardLabel(context, { label, activity }) {
             try {
                 context.commit({ type: 'removeBoardLabel', labelId: label.id })
-                const board = await boardService.save(context.state.board)
+                await boardService.save(context.state.board)
             }
             catch (err) {
                 context.commit({ type: 'updateBoardLabels', label })
@@ -265,16 +265,19 @@ export const boardStore = {
 
         async updateGroups(context, { groups }) {
             const prevGroups = context.state.board.groups
+            const prevBoard = context.state.board
             context.commit({ type: 'updateGroups', groups })
+            context.commit({ type: 'updateBoard', board: context.state.board })
+            context.commit({ type: 'setBoard', boardId: context.state.board._id })
             try {
-                const board = await boardService.save(context.state.board)
-                context.commit({ type: 'updateBoard', board })
-                context.commit({ type: 'setBoard', boardId: board._id })
+                await boardService.save(context.state.board)
                 return context.state.board.groups
             }
             catch (prevGroups) {
                 console.log('boardStore: Error in updateGroups')
                 context.commit({ type: 'updateGroups', groups: prevGroups })
+                context.commit({ type: 'updateBoard', board: prevBoard })
+                context.commit({ type: 'setBoard', boardId: prevBoard._id })
                 throw prevGroups
             }
         },
@@ -283,7 +286,7 @@ export const boardStore = {
             const prevBoard = JSON.parse(JSON.stringify(context.state.board))
             context.commit({ type: 'addMember', member })
             try {
-                const board = await boardService.save(context.state.board)
+                await boardService.save(context.state.board)
             }
             catch (err) {
                 console.log('fail in add member', err)
@@ -307,9 +310,11 @@ export const boardStore = {
         },
 
         async updateTasks(context, { payload }) {
-            const { tasks, groupId, addedIndex } = payload
+            const { tasks, groupId, addedIndex, type } = payload
             const prevBoard = JSON.parse(JSON.stringify(context.state.board))
 
+            const group = prevBoard.groups.find(group => groupId === group.id)
+            let prevTasks = group.tasks
 
             context.commit({ type: 'updateTasks', payload })
             // context.commit({ type: 'setBoard', boardId: context.state.board._id })
@@ -324,13 +329,11 @@ export const boardStore = {
                     },
                 }
                 context.commit(({ type: 'addActivity', activity }))
+
             }
-
-            const currBoard = JSON.parse(JSON.stringify(context.state.board))
-
-
             try {
-                await boardService.save(currBoard)
+
+                await boardService.save(context.state.board)
 
             }
             catch (err) {
@@ -338,10 +341,6 @@ export const boardStore = {
                 console.log(prevBoard)
                 context.commit({ type: 'updateBoard', board: prevBoard })
                 context.commit({ type: 'setBoard', boardId: prevBoard._id })
-
-                const group = prevBoard.groups.find(group => groupId === group.id)
-                let prevTasks = group.tasks
-
                 throw prevTasks
             }
         },
@@ -353,8 +352,7 @@ export const boardStore = {
             try {
                 context.commit({ type: 'updateBoard', board })
                 context.commit({ type: 'setBoard', boardId: board._id })
-                const newBoard = await boardService.save(context.state.board)
-                return newBoard
+                await boardService.save(context.state.board)
             } catch (err) {
                 context.commit({ type: 'updateBoard', board: prevBoard })
                 context.commit({ type: 'setBoard', boardId: prevBoard._id })
@@ -384,9 +382,9 @@ export const boardStore = {
 
 
             try {
-                const newBoard = await boardService.save(board)
-                context.commit({ type: 'updateBoard', board: newBoard })
-                context.commit({ type: 'setBoard', board: newBoard })
+                await boardService.save(board)
+                context.commit({ type: 'updateBoard', board: board })
+                context.commit({ type: 'setBoard', board: board })
                 return payload.task
             }
             catch (err) {

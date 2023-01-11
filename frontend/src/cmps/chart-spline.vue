@@ -39,11 +39,14 @@ export default {
                 data: []
             },
             {
-                name: 'Completed Tasks]',
+                name: 'Completed Tasks',
                 data: []
             }],
             chartOptions: {
                 chart: {
+                    toolbar: {
+                        show: true,
+                    },
                     foreColor: this.color,
                     height: 350,
                     type: 'area'

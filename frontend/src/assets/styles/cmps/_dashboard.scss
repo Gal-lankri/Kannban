@@ -42,13 +42,13 @@
     .info {
         grid-area: info;
         text-align: center;
-        border-radius: 3px;
+        border-radius: 1rem;
         padding: 0.5rem;
 
         article {
             background-color: rgba(#e27c7c, 0.8);
             padding: 0.5rem 1rem;
-            border-radius: 3px;
+            border-radius: 3rem;
             max-width: 200px;
         }
     }

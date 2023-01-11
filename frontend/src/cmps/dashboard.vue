@@ -91,11 +91,11 @@ export default {
     computed: {
         background() {
             if (!this.rgb) return
-            return this.rgb.isDark ? utilService.getBCG(this.rgb.value, -20, 0.8) : utilService.getBCG(this.rgb.value, +30, 0.8)
+            return utilService.getBCG(this.rgb.value, -200, 0.8)
         },
         textColor() {
             if (!this.rgb) return
-            return this.rgb.isDark ? 'white' : '#172b4d'
+            return 'white'
         },
         isDark() {
             if (!this.rgb) return false

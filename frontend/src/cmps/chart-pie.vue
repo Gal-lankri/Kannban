@@ -66,21 +66,15 @@ export default {
                 dataLabels: {
                     enabled: false
                 },
-                responsive: [{
-                    breakpoint: 960,
-                    options: {
-                        chart: {
-                            width: 250
-                        },
-                    }
-                }],
+
                 legend: {
                     position: 'bottom',
                 },
                 fill: {
                     opacity: 1,
                     type: 'solid',
-                }
+                },
+
             },
         }
     },

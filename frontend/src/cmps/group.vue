@@ -27,7 +27,7 @@
             ref="group" @drop="onDrop" @drag-start="onDragStart"
             :shouldAcceptDrop="(e, payload) => (e.groupName === 'group-tasks' && !payload.loading)"
             :get-child-payload="getChildPayload" drop-class="" :drop-class="dragClass">
-            <Draggable class="task-preview" v-for="task in group.tasks" :key="task.id">
+            <Draggable class="task-preview" v-for="task in editedTasks" :key="task.id">
                 <task-preview :task="task" :groupId="this.group.id" :boardId="boardId" />
             </Draggable>
             <form ref="form" class="add-card-form flex" v-if="isCardOpen" @submit.prevent="addTask">
@@ -95,7 +95,7 @@ export default {
 
     created() {
 
-        this.editedTasks = this.group.tasks
+        this.editedTasks = JSON.parse(JSON.stringify(this.group.tasks || []))
         this.dropDebounce = utilService.debounce(this.onDrop, 500)
 
 
@@ -103,6 +103,7 @@ export default {
 
     methods: {
         onDragStart(dragResult) {
+            console.log(`dragResult:`, dragResult)
             const { isSource, payload, willAcceptDropt } = dragResult
 
             if (!isSource) return
@@ -113,14 +114,19 @@ export default {
             const { removedIndex, addedIndex, payload, element } = dropResult
             if (removedIndex === null && addedIndex === null) return
 
-            this.editedTasks = JSON.parse(JSON.stringify(this.group.tasks || []))
-            this.editedTasks = this.applyDrag(this.editedTasks, dropResult)
+            const tasks = JSON.parse(JSON.stringify(this.group.tasks || []))
+            this.editedTasks = this.applyDrag(tasks, dropResult)
+
+
 
             try {
+
                 await this.$store.dispatch({
                     type: 'updateTasks',
-                    payload: { tasks: this.editedTasks, groupId: this.group.id, addedIndex }
+                    payload: { tasks: this.editedTasks, groupId: this.group.id, addedIndex, type: 'dnd' }
                 })
+
+
             }
             catch (prevTasks) {
                 showErrorMsg('Error in drag and drop')
@@ -133,7 +139,6 @@ export default {
         },
 
         applyDrag(tasks, { removedIndex, addedIndex, payload }) {
-            console.log(`payload:`, payload)
 
             if (removedIndex === null && addedIndex === null) return tasks
             if (payload === null) return
@@ -142,7 +147,6 @@ export default {
                 tasks.splice(removedIndex, 1)[0]
             }
             else if (addedIndex !== null) {
-                console.log({ ...payload.itemToMove })
                 tasks.splice(addedIndex, 0, { ...payload.itemToMove })
             }
             return tasks
@@ -153,6 +157,7 @@ export default {
         },
 
         getChildPayload(index) {
+            console.log(`index:`, index)
 
             return {
                 itemToMove: this.editedTasks[index]
@@ -172,20 +177,16 @@ export default {
             }
             const group = JSON.parse(JSON.stringify(this.group))
             group.title = this.newGroupTitle
-            // console.log(group)
             this.$emit('updateGroup', group, activity)
         },
         copyGroup() {
             this.$stor.dispatch({ type: 'addGroup', group: JSON.parse(JSON.stringify(this.group)) })
         },
         toggleCard() {
-            // console.log(this.isCardOpen)
             this.isCardOpen = !this.isCardOpen
-            // this.$refs.group.containerElement['smooth-dnd-container-instance'].element.scrollTop = this.$refs.group.containerElement['smooth-dnd-container-instance'].element.scrollHeight
-            // console.log(this.$refs.group.containerElement['smooth-dnd-container-instance'])
+
             if (this.isCardOpen) {
                 setTimeout(() => {
-                    // console.log(this.$refs.form)
                     this.$refs.form.scrollIntoView()
                 }, 100)
             }
@@ -240,6 +241,10 @@ export default {
             return this.$store.getters.loggedinUser
 
         },
+        board() {
+            return this.$store.getters.board
+
+        },
         dragClass() {
             return 'on-drag'
         },
@@ -272,31 +277,23 @@ export default {
                         return task.labelIds.some(labelId => filterBy.labelIds.includes(labelId))
                     })
                 }
-                // console.log(this.editedTasks)
             },
             deep: true
         },
         group: {
             handler: function (val, oldVal) {
+                setTimeout(() => {
+                    this.editedTasks = JSON.parse(JSON.stringify(this.group.tasks || []))
+                }, 600);
 
-                // this.editedTasks = this.group.tasks
             },
             deep: true
         },
         editedTask: {
             handler: function (val, oldVal) {
-
-                console.log('val', val.id)
-
                 this.editedTasks.forEach((task) => {
-                    console.log(task.id === val.id)
                     if (task.id === val.id) task = val
                 })
-
-
-                console.log(this.editedTasks)
-
-
             },
             deep: true
 

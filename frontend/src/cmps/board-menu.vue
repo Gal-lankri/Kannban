@@ -142,9 +142,6 @@ export default {
     emit: ['toggleBoardMenu'],
     props: ['menuIsHidden', 'activities'],
     components: {},
-    created() {
-        this.debounceHandler = utilService.debounce(this.getPhotos, 600)
-    },
     data() {
         return {
             isShowImg: 0,
@@ -156,6 +153,10 @@ export default {
             colors: ['#0079bf', '#d29034', '#519839', '#b04632', '#89609e', '#cd5a91', '#4bbf6b', '#00aecc', '#838c91'],
             clientId: 'wONkEH1Be08ksV3ijwHHpfu8tfvmD6SnhsRpvZBWVgg',
         }
+    },
+    created() {
+        this.debounceHandler = utilService.debounce(this.getPhotos, 600)
+
     },
     methods: {
         imgLoaded() {

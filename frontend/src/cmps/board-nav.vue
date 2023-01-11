@@ -52,6 +52,7 @@ export default {
     emits: ['showAddMembers', 'boards', 'changeActiveBoard'],
     components: { addBoardModal },
     created() {
+        if (this.windowWidth < 600) this.navIsHidden = true
 
     },
     data() {
@@ -117,7 +118,12 @@ export default {
         board() {
             return this.$store.getters.board
         },
+        windowWidth() {
+            return window.innerWidth
+        }
 
     },
+
+
 }
 </script>

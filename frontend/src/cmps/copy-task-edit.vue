@@ -49,16 +49,13 @@ export default {
         },
         copyTask() {
             delete this.task.id
-            //TODOOOOOOO
             this.$emit('copyTask', { task: this.task, toGroupId: this.toGroupId, toBoardId: this.toBoardId })
         },
         setBoard() {
             this.board = this.getBoards.find(b => b._id === this.toBoardId)
-            // console.log(this.board);
         },
         setGroup() {
             this.group = this.board.groups.find(g => g.id === this.toGroupId)
-            // console.log(this.group);
         }
     },
     computed: {

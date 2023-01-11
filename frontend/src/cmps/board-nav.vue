@@ -82,7 +82,6 @@ export default {
             return this.$router.push({ path: `/board/${id}` })
         },
         boardBGC(style) {
-            // console.log()
             if (style.bgColor) return { backgroundColor: style.bgColor }
             return { backgroundImage: `url(${style.backgroundImage})` }
         },
@@ -120,6 +119,5 @@ export default {
         },
 
     },
-
 }
 </script>

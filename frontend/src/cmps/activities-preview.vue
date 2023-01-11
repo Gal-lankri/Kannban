@@ -54,10 +54,7 @@ export default {
     computed: {
         activities() {
             const activities = this.$store.getters.activities
-            // console.log(activities);
-
             return activities.filter(activity => {
-                // console.log('****************', activity)
                 if (!activity.task) return
                 return activity.task.id === this.taskId
             }).reverse().splice(0, 5)

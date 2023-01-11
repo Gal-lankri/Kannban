@@ -209,12 +209,9 @@ export default {
         updateProgressBarStyle() {
             this.editedChecklists.forEach(checklist => {
                 const total = checklist.todos.length
-                // console.log(total)
                 const done = checklist.todos.filter(todo => todo.isDone === true).length
-                // console.log(done)
                 var progress = ((+done / +total) * 100).toFixed(0)
                 if (isNaN(progress)) progress = 0
-                // console.log(progress)
                 this.progress[checklist.id] = progress
                 if (+progress === 100) this.progressBarStyle[checklist.id] = { background: '#61bd4f', width: `${progress}%` }
                 else if (+progress > 0) this.progressBarStyle[checklist.id] = { background: '#5ba4cf', width: `${progress}%` }

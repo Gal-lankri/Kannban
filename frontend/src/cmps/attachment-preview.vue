@@ -65,18 +65,14 @@ export default {
     },
     methods: {
         updateCover(imgUrl) {
-            // console.log(imgUrl);
             this.$emit('updateCover', imgUrl)
         },
         toggleShowAll() {
             this.isShowAll = !this.isShowAll
-            // this
         },
         updateAttachment(newAttachment) {
             this.attachmentsCopy = this.attachmentsForDisplay
-            // console.log(newAttachment.id);
             const attachmentIdx = this.attachmentsCopy.findIndex(attachment => attachment.id === newAttachment.id)
-            // console.log(attachmentIdx);
             this.attachmentsCopy.splice(attachmentIdx, 1, newAttachment)
             this.$emit('updateAttachments', this.attachmentsCopy)
             this.attachmentEditedId = ''
@@ -91,7 +87,6 @@ export default {
             this.$emit('updateAttachments', this.attachmentsCopy)
         },
         goToLink(url) {
-            // console.log(url);
             window.open(url, '_blank');
         }
     },

@@ -59,8 +59,6 @@ export default {
         },
         getPhotos() {
             const key = "unsplashDB";
-
-            // if (!localStorage.getItem(key)) console.log(this.searchTxt);
             if (!this.searchTxt && localStorage.getItem(key)) {
                 this.imgUrls = JSON.parse(localStorage.getItem(key))
                 console.log('from cache');
@@ -70,8 +68,6 @@ export default {
                     }&orientation=landscape&per_page=1200&client_id=${this.clientId}`;
                 axios(apiUrl).then(({ data }) => {
                     this.imgUrls = data.results.map((res) => res.urls.full).slice(0, 4);
-
-                    // console.log(this.imgUrls);
                 });
             }
         },

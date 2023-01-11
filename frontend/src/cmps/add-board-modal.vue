@@ -64,10 +64,8 @@ export default {
         imgUploader,
     },
     created() {
-        this.debounceHandler = utilService.debounce(this.getPhotos, 600);
-        this.debounceHandler();
-
-        console.log(this.isImgReady)
+        this.debounceHandler = utilService.debounce(this.getPhotos, 600)
+        this.debounceHandler()
 
     },
     methods: {
@@ -81,7 +79,6 @@ export default {
         },
         getPhotos() {
             const key = "unsplashDB";
-
             if (!localStorage.getItem(key)) console.log(this.searchTxt);
             if (!this.searchTxt && localStorage.getItem(key)) {
                 this.imgUrls = JSON.parse(localStorage.getItem(key))

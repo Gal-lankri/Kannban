@@ -404,7 +404,6 @@ export const boardStore = {
 
         async addTask(context, { boardId, groupId, task, activity }) {
             const prevBoard = JSON.parse(JSON.stringify(context.state.boards.find(board => board._id === boardId)))
-            // console.log(prevBoard)
             // if (!board.groups[groupIdx].tasks) board.groups[groupIdx].tasks = []
             // board.groups[groupIdx].tasks.push(task)
             try {
@@ -414,7 +413,6 @@ export const boardStore = {
                 // console.log(updatedBoard)
                 return updatedBoard
             } catch (err) {
-                console.log(prevBoard)
                 context.commit({ type: 'updateBoard', board: prevBoard })
                 context.commit({ type: 'setBoard', boardId: prevBoard._id })
                 context.commit({ type: 'removeActivity' })

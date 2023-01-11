@@ -48,6 +48,7 @@ import { utilService } from '../services/util.service';
 import confirmModal from './confirm-modal.vue';
 export default {
     name: 'labels-edit',
+    emits: ['closeEdit', 'updateTask', 'removeLabel', 'updateLabel', 'updateBoardLabels', 'addChecklist', 'updateMembers', 'copyTask'],
     data() {
         return {
             // baseColors: ['#d6ecd2', '#faf3c0', '#fce6c6', '#f5d3ce', '#eddbf4', '#bcd9ea'],
@@ -83,13 +84,11 @@ export default {
                 lblIdx === -1 ? this.labelIds.push(labelId) : this.labelIds.splice(lblIdx, 1)
             }
             this.$emit('updateTask', { labelIds: [...this.labelIds] })
-            // console.log(this.labelIds);
         },
         editLabel(label) {
             this.isEditLabel = true
             this.editedLabel = label
-            // this.colorEdited = this.labels.find(l => l.color === color)
-            // this.$emit('updateLabels' , {color: this.baseColors[idx] , title:})
+
         },
         save() {
             this.$emit('updateLabel', this.colorEdited)
@@ -99,7 +98,6 @@ export default {
         },
         removeLabel() {
             this.$emit('removeLabel', { ...this.labelToRemove })
-            // console.log(this.labelToRemove);
             this.isEditLabel = false
             this.colorEdited = ''
             this.title = ''
@@ -116,7 +114,6 @@ export default {
         },
         openCreateLabel() {
             this.isOpenModal = true
-            // this.$emit('closeEditor')
         },
         createdLabel({ color, title, id }) {
             if (id)

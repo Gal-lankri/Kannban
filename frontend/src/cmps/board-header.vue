@@ -65,11 +65,13 @@ export default {
     },
     created() {
         this.debounceHandler = utilService.debounce(this.setBoardTitle, 1000)
+        this.btnClicked = this.$route.name
+        console.log(this.$route.name)
     },
 
     data() {
         return {
-            btnClicked: 'Board',
+            btnClicked: 'board',
             isAddMembers: false,
             isEditable: true,
             message: "hello"
@@ -140,8 +142,8 @@ export default {
                 {
                     txt: "Board",
                     icon: "trello-home board-icon",
-                    function: () => { this.btnClicked = 'Board'; this.$router.push(`/board/${this.$route.params.id}`) },
-                    isClicked: "Board",
+                    function: () => { this.btnClicked = 'board'; this.$router.push(`/board/${this.$route.params.id}`) },
+                    isClicked: "board",
 
                 },
                 // {
@@ -161,14 +163,14 @@ export default {
                 {
                     txt: "Dashboard",
                     icon: "trello-home dashboard-icon",
-                    function: () => { this.btnClicked = 'Dashboard'; this.$router.push(`/board/${this.$route.params.id}/dashboard`) },
-                    isClicked: "Dashboard",
+                    function: () => { this.btnClicked = 'dashboard'; this.$router.push(`/board/${this.$route.params.id}/dashboard`) },
+                    isClicked: "dashboard",
                 },
                 {
                     txt: "Map",
                     icon: "trello-home location-icon",
-                    function: () => { this.btnClicked = 'Map'; this.$router.push(`/board/${this.$route.params.id}/map`) },
-                    isClicked: "Map",
+                    function: () => { this.btnClicked = 'map'; this.$router.push(`/board/${this.$route.params.id}/map`) },
+                    isClicked: "map",
 
                 },
             ]

@@ -204,10 +204,6 @@ export default {
       this.signupCred.imgUrl = imgUrl
     }
   },
-  watch: {
-    getLoggedInUser() {
-      // console.log(this.getLoggedInUser)
-    }
-  },
+
 }
 </script>

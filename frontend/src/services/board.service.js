@@ -39,23 +39,18 @@ async function query(filterBy = { title: '' }, loggedinUser) {
 
 async function save(board) {
     board = JSON.parse(JSON.stringify(board))
-    // console.log('BOARD COPIED SUCCESSFULLY')
     try {
-        // console.log('SAVE service frontend')
-        var savedBoard
+        var newBoard
         if (board._id) {
-            // console.log(board._id)
-            savedBoard = await httpService.put(`${BOARD_URL}${board._id}`, board)
-            socketService.emit('board updated', savedBoard)
+            newBoard = await httpService.put(`${BOARD_URL}${board._id}`, board)
+            socketService.emit('board updated', newBoard)
         } else {
-            // Later, owner is set by the backend
             board.createdBy = userService.getLoggedinUser()
-            savedBoard = await httpService.post(BOARD_URL, board)
+            newBoard = await httpService.post(BOARD_URL, board)
+            return newBoard
         }
-        return savedBoard
     }
     catch (err) {
-        // const prevBoard = await getById(board._id)
         console.log(prevBoard);
         console.log(err);
         throw prevBoard

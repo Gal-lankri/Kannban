@@ -26,7 +26,7 @@ export default {
     mounted() {
         this.$nextTick(() => {
             this.series[0].data = this.data?.at(0)
-            this.chartOptions.xaxis.categories = this.data?.at(1)
+            this.series[1].data = this.data?.at(1)
             window.dispatchEvent(new Event('resize'));
         });
 
@@ -35,11 +35,18 @@ export default {
     data() {
         return {
             series: [{
-                name: 'series1',
+                name: 'Total Tasks',
+                data: []
+            },
+            {
+                name: 'Completed Tasks',
                 data: []
             }],
             chartOptions: {
                 chart: {
+                    toolbar: {
+                        show: true,
+                    },
                     foreColor: this.color,
                     height: 350,
                     type: 'area'
@@ -57,14 +64,14 @@ export default {
                 },
                 xaxis: {
                     type: 'category',
-                    categories: []
+                    categories: this.data?.at(2)
                 },
                 tooltip: {
                     x: {
                         format: 'dd/MM/yy HH:mm'
                     },
                 },
-                colors: ["#6dd5c5"],
+                colors: ["#ea5545", "#f46a9b", "#ef9b20", "#edbf33", "#ede15b", "#bdcf32", "#87bc45", "#27aeef", "#b33dc6"],
 
                 dataLabels: {
                     style: {

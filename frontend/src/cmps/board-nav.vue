@@ -119,9 +119,5 @@ export default {
         },
 
     },
-    watch: {
-        boards: function (newVal, oldVal) { 
-        }
-    }
 }
 </script>

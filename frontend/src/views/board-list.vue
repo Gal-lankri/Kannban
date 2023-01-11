@@ -5,12 +5,11 @@
       <section class="board-main">
         <section class="starred-boards">
           <div class="star-header-container">
-            <span class="trellicons star">
-            </span>
+            <span class="trellicons star"> </span>
             <h3>Starred boards</h3>
           </div>
           <ul class="starred-board-list flex row wrap gap">
-            <li v-for="board in boards.filter(b => b.isStarred)" :key="board._id">
+            <li v-for="board in boards.filter((b) => b.isStarred)" :key="board._id">
               <board-preview class="starred" :board="board" @click="goToBoard(board._id)"
                 @toggleStar="toggleStar(false, board)" />
             </li>
@@ -18,8 +17,7 @@
         </section>
         <section class="full-boards-list">
           <div class="boards-header-container">
-            <span class="trellicons icon-template-board">
-            </span>
+            <span class="trellicons icon-template-board"> </span>
             <h3>Your boards</h3>
           </div>
           <ul class="boards-container flex row wrap gap">
@@ -33,116 +31,116 @@
           </ul>
         </section>
       </section>
-      <add-board-modal v-if="isAddBoard" @addBoard="addBoard" v-click-outside="() => isAddBoard = false"
-        @closeEdit="(isAddBoard = false)" />
+      <add-board-modal v-if="isAddBoard" @addBoard="addBoard" v-click-outside="() => (isAddBoard = false)"
+        @closeEdit="isAddBoard = false" />
     </section>
   </section>
 </template>
 
 <script>
+import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service";
+import { boardService } from "../services/board.service.local";
 
-import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
-import { boardService } from '../services/board.service.local'
+import boardPreview from "../cmps/board-preview.vue";
+import addBoardModal from "../cmps/add-board-modal.vue";
+import appNav from "../cmps/app-nav.vue";
+import confirmModal from "../cmps/confirm-modal.vue";
 
-import boardPreview from '../cmps/board-preview.vue'
-import addBoardModal from '../cmps/add-board-modal.vue'
-import appNav from '../cmps/app-nav.vue'
-import confirmModal from '../cmps/confirm-modal.vue'
 export default {
-  data() {
-    return {
-      boardToAdd: boardService.getEmptyBoard(),
-      isAddBoard: false,
-    }
-  },
-  computed: {
-    loggedInUser() {
-      return this.$store.getters.loggedinUser
-    },
-    boards() {
-      return this.$store.getters.boards
-    }
-  },
   components: {
     boardPreview,
     appNav,
     addBoardModal,
-    confirmModal
+    confirmModal,
   },
+
+  data() {
+    return {
+      boardToAdd: boardService.getEmptyBoard(),
+      isAddBoard: false,
+    };
+  },
+
   async created() {
-    try {
-      await this.$store.dispatch({ type: 'loadBoards' })
-    } catch (err) {
-      console.log(err);
-    }
+    // try {
+    //   await this.$store.dispatch({ type: "loadBoards" });
+    // } catch (err) {
+    //   console.log(err);
+    // }
+  },
+  computed: {
+    loggedInUser() {
+      return this.$store.getters.loggedinUser;
+    },
+    boards() {
+      return this.$store.getters.boards;
+    },
   },
 
   methods: {
     updateUser() {
-      console.log('ADD NOTIFICATOIN');
+      console.log("ADD NOTIFICATOIN");
     },
     async addBoard({ bcg, title, members }) {
-      if (bcg.startsWith('#')) {
-        this.boardToAdd.style = { bgColor: bcg }
+      if (bcg.startsWith("#")) {
+        this.boardToAdd.style = { bgColor: bcg };
       } else {
-        this.boardToAdd.style = { backgroundImage: bcg }
+        this.boardToAdd.style = { backgroundImage: bcg };
       }
-      this.boardToAdd.title = title
-      this.boardToAdd.members = members
-      this.isAddBoard = false
+      this.boardToAdd.title = title;
+      this.boardToAdd.members = members;
+      this.isAddBoard = false;
       try {
-        await this.$store.dispatch({ type: 'addBoard', board: this.boardToAdd })
-        showSuccessMsg('Board added')
-        this.boardToAdd = boardService.getEmptyBoard()
+        await this.$store.dispatch({
+          type: "addBoard",
+          board: this.boardToAdd,
+        });
+        showSuccessMsg("Board added");
+        this.boardToAdd = boardService.getEmptyBoard();
       } catch (err) {
-        console.log(err)
-        showErrorMsg('Cannot add board')
+        console.log(err);
+        showErrorMsg("Cannot add board");
       }
     },
     async removeBoard(boardId) {
       try {
-        await this.$store.dispatch({ type: 'removeBoard', boardId })
-        showSuccessMsg('Board removed')
-
+        await this.$store.dispatch({ type: "removeBoard", boardId });
+        showSuccessMsg("Board removed");
       } catch (err) {
-        console.log(err)
-        showErrorMsg('Cannot remove board')
+        console.log(err);
+        showErrorMsg("Cannot remove board");
       }
     },
     async updateBoard(board) {
       try {
         // board = { ...board }
-        await this.$store.dispatch({ type: 'updateBoard', board })
+        await this.$store.dispatch({ type: "updateBoard", board });
         // showSuccessMsg('Board updated')
-
       } catch (err) {
-        console.log(err)
-        showErrorMsg('Cannot update board')
+        console.log(err);
+        showErrorMsg("Cannot update board");
       }
     },
     async addBoardMsg(boardId) {
       try {
-        await this.$store.dispatch(getActionAddBoardMsg(boardId))
-        showSuccessMsg('Board msg added')
+        await this.$store.dispatch(getActionAddBoardMsg(boardId));
+        showSuccessMsg("Board msg added");
       } catch (err) {
-        console.log(err)
-        showErrorMsg('Cannot add board msg')
+        console.log(err);
+        showErrorMsg("Cannot add board msg");
       }
     },
     printBoardToConsole(board) {
-      console.log('Board msgs:', board.msgs)
+      console.log("Board msgs:", board.msgs);
     },
     goToBoard(id) {
-      this.$router.push(`/board/${id}`)
+      this.$router.push(`/board/${id}`);
     },
     toggleStar(isStarred, board) {
-      const newBoard = JSON.parse(JSON.stringify(board))
-      newBoard.isStarred = isStarred
-      this.updateBoard(newBoard)
-    }
+      const newBoard = JSON.parse(JSON.stringify(board));
+      newBoard.isStarred = isStarred;
+      this.updateBoard(newBoard);
+    },
   },
-
-
-
-}
+};
 </script>

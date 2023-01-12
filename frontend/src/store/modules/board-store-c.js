@@ -5,7 +5,6 @@ import { store } from '../store'
 
 export const boardStore = {
     state: {
-        oldBoard: null,
         boards: null,
         board: null,
         editedTask: null,
@@ -24,7 +23,6 @@ export const boardStore = {
     getters: {
         boards({ boards }) { return boards },
         board({ board }) { return board },
-        oldBoard({ oldBoard }) { return oldBoard },
         getEditedTask({ editedTask }) { return editedTask },
         labels({ board }) { return board.labels },
         checklists({ editedTask }) { return editedTask.checklists },
@@ -65,10 +63,6 @@ export const boardStore = {
     },
 
     mutations: {
-        setOldBoard(state, { board }) {
-            console.log(board);
-            state.oldBoard = JSON.parse(JSON.stringify(board))
-        },
         setDragAndDropCounter(state) {
             state.dragAndDropCounter < 1 ? state.dragAndDropCounter++ : state.dragAndDropCounter = 0
         },
@@ -77,7 +71,6 @@ export const boardStore = {
         },
 
         setBoard(state, { boardId }) {
-
             const currBoard = state.boards.find(b => b._id === boardId)
             state.board = currBoard
             state.filterBy = {
@@ -105,6 +98,7 @@ export const boardStore = {
         },
 
         updateBoard(state, { board }) {
+            console.log('Hi from updateBoard',board)
             const idx = state.boards.findIndex(b => b._id === board._id)
             state.boards.splice(idx, 1, board)
         },
@@ -153,7 +147,6 @@ export const boardStore = {
         },
 
         removeActivity({ state }) {
-            console.log(state.board);
             state.board.activities.pop()
         },
 
@@ -318,6 +311,7 @@ export const boardStore = {
 
         async updateTasks(context, { payload }) {
             const { tasks, groupId, addedIndex, type } = payload
+            console.log('context.state.board',context.state.board)
             const prevBoard = JSON.parse(JSON.stringify(context.state.board))
 
             const group = prevBoard.groups.find(group => groupId === group.id)
@@ -336,9 +330,8 @@ export const boardStore = {
                     },
                 }
                 context.commit(({ type: 'addActivity', activity }))
+
             }
-
-
             try {
                 console.log('hi from try')
                 await boardService.save(context.state.board)
@@ -358,11 +351,12 @@ export const boardStore = {
         async updateBoard(context, { board }) {
             // if (board.createdBy._id !== context.rootGetters.loggedinUser._id) return console.log('You are not the creator')
             const prevBoard = context.state.board
+            // console.log('prevBoard', prevBoard)
 
             try {
                 context.commit({ type: 'updateBoard', board })
                 context.commit({ type: 'setBoard', boardId: board._id })
-
+   
                 await boardService.save(context.state.board)
             } catch (err) {
                 console()
@@ -418,6 +412,7 @@ export const boardStore = {
                 context.commit({ type: 'addTask', payload: { task, groupId } })
                 context.commit({ type: 'addActivity', activity })
                 const updatedBoard = await context.dispatch({ type: 'updateBoard', board: context.state.board })
+                // console.log(updatedBoard)
                 return updatedBoard
             } catch (err) {
                 context.commit({ type: 'updateBoard', board: prevBoard })
@@ -482,6 +477,7 @@ export const boardStore = {
 
         async removeTask(context, { payload }) {
             const prevBoard = context.state.boards.find(board => board._id === payload.activity.boardId)
+            // console.log(prevBoard)
             const newBoard = JSON.parse(JSON.stringify(prevBoard))
             const group = newBoard.groups.find(group => group.id === payload.activity.groupId)
             const taskIdx = group.tasks.findIndex(task => task.id === payload.taskId)

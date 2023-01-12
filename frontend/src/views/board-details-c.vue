@@ -54,7 +54,6 @@ export default {
 
     data() {
         return {
-            boardId: null,
             isBGCLoaded: false,
             isLoaderShown: true,
             menuIsHidden: true,
@@ -64,6 +63,7 @@ export default {
             },
             showFilter: false,
             isAddBoardMembers: false,
+            tasksToShow: [],
             filterBy: {},
             isDelete: false
         }
@@ -83,10 +83,9 @@ export default {
 
     created() {
         this.setBoardId()
-        this.$store.commit({type: 'setOldBoard', board: JSON.parse(JSON.stringify(this.board))})
-        // socketService.emit('new board enter', this.board._id)
-        // socketService.on('board pushed', this.pushedBoard)
-        // socketService.on('activity pushed', this.pushedActivity)
+        socketService.emit('new board enter', this.board._id)
+        socketService.on('board pushed', this.pushedBoard)
+        socketService.on('activity pushed', this.pushedActivity)
     },
 
     unmounted() {
@@ -122,7 +121,6 @@ export default {
 
                 }
                 this.$emit('setRGB', this.rgb)
-
 
             } catch (err) {
                 console.log(err)
@@ -259,15 +257,12 @@ export default {
 
     computed: {
         user() {
-
             return this.$store.getters.loggedinUser
         },
         board() {
-
             return this.$store.getters.board
         },
         boards() {
-
             return this.$store.getters.boards
         },
         boardBGC() {
@@ -288,7 +283,6 @@ export default {
             socketService.emit('New board enter', this.board._id)
         },
         style(to, from) {
-
             this.setBoardId()
         },
 

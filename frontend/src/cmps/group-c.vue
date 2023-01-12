@@ -86,17 +86,17 @@ export default {
             isMenuOpen: false,
             newGroupTitle: JSON.parse(JSON.stringify(this.group.title)),
             tasksCopy: [],
-            tasksToShow: this.group.tasks,
+            tasksToShow: [],
             dropCounter: 0,
             isRemoveClicked: false,
-            prevBoard: null,
-            draggingOn: false
+            prevBoard: null
         }
     },
 
     async created() {
         this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks))
         this.prevBoard = this.$store.getters.board
+        console.log(this.prevBoard);
         this.dropDebounce = utilService.debounce(this.onDrop, 500)
     },
 
@@ -113,27 +113,24 @@ export default {
                 })
             }
             catch ({ err, preTasks }) {
-                if (err?.response?.status === 401) {
-                    showErrorMsg('This is a demo board, the changes will not save')
-                } else {
-                    showErrorMsg('fail in move task')
-                    this.$store.commit({ type: 'updateBoard', board: this.oldBoard })
-                    this.$store.commit({ type: 'setBoard', boardId: this.oldBoard._id })
-                    this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks || []))
-
-                }
+                if (err.response.status === 401) showErrorMsg('You are not allowed to edit demo board')
+                else showErrorMsg('fail in move task')
+                this.$store.commit({ type: 'updateBoard', board: this.prevBoard })
+                this.$store.commit({ type: 'setBoard', boardId: this.prevBoard._id })
+                this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks || []))
             }
         },
         onDragStart(dragResult) {
+            console.log(this.$store.getters.board);
+            console.log('this.prevBoard', this.prevBoard)
             const { isSource, payload, willAcceptDropt } = dragResult
             if (!isSource) return
             this.prevBoard = JSON.parse(JSON.stringify(this.$store.getters.board))
         },
         applyDrag(arr, dragResult) {
-            let { removedIndex, addedIndex, payload } = dragResult
-            console.log(`dragResult:`, dragResult)
-            if (removedIndex === null && addedIndex === null) return arr
+            const { removedIndex, addedIndex, payload } = dragResult
 
+            if (removedIndex === null && addedIndex === null) return arr
             const result = [...arr]
             let itemToAdd = payload
             // if (payload === null) return
@@ -151,8 +148,9 @@ export default {
         getShouldAcceptDrop(index, sourceContainerOptions, payload) {
             return true
         },
-        
+
         getChildPayload(index) {
+            console.log('hi from getChild');
             this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks))
 
             return {
@@ -261,36 +259,19 @@ export default {
         },
         group: {
             handler: function (val, oldVal) {
-                // if (this.draggingOn) return
                 setTimeout(() => {
                     this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks))
                 }, 600)
-
-
-
-            },
-            deep: true
-        },
-        tasksToShow: {
-            handler: function (val, oldVal) {
-
-                // console.log(`tasksToShow:`, this.tasksToShow)
-
-
             },
             deep: true
         }
     },
 
     computed: {
-        oldBoard() {
-            return this.$store.getters.oldBoard
-        },
         user() {
             return this.$store.getters.loggedinUser
 
         },
-
         dragClass() {
             return 'on-drag'
         }

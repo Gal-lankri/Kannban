@@ -261,10 +261,6 @@ export default {
 
 
     },
-    watch: {
-        nextDueDate() {
-            // console.log(this.nextDueDate)
-        }
-    }
+
 }
 </script>

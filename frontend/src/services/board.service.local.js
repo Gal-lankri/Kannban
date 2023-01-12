@@ -5,7 +5,6 @@ import { userService } from './user.service.js'
 
 import boardsDB from '../../data/boards.json' assert {type: 'json'};
 const gBoards = JSON.parse(JSON.stringify(boardsDB));
-// console.log(gBoards);
 
 const STORAGE_KEY = 'board'
 
@@ -66,7 +65,6 @@ async function save(board) {
     if (board._id) {
         savedBoard = await storageService.put(STORAGE_KEY, board)
     } else {
-        // Later, owner is set by the backend
         board.createdBy = userService.getLoggedinUser()
         savedBoard = await storageService.post(STORAGE_KEY, board)
     }
@@ -74,7 +72,6 @@ async function save(board) {
 }
 
 async function saveTask(boardId, groupId, task, activity) {
-    // console.log(boardId, 'boardId');
     const board = await getById(boardId)
     // PUT /api/board/b123/task/t678
 

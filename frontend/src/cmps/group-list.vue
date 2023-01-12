@@ -85,7 +85,6 @@ export default {
 
             if (removedIndex === null && addedIndex === null) return arr;
             const result = [...arr];
-            // console.log(result);
             let itemToAdd = payload;
 
             if (removedIndex !== null) {
@@ -102,7 +101,6 @@ export default {
             return true;
         },
         getChildPayload(index) {
-            // console.log(index);
             return {
                 itemToMove: this.groupsCopy[index]
             }

@@ -118,7 +118,6 @@ export default {
       return { backgroundImage: `url(${imgUrl})` };
     },
     async loginWithGoogle(res) {
-      console.log(res);
       const userData = decodeCredential(res.credential)
       const googleUserCred = {
         email: userData.email,
@@ -152,7 +151,6 @@ export default {
       }
       try {
         const user = await this.$store.dispatch({ type: "login", userCred: this.loginCred })
-        console.log(user);
         if (user) {
           await this.$store.dispatch({ type: 'loadBoards' })
           this.$router.push('/board')
@@ -171,7 +169,6 @@ export default {
       }
       try {
         const newUser = await this.$store.dispatch({ type: "signup", userCred: this.signupCred })
-        console.log(newUser);
         if (newUser) {
           await this.$store.dispatch({ type: 'loadBoards' })
           this.$router.push('/board')

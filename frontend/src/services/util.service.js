@@ -57,7 +57,6 @@ function debounce(func, timeout = 300) {
 }
 
 function saveToStorage(key, value) {
-    // console.log('hi');
     localStorage.setItem(key, JSON.stringify(value))
 }
 

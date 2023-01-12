@@ -58,7 +58,6 @@ export default {
         },
         toggleMember(clickedMember) {
             this.getTaskMembersIds
-            // console.log('********************', clickedMember)
             var action
             const memberIdx = this.taskMembersIds.findIndex(id => {
                 return clickedMember._id === id

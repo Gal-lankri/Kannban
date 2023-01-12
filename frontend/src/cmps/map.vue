@@ -229,9 +229,7 @@ export default {
           }
         })
       });
-
       // return locations
-      console.log(locations)
     },
 
   },

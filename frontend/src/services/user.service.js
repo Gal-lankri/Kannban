@@ -26,23 +26,15 @@ window.userService = userService
 
 
 function getUsers() {
-    // return storageService.query('user')
     return httpService.get(`user`)
 }
 
 function onUserUpdate(user) {
-    // showSuccessMsg(`This user ${user.fullname} just got updated from socket, new score: ${user.score}`)
     store.dispatch({ type: 'setWatchedUser', user })
 }
 
 async function getById(userId) {
-    // const user = await storageService.get('user', userId)
     const user = await httpService.get(`user/${userId}`)
-
-    // socketService.emit(SOCKET_EMIT_USER_WATCH, userId)
-    // socketService.off(SOCKET_EVENT_USER_UPDATED, onUserUpdate)
-    // socketService.on(SOCKET_EVENT_USER_UPDATED, onUserUpdate)
-
     return user
 }
 function remove(userId) {
@@ -51,8 +43,6 @@ function remove(userId) {
 }
 
 async function update(user) {
-    // console.log(user);
-    // await storageService.put('user', user)
     user = await httpService.put(`user/${user._id}`, user)
     // Handle case in which admin updates other user's details
     if (getLoggedinUser()._id === user._id) saveLocalUser(user)
@@ -60,12 +50,7 @@ async function update(user) {
 }
 
 async function login(userCred) {
-    // console.log(userCred);
-    // const users = await storageService.query('user')
-    // const user = users.find(user => user.email === userCred.email)
-    // console.log(user, '.......................');
     const user = await httpService.post('auth/login', userCred)
-    // console.log(user);
     if (user) {
         socketService.login(user._id)
         return saveLocalUser(user)

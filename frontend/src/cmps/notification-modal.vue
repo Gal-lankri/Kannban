@@ -55,7 +55,6 @@ export default {
                 return utilService.getInitials(fullname)
         },
         getDueDateStr(timeStamp) {
-            // console.log(this.task.dueDate);
             return new Date(timeStamp).toDateString().slice(4, 10)
         },
         removeNotification(id) {

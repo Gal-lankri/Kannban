@@ -98,7 +98,6 @@ export const boardStore = {
         },
 
         updateBoard(state, { board }) {
-            console.log('Hi from updateBoard',board)
             const idx = state.boards.findIndex(b => b._id === board._id)
             state.boards.splice(idx, 1, board)
         },
@@ -311,7 +310,6 @@ export const boardStore = {
 
         async updateTasks(context, { payload }) {
             const { tasks, groupId, addedIndex, type } = payload
-            console.log('context.state.board',context.state.board)
             const prevBoard = JSON.parse(JSON.stringify(context.state.board))
 
             const group = prevBoard.groups.find(group => groupId === group.id)
@@ -333,11 +331,9 @@ export const boardStore = {
 
             }
             try {
-                console.log('hi from try')
                 await boardService.save(context.state.board)
             }
             catch (err) {
-                console.log(prevBoard);
                 console.log('boardStore: Error in updateTasks')
                 // context.commit({ type: 'setBoard', boardId: prevBoard._id })
                 // context.commit({ type: 'updateBoard', board: prevBoard })
@@ -351,15 +347,13 @@ export const boardStore = {
         async updateBoard(context, { board }) {
             // if (board.createdBy._id !== context.rootGetters.loggedinUser._id) return console.log('You are not the creator')
             const prevBoard = context.state.board
-            // console.log('prevBoard', prevBoard)
-
             try {
                 context.commit({ type: 'updateBoard', board })
                 context.commit({ type: 'setBoard', boardId: board._id })
    
                 await boardService.save(context.state.board)
             } catch (err) {
-                console()
+
                 context.commit({ type: 'updateBoard', board: prevBoard })
                 context.commit({ type: 'setBoard', boardId: prevBoard._id })
                 console.log('boardStore: Error in updateBoard', err)

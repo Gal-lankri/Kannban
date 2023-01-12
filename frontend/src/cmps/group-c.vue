@@ -96,7 +96,6 @@ export default {
     async created() {
         this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks))
         this.prevBoard = this.$store.getters.board
-        console.log(this.prevBoard);
         this.dropDebounce = utilService.debounce(this.onDrop, 500)
     },
 
@@ -106,7 +105,6 @@ export default {
             if (removedIndex === null && addedIndex === null) return
             this.tasksToShow = this.applyDrag(this.tasksToShow, dropResult)
             try {
-                console.log('Hi from group');
                 await this.$store.dispatch({
                     type: 'updateTasks',
                     payload: { tasks: this.tasksToShow, groupId: this.group.id, addedIndex }
@@ -121,8 +119,6 @@ export default {
             }
         },
         onDragStart(dragResult) {
-            console.log(this.$store.getters.board);
-            console.log('this.prevBoard', this.prevBoard)
             const { isSource, payload, willAcceptDropt } = dragResult
             if (!isSource) return
             this.prevBoard = JSON.parse(JSON.stringify(this.$store.getters.board))
@@ -150,7 +146,6 @@ export default {
         },
 
         getChildPayload(index) {
-            console.log('hi from getChild');
             this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks))
 
             return {

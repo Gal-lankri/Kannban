@@ -147,7 +147,6 @@ export default {
         labels() {
             const labels = this.$store.getters.labels
             labels.forEach(label => {
-                // console.log(label.color)
                 this.rgbaColors[label.id] = this.hexToRgbA(label.color)
             })
             return JSON.parse(JSON.stringify(labels))

@@ -22,23 +22,9 @@ const BOARD_URL = 'board/'
 
 async function query(filterBy = { title: '' }, loggedinUser) {
     return httpService.get(BOARD_URL, loggedinUser)
-    // if (!boards) {
-    //     boards = gBoards
-    //     storageService.save(STORAGE_KEY, boards)
-    // }
-
-    // if (filterBy.title) {
-    //     const regex = new RegExp(filterBy.title, 'i')
-    //     boards = boards.filter(board => regex.test(board.title))
-    // }
-    // if (filterBy.price) {
-    //     boards = boards.filter(board => board.price <= filterBy.price)
-    // // }
-    // return boards
 }
 
 async function save(board) {
-    // console.log(`board.groups:`, board.groups)
     board = JSON.parse(JSON.stringify(board))
     try {
         var newBoard
@@ -99,11 +85,7 @@ function getEmptyBoard(
 
 
 async function saveTask(boardId, groupId, task, activity) {
-    // console.log(boardId, 'boardId');
     const board = await getById(boardId)
-    // PUT /api/board/b123/task/t678
-
-    // TODO: find the task, and update
     if (!board.activities) board.activities = []
     board.activities.unshift(activity)
     const group = board.groups.find(g => g.id === groupId)

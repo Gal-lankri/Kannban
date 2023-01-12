@@ -106,7 +106,6 @@ export default {
             if (removedIndex === null && addedIndex === null) return
             this.tasksToShow = this.applyDrag(this.tasksToShow, dropResult)
             try {
-                console.log('Hi from group');
                 await this.$store.dispatch({
                     type: 'updateTasks',
                     payload: { tasks: this.tasksToShow, groupId: this.group.id, addedIndex }
@@ -131,7 +130,6 @@ export default {
         },
         applyDrag(arr, dragResult) {
             let { removedIndex, addedIndex, payload } = dragResult
-            console.log(`dragResult:`, dragResult)
             if (removedIndex === null && addedIndex === null) return arr
 
             const result = [...arr]
@@ -273,10 +271,6 @@ export default {
         },
         tasksToShow: {
             handler: function (val, oldVal) {
-
-                // console.log(`tasksToShow:`, this.tasksToShow)
-
-
             },
             deep: true
         }

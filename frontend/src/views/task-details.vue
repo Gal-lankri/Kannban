@@ -184,7 +184,6 @@ export default {
     async created() {
         this.debounceHandler = utilService.debounce(this.updateTask, 600)
         const { id, taskId, groupId } = this.$route.params
-        // console.log(taskId)
         try {
             // await this.$store.dispatch({ type: 'loadBoards' })
             this.$store.commit({ type: "setBoard", boardId: id })
@@ -256,7 +255,6 @@ export default {
                         },
                     },
                 })
-                // console.log('remove!')
                 this.closeDetails()
             } catch (err) {
                 if (err.response.status === 401) showErrorMsg ('This is a demo board, the changes will not save')
@@ -312,7 +310,6 @@ export default {
                     this.closeEditor()
                     break
                 case "members-edit":
-                    // console.log('update task', data)
                     taskToUpdate.memberIds = data.memberIds
                     txt = `${data.action} ${data.fullname} ${data.action === "added" ? "to" : "from"
                         } ${this.task.title}`
@@ -333,10 +330,8 @@ export default {
                         ? (txt = `Marked ${this.task.title} as complete`)
                         : (txt = `Unmarked ${this.task.title} as complete`)
                     taskToUpdate.isComplete = data
-                    // console.log(taskToUpdate)
                     break
                 case "cover-edit":
-                    // console.log(data)
                     txt = `Updated  ${this.task.title} cover`
                     if (data.startsWith("#")) {
                         taskToUpdate.style = {
@@ -473,7 +468,6 @@ export default {
             this.closeEditor()
         },
         async updateBoardLabels(label) {
-            // console.log(label)
             this.$store.dispatch({
                 type: "updateBoardLabels",
                 label,
@@ -488,9 +482,6 @@ export default {
         toggleMember() {
             const user = this.user
             const memberIds = JSON.parse(JSON.stringify(this.getTask.memberIds || []))
-            // console.log(user)
-            // console.log(memberIds)
-            // console.log("********************")
             var action
             const memberIdx = memberIds.findIndex((id) => {
                 return user._id === id

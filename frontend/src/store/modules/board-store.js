@@ -66,7 +66,6 @@ export const boardStore = {
 
     mutations: {
         setOldBoard(state, { board }) {
-            console.log(board);
             state.oldBoard = JSON.parse(JSON.stringify(board))
         },
         setDragAndDropCounter(state) {
@@ -340,11 +339,9 @@ export const boardStore = {
 
 
             try {
-                console.log('hi from try')
                 await boardService.save(context.state.board)
             }
             catch (err) {
-                console.log(prevBoard);
                 console.log('boardStore: Error in updateTasks')
                 // context.commit({ type: 'setBoard', boardId: prevBoard._id })
                 // context.commit({ type: 'updateBoard', board: prevBoard })
@@ -389,7 +386,6 @@ export const boardStore = {
             const prevTask = prevGroup.tasks.find(t => t.id === taskId)
             if (payload.activity) context.commit({ type: 'addActivity', activity: payload.activity })
             const board = context.state.board
-            console.log('board',board)
             try {
                 await boardService.save(board)
                 context.commit({ type: 'updateBoard', board: board })

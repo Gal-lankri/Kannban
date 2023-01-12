@@ -246,7 +246,6 @@ export default {
             this.$store.commit({ type: 'setFilterBy', filterBy: JSON.parse(JSON.stringify(filterBy)) })
         },
         toggleMember(memberId) {
-            console.log(memberId);
         },
         changeActiveBoard() {
             this.isBGCLoaded = false

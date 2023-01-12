@@ -37,7 +37,6 @@ export default {
         taskLabels() {
             const labels = this.$store.getters.taskLabels
             labels.forEach(label => {
-                // console.log(label.color)
                 this.rgbaColors[label.id] = this.hexToRgbA(label.color)
             })
             return labels

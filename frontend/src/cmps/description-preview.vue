@@ -32,7 +32,6 @@ export default {
     },
     methods: {
         descClosed() {
-            // console.log('outside********************')
             this.isDescOpen = false
         },
         updateDescription(event) {

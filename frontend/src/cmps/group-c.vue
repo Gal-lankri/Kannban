@@ -17,12 +17,6 @@
                     </button>
                 </section>
                 <div class="flex column">
-                    <button @click="removeGroup" class="remove btn">
-                        <span> Move list</span>
-                    </button>
-                    <button @click="copyGroup" class="remove btn">
-                        <span> Copy list</span>
-                    </button>
                     <button @click="toggleModal" class="remove btn">
                         <span> Remove list</span>
                     </button>
@@ -34,12 +28,12 @@
             ref="group" @drop="onDrop" @drag-start="onDragStart"
             :shouldAcceptDrop="(e, payload) => (e.groupName === 'group-tasks' && !payload.loading)"
             :get-child-payload="getChildPayload" drop-class="" :drop-class="dragClass">
-            <Draggable class="task-preview" v-for="task in group.tasks" :key="task.id">
+            <Draggable class="task-preview" v-for="task in tasksToShow" :key="task.id">
                 <task-preview :task="task" :groupId="this.group.id" :boardId="boardId" />
             </Draggable>
 
             <form ref="form" class="add-card-form flex" v-if="isCardOpen" @submit.prevent="addTask">
-                <textarea v-model="newTask.title" type="textarea" name="add-task" rows="4"
+                <textarea v-model="currTask.title" type="textarea" name="add-task" rows="4"
                     placeholder="Enter a title for this card..." v-focus @keyup.enter="addTask"></textarea>
                 <div class="add-list-btns flex">
                     <button class="add-list-btn">Add card</button>
@@ -65,7 +59,9 @@ import { utilService } from "../services/util.service.js"
 import { Container, Draggable } from "vue3-smooth-dnd"
 import copyTaskEdit from './copy-task-edit.vue'
 import confirmModal from './confirm-modal.vue'
+import { showErrorMsg } from '../services/event-bus.service'
 export default {
+    components: { taskPreview, Container, Draggable, copyTaskEdit, confirmModal },
     name: 'group',
     emits: ["addTask", "updateGroup", "removeGroup"],
     props: {
@@ -83,93 +79,79 @@ export default {
     data() {
         return {
             isCardOpen: false,
-            newTask: {
+            currTask: {
                 id: utilService.makeId(),
                 title: '',
             },
             isMenuOpen: false,
             newGroupTitle: JSON.parse(JSON.stringify(this.group.title)),
             tasksCopy: [],
-            tasksToShow: this.group.tasks,
+            tasksToShow: [],
             dropCounter: 0,
             isRemoveClicked: false,
-            prevBoard: null,
-            draggingOn: false
+            prevBoard: null
         }
     },
 
     async created() {
-
-        this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks || []))
+        this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks))
+        this.prevBoard = this.$store.getters.board
+        console.log(this.prevBoard);
         this.dropDebounce = utilService.debounce(this.onDrop, 500)
-
     },
 
     methods: {
         async onDrop(dropResult) {
             const { removedIndex, addedIndex, payload, element } = dropResult
             if (removedIndex === null && addedIndex === null) return
-
-            // this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks || []))
-            const tasksToShow = this.applyDrag(this.tasksToShow, dropResult)
-            if (tasksToShow.includes(null)) return
-            this.tasksToShow = tasksToShow
-
+            this.tasksToShow = this.applyDrag(this.tasksToShow, dropResult)
             try {
-
+                console.log('Hi from group');
                 await this.$store.dispatch({
                     type: 'updateTasks',
                     payload: { tasks: this.tasksToShow, groupId: this.group.id, addedIndex }
                 })
-                this.draggingOn = false
-
-                // this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks || []))
-
             }
-            catch (prevTasks) {
+            catch ({ err, preTasks }) {
+                if (err.response.status === 401) showErrorMsg('You are not allowed to edit demo board')
+                else showErrorMsg('fail in move task')
                 this.$store.commit({ type: 'updateBoard', board: this.prevBoard })
                 this.$store.commit({ type: 'setBoard', boardId: this.prevBoard._id })
                 this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks || []))
             }
         },
         onDragStart(dragResult) {
-            this.draggingOn = true
+            console.log(this.$store.getters.board);
+            console.log('this.prevBoard', this.prevBoard)
             const { isSource, payload, willAcceptDropt } = dragResult
             if (!isSource) return
             this.prevBoard = JSON.parse(JSON.stringify(this.$store.getters.board))
         },
         applyDrag(arr, dragResult) {
-            let { removedIndex, addedIndex, payload } = dragResult
-            console.log(`dragResult:`, dragResult)
-            if (removedIndex === null && addedIndex === null) return arr
-            if (removedIndex >= arr.length) {
-                removedIndex = arr.length - 1
+            const { removedIndex, addedIndex, payload } = dragResult
 
-            }
-            const result = JSON.parse(JSON.stringify(arr))
+            if (removedIndex === null && addedIndex === null) return arr
+            const result = [...arr]
             let itemToAdd = payload
-            if (payload === null) return
+            // if (payload === null) return
 
             if (removedIndex !== null) {
                 itemToAdd = result.splice(removedIndex, 1)[0]
-                console.log(`itemToAdd:`, itemToAdd)
-                if (itemToAdd === null) return
             }
             if (addedIndex !== null && removedIndex !== null) {
-
                 result.splice(addedIndex, 0, itemToAdd)
-
             }
             else if (addedIndex !== null) result.splice(addedIndex, 0, itemToAdd.itemToMove)
             return result
         },
+
         getShouldAcceptDrop(index, sourceContainerOptions, payload) {
             return true
         },
 
         getChildPayload(index) {
-            console.log(`index:`, index)
-            // this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks || []))
+            console.log('hi from getChild');
+            this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks))
 
             return {
                 itemToMove: this.tasksToShow[index]
@@ -208,31 +190,22 @@ export default {
             this.isRemoveClicked = !this.isRemoveClicked
         },
         addTask() {
-            // this.draggingOn = false
-            // console.log(`this:`, this)
-            // console.log(`this.newTask:`, this.newTask)
-            // console.log(`this.tasksToShow:`, this.tasksToShow)
-            // // this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks || []))
-            // this.tasksToShow.push(this.newTask)
-            // console.log(`this.tasksToShow:`, this.tasksToShow)
-            // // console.log(`this.group.tasks:`, this.group.tasks)
 
-
-            if (!this.newTask.title) return
+            if (!this.currTask.title) return
             const activity = {
                 id: '',
-                txt: `Added ${this.newTask.title} task to ${this.group.title}`,
+                txt: `Added ${this.currTask.title} task to ${this.group.title}`,
                 byMember: {
                     _id: this.user._id,
                     fullname: this.user.fullname,
                     imgUrl: this.user.imgUrl || '',
                 },
-                task: this.newTask
+                task: this.currTask
             }
 
 
-            this.$emit('addTask', this.group.id, { ...this.newTask }, JSON.parse(JSON.stringify(activity)))
-            this.newTask = {
+            this.$emit('addTask', this.group.id, { ...this.currTask }, JSON.parse(JSON.stringify(activity)))
+            this.currTask = {
                 id: utilService.makeId(),
                 title: '',
             }
@@ -247,7 +220,7 @@ export default {
                     fullname: this.user.fullname,
                     imgUrl: this.user.imgUrl || '',
                 },
-                task: this.newTask
+                task: this.currTask
             }
             this.$emit('removeGroup', this.group.id, JSON.parse(JSON.stringify(activity)))
         },
@@ -286,22 +259,9 @@ export default {
         },
         group: {
             handler: function (val, oldVal) {
-                // console.log(`this.draggingOn:`, this.draggingOn)
-                // if (this.draggingOn) return
-                console.log(`******************val:`, this.group.tasks)
-                this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks))
-                console.log(`this.tasksToShow:`, this.tasksToShow)
-
-
-            },
-            deep: true
-        },
-        tasksToShow: {
-            handler: function (val, oldVal) {
-
-                // console.log(`tasksToShow:`, this.tasksToShow)
-
-
+                setTimeout(() => {
+                    this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks))
+                }, 600)
             },
             deep: true
         }
@@ -312,11 +272,10 @@ export default {
             return this.$store.getters.loggedinUser
 
         },
-
         dragClass() {
             return 'on-drag'
         }
     },
-    components: { taskPreview, Container, Draggable, copyTaskEdit, confirmModal },
+
 }
 </script>

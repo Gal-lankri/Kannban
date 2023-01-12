@@ -54,7 +54,6 @@ export default {
 
     data() {
         return {
-            boardId: null,
             isBGCLoaded: false,
             isLoaderShown: true,
             menuIsHidden: true,
@@ -64,6 +63,7 @@ export default {
             },
             showFilter: false,
             isAddBoardMembers: false,
+            tasksToShow: [],
             filterBy: {},
             isDelete: false
         }
@@ -122,7 +122,6 @@ export default {
                 }
                 this.$emit('setRGB', this.rgb)
 
-
             } catch (err) {
                 console.log(err)
             }
@@ -133,7 +132,8 @@ export default {
                 this.$router.push('/board')
             }
             catch (err) {
-                showErrorMsg('Only board creator may change board attributes')
+                if (err.response.status === 401) showErrorMsg ('You are not allowed to edit demo board')
+                else showErrorMsg ('fail in remove board')
                 console.log('fail in remove board');
             }
         },
@@ -178,7 +178,8 @@ export default {
                 await this.$store.dispatch({ type: 'addGroup', board: board, group, activity })
             }
             catch (err) {
-                showErrorMsg('Only board creator may change board attributes')
+                if (err.response.status === 401) showErrorMsg ('You are not allowed to edit demo board')
+                else showErrorMsg ('fail in add new group')
                 console.log(err)
             }
         },
@@ -189,7 +190,8 @@ export default {
                 await this.$store.dispatch({ type: 'removeGroup', board: board, groupId, activity })
             }
             catch (err) {
-                showErrorMsg('Only board creator may change board attributes')
+                if (err.response.status === 401) showErrorMsg ('You are not allowed to edit demo board')
+                showErrorMsg ('fail in remove group')
                 console.log(err);
             }
         },
@@ -200,7 +202,8 @@ export default {
                 await this.$store.dispatch({ type: 'addTask', boardId, groupId, task, activity })
             }
             catch (err) {
-                showErrorMsg('Only board creator may change board attributes')
+                if (err.response.status === 401) showErrorMsg ('You are not allowed to edit demo board')
+                else showErrorMsg ('fail in add new task')
                 console.log(err);
             }
         },
@@ -209,8 +212,9 @@ export default {
             try {
                 await this.$store.dispatch({ type: 'addMember', member })
             } catch (err) {
-                console.log(err)
-                showErrorMsg('Only board creator may change board attributes')
+                console.log(err.response.status)
+                if (err.response.status === 401) showErrorMsg ('You are not allowed to edit demo board')
+                else showErrorMsg ('fail in add member')
             }
         },
 
@@ -253,15 +257,12 @@ export default {
 
     computed: {
         user() {
-
             return this.$store.getters.loggedinUser
         },
         board() {
-
             return this.$store.getters.board
         },
         boards() {
-
             return this.$store.getters.boards
         },
         boardBGC() {
@@ -282,7 +283,6 @@ export default {
             socketService.emit('New board enter', this.board._id)
         },
         style(to, from) {
-
             this.setBoardId()
         },
 

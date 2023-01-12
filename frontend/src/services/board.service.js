@@ -38,6 +38,7 @@ async function query(filterBy = { title: '' }, loggedinUser) {
 }
 
 async function save(board) {
+    // console.log(`board.groups:`, board.groups)
     board = JSON.parse(JSON.stringify(board))
     try {
         var newBoard
@@ -47,8 +48,8 @@ async function save(board) {
         } else {
             board.createdBy = userService.getLoggedinUser()
             newBoard = await httpService.post(BOARD_URL, board)
-            return newBoard
         }
+        return newBoard
     }
     catch (err) {
         console.log(prevBoard);

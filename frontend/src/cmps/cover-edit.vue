@@ -61,7 +61,6 @@ export default {
             const key = "unsplashDB";
             if (!this.searchTxt && localStorage.getItem(key)) {
                 this.imgUrls = JSON.parse(localStorage.getItem(key))
-                console.log('from cache');
             }
             else {
                 let apiUrl = `https://api.unsplash.com/search/photos?query=${this.searchTxt ? this.searchTxt : "landscape"

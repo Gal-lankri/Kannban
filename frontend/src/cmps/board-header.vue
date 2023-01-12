@@ -66,7 +66,6 @@ export default {
     created() {
         this.debounceHandler = utilService.debounce(this.setBoardTitle, 1000)
         this.btnClicked = this.$route.name
-        console.log(this.$route.name)
     },
 
     data() {
@@ -89,9 +88,6 @@ export default {
             this.$emit("toggleBoardMenu");
         },
         setBoardTitle() {
-            console.log(this.$refs.title)
-            // if (this.board.title.length > 15) this.board.title = this.board.title.slice(0, 15) + '...'
-
             this.$store.dispatch({ type: "updateBoard", board: this.board });
         },
         setBoardStar() {

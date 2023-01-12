@@ -83,9 +83,10 @@ export default {
 
     created() {
         this.setBoardId()
-        socketService.emit('new board enter', this.board._id)
-        socketService.on('board pushed', this.pushedBoard)
-        socketService.on('activity pushed', this.pushedActivity)
+        this.$store.commit({type: 'setOldBoard', board: JSON.parse(JSON.stringify(this.board))})
+        // socketService.emit('new board enter', this.board._id)
+        // socketService.on('board pushed', this.pushedBoard)
+        // socketService.on('activity pushed', this.pushedActivity)
     },
 
     unmounted() {
@@ -132,7 +133,8 @@ export default {
                 this.$router.push('/board')
             }
             catch (err) {
-                showErrorMsg('Only board creator may change board attributes')
+                if (err.response.status === 401) showErrorMsg ('You are not allowed to edit demo board')
+                else showErrorMsg ('fail in remove board')
                 console.log('fail in remove board');
             }
         },
@@ -177,7 +179,8 @@ export default {
                 await this.$store.dispatch({ type: 'addGroup', board: board, group, activity })
             }
             catch (err) {
-                showErrorMsg('Only board creator may change board attributes')
+                if (err.response.status === 401) showErrorMsg ('You are not allowed to edit demo board')
+                else showErrorMsg ('fail in add new group')
                 console.log(err)
             }
         },
@@ -188,7 +191,8 @@ export default {
                 await this.$store.dispatch({ type: 'removeGroup', board: board, groupId, activity })
             }
             catch (err) {
-                showErrorMsg('Only board creator may change board attributes')
+                if (err.response.status === 401) showErrorMsg ('You are not allowed to edit demo board')
+                showErrorMsg ('fail in remove group')
                 console.log(err);
             }
         },
@@ -199,7 +203,8 @@ export default {
                 await this.$store.dispatch({ type: 'addTask', boardId, groupId, task, activity })
             }
             catch (err) {
-                showErrorMsg('Only board creator may change board attributes')
+                if (err.response.status === 401) showErrorMsg ('You are not allowed to edit demo board')
+                else showErrorMsg ('fail in add new task')
                 console.log(err);
             }
         },
@@ -208,8 +213,9 @@ export default {
             try {
                 await this.$store.dispatch({ type: 'addMember', member })
             } catch (err) {
-                console.log(err)
-                showErrorMsg('Only board creator may change board attributes')
+                console.log(err.response.status)
+                if (err.response.status === 401) showErrorMsg ('You are not allowed to edit demo board')
+                else showErrorMsg ('fail in add member')
             }
         },
 

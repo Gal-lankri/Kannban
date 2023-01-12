@@ -51,19 +51,6 @@
                     <span>{{ taskDoneTodos }}/{{ taskTodosLength }}</span>
                 </div>
             </div>
-            <!-- <section v-if="dueDateStr" class="dates-preview">
-                <h4>Due date</h4>
-                <div class="flex row">
-                    
-                    <button class="btn-date">{{ dueDateStr }}
-
-                        <span v-if="isComplete" class="time-tag" :style="{ backgroundColor: '#61bd4f' }">complete</span>
-                        <span v-else-if="dueDateMs < Date.now()" class="time-tag"
-                            :style="{ backgroundColor: '#ec9488' }">overdue</span>
-
-                    </button>
-                </div>
-            </section> -->
             <div class="flex row shrink justify-between grow">
                 <div class=""></div>
                 <members-preview v-if="task.memberIds" :memberIds="task.memberIds" :isTaskDetails="false"
@@ -197,7 +184,6 @@ export default {
         },
 
         taskTodosLength() {
-            // console.log(this.taskTodos.length);
             return this.taskTodos.length
         },
 

@@ -21,7 +21,6 @@ export default {
     this.sr = new recognition
     this.sr.continuous = true
     this.sr.interimResults = true
-    // console.log(sr);
     this.sr.onstart = () => {
       console.log('VR STARTED');
       this.isRecording = true

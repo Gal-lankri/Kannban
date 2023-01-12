@@ -70,8 +70,6 @@ export default {
     },
     methods: {
         imgLoaded(idx) {
-            console.log(`this.isImgReady:`, this.isImgReady)
-
             this.isImgReady[idx] = true
         },
         print() {

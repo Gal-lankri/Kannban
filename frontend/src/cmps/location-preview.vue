@@ -47,7 +47,6 @@ export default {
     },
     created() {
         this.center = this.location.cords
-        // console.log(this.center, this.location, '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
         const marker = {
             title: this.location.name || 'no name',
             label: '',
@@ -55,7 +54,6 @@ export default {
 
         }
         this.markers.push(marker)
-        // console.log(this.location)
     },
     methods: {
         remove() {

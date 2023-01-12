@@ -117,12 +117,7 @@ export default {
         }
     },
     created() {
-        // console.log(this.loggedinUser);
         this.filterBy = JSON.parse(JSON.stringify(this.$store.getters.getFilterBy))
-        // if (this.filterBy.membersIds && this.filterBy.length > 0) {
-        //     this.isShowMembers = true
-        // }
-        // console.log(this.filterBy);
     },
     methods: {
         searchByVoice(transcript) {
@@ -131,13 +126,9 @@ export default {
         },
         doFilter(ev) {
             ev.preventDefault();
-
-            // console.log(this.filterBy);
             this.$emit('doFilter', this.filterBy)
         },
         toggleIsNoMembers() {
-            // this.filterBy.isNoMembers = !this.filterBy.isNoMembers
-            // console.log(this.filterBy.isNoMembers)
             this.$emit('doFilter', this.filterBy)
         },
         toggleIsAssignToMe() {
@@ -147,7 +138,6 @@ export default {
             this.$emit('closeFilter')
         },
         filterByMember(id) {
-            // console.log(this.filterBy.membersIds);
             this.$emit('doFilter', this.filterBy)
             // const memberIdx = this.membersIds.findIndex(memberId => memberId === id)
             // memberIdx === -1 ? this.membersIds.push(id) : this.membersIds.splice(memberIdx, 1)
@@ -162,7 +152,6 @@ export default {
             return { backgroundImage: `url(${imgUrl})` };
         },
         hexToRgbA(hex) {
-            // console.log(hex)
             var c;
             c = hex.substring(1).split('');
             if (c.length == 3) {
@@ -179,7 +168,6 @@ export default {
         labels() {
             const labels = this.$store.getters.labels
             labels.forEach(label => {
-                // console.log(label.color)
                 this.rgbaColors[label.id] = this.hexToRgbA(label.color)
             })
             return JSON.parse(JSON.stringify(labels))

@@ -4,11 +4,11 @@ const userService = require('../user/user.service')
 const logger = require('../../services/logger.service')
 const cryptr = new Cryptr(process.env.SECRET1 || 'Secret-Puk-1234')
 
-async function login(email, password , isGoogleUser , imgUrl , fullname) {
+async function login(email, password, isGoogleUser, imgUrl, fullname) {
     logger.debug(`auth.service - login with email: ${email}`)
 
     let user = await userService.getByUsername(email)
-    if(isGoogleUser && !user) {
+    if (isGoogleUser && !user) {
         user = {
             email,
             imgUrl,
@@ -27,12 +27,7 @@ async function login(email, password , isGoogleUser , imgUrl , fullname) {
     return user
 }
 
-// (async ()=>{
-//     await signup('bubu', '123', 'Bubu Bi')
-//     await signup('mumu', '123', 'Mumu Maha')
-// })()
-
-async function signup({email, password, fullname, imgUrl}) {
+async function signup({ email, password, fullname, imgUrl }) {
     const saltRounds = 10
 
     logger.debug(`auth.service - signup with email: ${email}, fullname: ${fullname}`)

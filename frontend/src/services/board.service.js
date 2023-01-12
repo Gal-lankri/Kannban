@@ -51,9 +51,7 @@ async function save(board) {
         }
     }
     catch (err) {
-        console.log(prevBoard);
-        console.log(err);
-        throw prevBoard
+        throw err
     }
 }
 async function getById(boardId) {

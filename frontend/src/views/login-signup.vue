@@ -39,7 +39,7 @@
           <div class="login-container">
             <input type="text" placeholder="Enter email" v-model="loginCred.email"
               @keyup.enter="($event) => $event.target.blur()">
-            <input type="text" placeholder="Enter password" v-model="loginCred.password"
+            <input type="password" placeholder="Enter password" v-model="loginCred.password"
               @keyup.enter="($event) => $event.target.blur()">
             <button class="btn login-btn">Log in</button>
           </div>
@@ -53,7 +53,7 @@
               @keyup.enter="($event) => $event.target.blur()">
             <input type="text" placeholder="Enter email" v-model="signupCred.email"
               @keyup.enter="($event) => $event.target.blur()">
-            <input type="text" placeholder="Enter password" v-model="signupCred.password"
+            <input type="password" placeholder="Enter password" v-model="signupCred.password"
               @keyup.enter="($event) => $event.target.blur()">
             <!-- <img-uploader @uploaded="onUploaded"></img-uploader> -->
             <button class="btn login-btn">Sign up</button>
@@ -176,7 +176,7 @@ export default {
           await this.$store.dispatch({ type: 'loadBoards' })
           this.$router.push('/board')
         }
-      } catch (error) {
+      } catch (err) {
         console.log(err)
         this.msg = 'Failed to login'
       }

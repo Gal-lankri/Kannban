@@ -67,12 +67,10 @@ export default {
     },
     created() {
         this.groupsCopy = JSON.parse(JSON.stringify(this.groups))
-        // console.log(this.filterBy);
     },
 
     methods: {
         async onDropGroup(dropResult) {
-            // console.log('ON DRAG groupList')
             try {
                 this.groupsCopy = JSON.parse(JSON.stringify(this.groups))
                 this.groupsCopy = this.applyDragGroup(this.groupsCopy, dropResult);
@@ -94,11 +92,8 @@ export default {
                 itemToAdd = result.splice(removedIndex, 1)[0];
             }
             if (addedIndex !== null && removedIndex !== null) {
-                // console.log(itemToAdd);
-                // console.log(itemToAdd.itemToMove);
                 result.splice(addedIndex, 0, itemToAdd);
                 // result.splice(addedIndex, 0, itemToAdd.itemToMove);
-                // console.log(this.groupsCopy);
             }
             else if (addedIndex !== null) result.splice(addedIndex, 0, itemToAdd.itemToMove);
             return result;
@@ -135,9 +130,6 @@ export default {
             this.group.tasks = []
         },
         updateGroup(group, activity) {
-            // console.log('fhgfhghgfgf');
-            // console.log(group);
-            // console.log(activity);
             this.$store.dispatch({ type: 'updateGroup', group, activity })
         },
         addTask(groupId, task, activity) {

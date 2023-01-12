@@ -39,11 +39,8 @@ export default {
     props: [],
     components: {},
     created() {
-
         this.boardMembers = this.$store.getters.members
         this.debounceHandler = utilService.debounce(this.getBoardMembers, 500)
-
-        // console.log(this.boardMembers)
     },
     data() {
         return {
@@ -80,13 +77,9 @@ export default {
             return this.taskMembersIds.includes(memberId)
         },
         getBoardMembers() {
-            // console.log('members')
             const boardMembers = JSON.parse(JSON.stringify(this.$store.getters.members))
-
             const regex = new RegExp(this.filterByName, 'i');
-
             this.boardMembers = boardMembers.filter(member => regex.test(member.fullname))
-
         },
         closeEdit() {
             this.$emit('closeEdit')

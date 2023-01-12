@@ -64,7 +64,6 @@ export default {
         }
     },
     created() {
-        // console.log('labels edit')
         this.colorsSelected = this.labels.map(label => label.color)
         if (this.$store.getters.getEditedTask?.labelIds)
             this.labelIds = [...this.$store.getters.getEditedTask.labelIds]
@@ -133,10 +132,8 @@ export default {
             this.isEditLabel = false
             this.editedLabel = null
             this.updateLabels(label.id)
-            // console.log(label);
         },
         hexToRgbA(hex) {
-            // console.log(hex)
             var c;
             c = hex.substring(1).split('');
             if (c.length == 3) {

@@ -26,9 +26,7 @@ export default {
     props: ['memberIds', 'isTaskDetails'],
     components: {},
     created() {
-        // console.log(this.memberIds, '***************')
         this.boardMembers = this.$store.getters.members
-
     },
     data() {
         return {

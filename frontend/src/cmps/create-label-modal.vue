@@ -43,7 +43,6 @@ export default {
         }
     },
     created() {
-        // console.log(this.label);
         if (this.label) {
             this.pickedColor = this.label.color
             this.title = this.label.title

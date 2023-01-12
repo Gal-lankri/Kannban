@@ -378,8 +378,6 @@ export default {
                     payload: { task: taskToUpdate, groupId: this.groupId },
                 })
                 this.task = JSON.parse(JSON.stringify(this.getTask))
-                console.log(this.task)
-
                 let updatedTask = await this.$store.dispatch({
                     type: "updateTask",
                     payload: {
@@ -404,14 +402,17 @@ export default {
                     },
                 })
             } catch (err) {
-                showErrorMsg('Only board creator may change board attributes')
+                console.log(err);
+                console.log('err from task-details', err);
+                if (err.response.status === 401) showErrorMsg ('You are not allowed to edit demo board')
+                else showErrorMsg ('fail in update task')
                 this.$store.commit({
                     type: "updateTask",
                     payload: { task: prevTask, groupId: this.groupId },
                 })
+                
                 this.task = JSON.parse(JSON.stringify(this.getTask))
                 console.log("Failed in task update")
-                // this.task = prevTask
             }
         },
         closeDetails() {

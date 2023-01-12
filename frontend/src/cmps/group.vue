@@ -17,12 +17,6 @@
                     </button>
                 </section>
                 <div class="flex column">
-                    <button @click="removeGroup" class="remove btn">
-                        <span> Move list</span>
-                    </button>
-                    <button @click="copyGroup" class="remove btn">
-                        <span> Copy list</span>
-                    </button>
                     <button @click="toggleModal" class="remove btn">
                         <span> Remove list</span>
                     </button>
@@ -65,7 +59,9 @@ import { utilService } from "../services/util.service.js"
 import { Container, Draggable } from "vue3-smooth-dnd"
 import copyTaskEdit from './copy-task-edit.vue'
 import confirmModal from './confirm-modal.vue'
+import { showErrorMsg } from '../services/event-bus.service'
 export default {
+    components: { taskPreview, Container, Draggable, copyTaskEdit, confirmModal },
     name: 'group',
     emits: ["addTask", "updateGroup", "removeGroup"],
     props: {
@@ -98,30 +94,33 @@ export default {
     },
 
     async created() {
-
         this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks))
+        this.prevBoard = this.$store.getters.board
         this.dropDebounce = utilService.debounce(this.onDrop, 500)
-
     },
 
     methods: {
         async onDrop(dropResult) {
             const { removedIndex, addedIndex, payload, element } = dropResult
             if (removedIndex === null && addedIndex === null) return
-
             this.tasksToShow = this.applyDrag(this.tasksToShow, dropResult)
-
             try {
+                console.log('Hi from group');
                 await this.$store.dispatch({
                     type: 'updateTasks',
                     payload: { tasks: this.tasksToShow, groupId: this.group.id, addedIndex }
                 })
-
             }
-            catch (prevTasks) {
-                this.$store.commit({ type: 'updateBoard', board: this.prevBoard })
-                this.$store.commit({ type: 'setBoard', boardId: this.prevBoard._id })
-                this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks || []))
+            catch ({ err, preTasks }) {
+                if (err?.response?.status === 401) {
+                    showErrorMsg('This is a demo board, the changes will not save')
+                } else {
+                    showErrorMsg('fail in move task')
+                    this.$store.commit({ type: 'updateBoard', board: this.oldBoard })
+                    this.$store.commit({ type: 'setBoard', boardId: this.oldBoard._id })
+                    this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks || []))
+
+                }
             }
         },
         onDragStart(dragResult) {
@@ -135,23 +134,22 @@ export default {
             if (removedIndex === null && addedIndex === null) return arr
             const result = [...arr]
             let itemToAdd = payload
-            if (payload === null) return
+            // if (payload === null) return
 
             if (removedIndex !== null) {
                 itemToAdd = result.splice(removedIndex, 1)[0]
             }
             if (addedIndex !== null && removedIndex !== null) {
-
                 result.splice(addedIndex, 0, itemToAdd)
-
             }
             else if (addedIndex !== null) result.splice(addedIndex, 0, itemToAdd.itemToMove)
             return result
         },
+
         getShouldAcceptDrop(index, sourceContainerOptions, payload) {
             return true
         },
-
+        
         getChildPayload(index) {
             this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks))
 
@@ -270,6 +268,9 @@ export default {
     },
 
     computed: {
+        oldBoard() {
+            return this.$store.getters.oldBoard
+        },
         user() {
             return this.$store.getters.loggedinUser
 
@@ -278,6 +279,6 @@ export default {
             return 'on-drag'
         }
     },
-    components: { taskPreview, Container, Draggable, copyTaskEdit, confirmModal },
+
 }
 </script>

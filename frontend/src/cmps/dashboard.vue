@@ -61,19 +61,6 @@ export default {
     name: '',
     props: ['rgb'],
     components: { chartSpline, chartPie, chartTreemap },
-    created() {
-    },
-    mounted() {
-        // console.log(`dashboard:`)
-        // console.log(this.users)
-        // console.log(this.boardMemberIds)
-        // console.log(this.taskMemberIds)
-        // console.log(this.availableMembersIds)
-        // console.log('task amount', this.tasksTotal)
-        // console.log('labels map', this.labelsChartData)
-        // console.log(this.nextDueDate)
-        // console.log(this.locations)
-    },
     data() {
         return {
             tasksNoDueDate: 0,

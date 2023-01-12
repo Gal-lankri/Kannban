@@ -24,7 +24,6 @@ export default {
     },
     methods: {
         hexToRgbA(hex) {
-            // console.log(hex)
             var c;
             c = hex.substring(1).split('');
             if (c.length == 3) {

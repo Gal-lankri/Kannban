@@ -25,7 +25,7 @@ import { userService } from './services/user.service'
 export default {
   async created() {
     let user = userService.getLoggedinUser()
-    if (!user) user = await this.$store.dispatch({ type: "login", userCred: { email: 'dima-demo@mystartup.org', password: '123', imgUrl: 'https://res.cloudinary.com/dnznyz6om/image/upload/v1670495585/htkfdnkkhbrxd3nddln7.webp' } })
+    if (!user) user = await this.$store.dispatch({ type: "login", userCred: {fullname: 'Dima Demo', email: 'dima-demo@mystartup.org', password: '123', imgUrl: 'https://res.cloudinary.com/dnznyz6om/image/upload/v1670495585/htkfdnkkhbrxd3nddln7.webp' } })
     store.commit({ type: 'setLoggedinUser', user })
 
     try {

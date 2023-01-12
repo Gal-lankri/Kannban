@@ -2,7 +2,6 @@
     <div class="screen"></div>
 
     <section v-if="task" class="task-details" v-click-outside="closeDetails">
-        <user-msg></user-msg>
         <section class="task-cover">
             <button class="close-task" @click="closeDetails">
                 <span class="trellicons x-icon"></span>
@@ -260,7 +259,8 @@ export default {
                 // console.log('remove!')
                 this.closeDetails()
             } catch (err) {
-                console.log("Failed in task remove", err)
+                if (err.response.status === 401) showErrorMsg ('This is a demo board, the changes will not save')
+                else console.log("Failed in task remove", err)
             }
         },
         async copyTask(data) {
@@ -404,7 +404,7 @@ export default {
             } catch (err) {
                 console.log(err);
                 console.log('err from task-details', err);
-                if (err.response.status === 401) showErrorMsg ('You are not allowed to edit demo board')
+                if (err.response.status === 401) showErrorMsg ('This is a demo board, the changes will not save')
                 else showErrorMsg ('fail in update task')
                 this.$store.commit({
                     type: "updateTask",

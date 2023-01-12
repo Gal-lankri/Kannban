@@ -113,7 +113,7 @@ export default {
                 })
             }
             catch ({ err, preTasks }) {
-                if (err.response.status === 401) showErrorMsg('You are not allowed to edit demo board')
+                if (err.response.status === 401) showErrorMsg('This is a demo board, the changes will not save')
                 else showErrorMsg('fail in move task')
                 this.$store.commit({ type: 'updateBoard', board: this.prevBoard })
                 this.$store.commit({ type: 'setBoard', boardId: this.prevBoard._id })

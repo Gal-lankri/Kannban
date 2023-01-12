@@ -132,7 +132,7 @@ export default {
                 this.$router.push('/board')
             }
             catch (err) {
-                if (err.response.status === 401) showErrorMsg ('You are not allowed to edit demo board')
+                if (err.response.status === 401) showErrorMsg ('This is a demo board, the changes will not save')
                 else showErrorMsg ('fail in remove board')
                 console.log('fail in remove board');
             }
@@ -178,7 +178,7 @@ export default {
                 await this.$store.dispatch({ type: 'addGroup', board: board, group, activity })
             }
             catch (err) {
-                if (err.response.status === 401) showErrorMsg ('You are not allowed to edit demo board')
+                if (err.response.status === 401) showErrorMsg ('This is a demo board, the changes will not save')
                 else showErrorMsg ('fail in add new group')
                 console.log(err)
             }
@@ -190,7 +190,7 @@ export default {
                 await this.$store.dispatch({ type: 'removeGroup', board: board, groupId, activity })
             }
             catch (err) {
-                if (err.response.status === 401) showErrorMsg ('You are not allowed to edit demo board')
+                if (err.response.status === 401) showErrorMsg ('This is a demo board, the changes will not save')
                 showErrorMsg ('fail in remove group')
                 console.log(err);
             }
@@ -202,7 +202,7 @@ export default {
                 await this.$store.dispatch({ type: 'addTask', boardId, groupId, task, activity })
             }
             catch (err) {
-                if (err.response.status === 401) showErrorMsg ('You are not allowed to edit demo board')
+                if (err.response.status === 401) showErrorMsg ('This is a demo board, the changes will not save')
                 else showErrorMsg ('fail in add new task')
                 console.log(err);
             }
@@ -213,7 +213,7 @@ export default {
                 await this.$store.dispatch({ type: 'addMember', member })
             } catch (err) {
                 console.log(err.response.status)
-                if (err.response.status === 401) showErrorMsg ('You are not allowed to edit demo board')
+                if (err.response.status === 401) showErrorMsg ('This is a demo board, the changes will not save')
                 else showErrorMsg ('fail in add member')
             }
         },

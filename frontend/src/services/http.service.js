@@ -42,7 +42,7 @@ async function ajax(endpoint, method = 'GET', data = null) {
         if (err.response && err.response.status === 401) {
             console.log('You are not allowed to change the board');
             sessionStorage.clear()
-            window.location.assign(`/#/board/${data._id}`)
+            // window.location.assign(`/#/board/${data._id}`)
             // throw err.response.status
             // Depends on routing startegy - hash or history
             // window.location.assign('/#/login')

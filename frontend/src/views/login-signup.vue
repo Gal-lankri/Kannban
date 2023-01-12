@@ -7,7 +7,7 @@
       src="https://aid-frontend.prod.atl-paas.net/atlassian-id/front-end/5.0.385/static/media/trello-left.7317ad1f.svg"
       alt="">
 
-    <div class="logo gap flex row align-center justify-center">
+    <div @click="$router.push('/')" class="logo gap flex row align-center justify-center" style="cursor: pointer">
       <span class="fa-brands trello-icon "></span>
       <span class="">Kannban</span>
     </div>

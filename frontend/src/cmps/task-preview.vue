@@ -142,7 +142,7 @@ export default {
                     },
                 })
             } catch (prevTask) {
-                showErrorMsg('Only board creator may change board attributes')
+                showErrorMsg('This is a demo board, the changes will not save')
                 this.$store.commit({ type: 'updateTask', payload: { task: prevTask, groupId: this.groupId } })
                 this.task = JSON.parse(JSON.stringify(this.getTask))
                 console.log("Failed in task update")

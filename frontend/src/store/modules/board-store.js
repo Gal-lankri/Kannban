@@ -152,7 +152,7 @@ export const boardStore = {
             state.board.activities.push(activity)
         },
 
-        removeActivity({ state }) {
+        removeActivity(state) {
             console.log(state.board);
             state.board.activities.pop()
         },
@@ -355,6 +355,7 @@ export const boardStore = {
                 throw errorData
             }
         },
+        
         async updateBoard(context, { board }) {
             // if (board.createdBy._id !== context.rootGetters.loggedinUser._id) return console.log('You are not the creator')
             const prevBoard = context.state.board
@@ -362,10 +363,8 @@ export const boardStore = {
             try {
                 context.commit({ type: 'updateBoard', board })
                 context.commit({ type: 'setBoard', boardId: board._id })
-
                 await boardService.save(context.state.board)
             } catch (err) {
-                console()
                 context.commit({ type: 'updateBoard', board: prevBoard })
                 context.commit({ type: 'setBoard', boardId: prevBoard._id })
                 console.log('boardStore: Error in updateBoard', err)
@@ -390,7 +389,7 @@ export const boardStore = {
             const prevTask = prevGroup.tasks.find(t => t.id === taskId)
             if (payload.activity) context.commit({ type: 'addActivity', activity: payload.activity })
             const board = context.state.board
-
+            console.log('board',board)
             try {
                 await boardService.save(board)
                 context.commit({ type: 'updateBoard', board: board })

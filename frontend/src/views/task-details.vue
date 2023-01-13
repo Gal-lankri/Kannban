@@ -114,6 +114,8 @@ import userMsg from '../cmps/user-msg.vue'
 import { eventBus, showErrorMsg } from '../services/event-bus.service'
 import { utilService } from "../services/util.service"
 
+const errorDemoBoard = 'This is a demo board, changes won\'t be saved to database.'
+
 export default {
     emits: [
         "setRGB",
@@ -257,8 +259,8 @@ export default {
                 })
                 this.closeDetails()
             } catch (err) {
-                if (err.response.status === 401) showErrorMsg ('This is a demo board, the changes will not save')
-                else console.log("Failed in task remove", err)
+                if (err.response.status === 401) showErrorMsg(errorDemoBoard)
+                else console.log('Error occurred while removing task.', err)
             }
         },
         async copyTask(data) {
@@ -399,15 +401,15 @@ export default {
             } catch (err) {
                 console.log(err);
                 console.log('err from task-details', err);
-                if (err.response.status === 401) showErrorMsg ('This is a demo board, the changes will not save')
-                else showErrorMsg ('fail in update task')
+                if (err.response.status === 401) showErrorMsg(errorDemoBoard)
+                else showErrorMsg('Error occurred while updating task.')
                 this.$store.commit({
                     type: "updateTask",
                     payload: { task: prevTask, groupId: this.groupId },
                 })
-                
+
                 this.task = JSON.parse(JSON.stringify(this.getTask))
-                console.log("Failed in task update")
+                console.log('Error occurred while updating task.')
             }
         },
         closeDetails() {

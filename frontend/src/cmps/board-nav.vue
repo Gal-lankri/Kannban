@@ -97,11 +97,11 @@ export default {
             this.isAddBoard = false
             try {
                 await this.$store.dispatch({ type: 'addBoard', board: this.boardToAdd })
-                showSuccessMsg('Board added')
+                showSuccessMsg('Board was added successfully')
                 this.boardToAdd = boardService.getEmptyBoard()
             } catch (err) {
-                console.log(err)
-                showErrorMsg('Cannot add board')
+                console.log('Error occurred while adding board to database.', err)
+                showErrorMsg('Error occurred while adding board to database.')
             }
         },
     },

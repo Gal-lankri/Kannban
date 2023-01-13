@@ -38,13 +38,13 @@
 </template>
 
 <script>
-import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service";
-import { boardService } from "../services/board.service.local";
+import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service"
+import { boardService } from "../services/board.service.local"
 
-import boardPreview from "../cmps/board-preview.vue";
-import addBoardModal from "../cmps/add-board-modal.vue";
-import appNav from "../cmps/app-nav.vue";
-import confirmModal from "../cmps/confirm-modal.vue";
+import boardPreview from "../cmps/board-preview.vue"
+import addBoardModal from "../cmps/add-board-modal.vue"
+import appNav from "../cmps/app-nav.vue"
+import confirmModal from "../cmps/confirm-modal.vue"
 
 export default {
   components: {
@@ -58,89 +58,89 @@ export default {
     return {
       boardToAdd: boardService.getEmptyBoard(),
       isAddBoard: false,
-    };
+    }
   },
 
   async created() {
     // try {
-    //   await this.$store.dispatch({ type: "loadBoards" });
+    //   await this.$store.dispatch({ type: "loadBoards" })
     // } catch (err) {
-    //   console.log(err);
+    //   console.log(err)
     // }
   },
   computed: {
     loggedInUser() {
-      return this.$store.getters.loggedinUser;
+      return this.$store.getters.loggedinUser
     },
     boards() {
-      return this.$store.getters.boards;
+      return this.$store.getters.boards
     },
   },
 
   methods: {
     updateUser() {
-      console.log("ADD NOTIFICATOIN");
+      console.log("ADD NOTIFICATOIN")
     },
     async addBoard({ bcg, title, members }) {
       if (bcg.startsWith("#")) {
-        this.boardToAdd.style = { bgColor: bcg };
+        this.boardToAdd.style = { bgColor: bcg }
       } else {
-        this.boardToAdd.style = { backgroundImage: bcg };
+        this.boardToAdd.style = { backgroundImage: bcg }
       }
-      this.boardToAdd.title = title;
-      this.boardToAdd.members = members;
-      this.isAddBoard = false;
+      this.boardToAdd.title = title
+      this.boardToAdd.members = members
+      this.isAddBoard = false
       try {
         await this.$store.dispatch({
           type: "addBoard",
           board: this.boardToAdd,
-        });
-        showSuccessMsg("Board added");
-        this.boardToAdd = boardService.getEmptyBoard();
+        })
+        showSuccessMsg('Board was added successfully.')
+        this.boardToAdd = boardService.getEmptyBoard()
       } catch (err) {
-        console.log(err);
-        showErrorMsg("Cannot add board");
+        console.log(err)
+        showErrorMsg('Error occurred while adding a board.')
       }
     },
     async removeBoard(boardId) {
       try {
-        await this.$store.dispatch({ type: "removeBoard", boardId });
-        showSuccessMsg("Board removed");
+        await this.$store.dispatch({ type: "removeBoard", boardId })
+        showSuccessMsg('Board was removed successfully.')
       } catch (err) {
-        console.log(err);
-        showErrorMsg("Cannot remove board");
+        console.log(err)
+        showErrorMsg('Error occurred while removing board.')
       }
     },
     async updateBoard(board) {
       try {
         // board = { ...board }
-        await this.$store.dispatch({ type: "updateBoard", board });
+        await this.$store.dispatch({ type: "updateBoard", board })
         // showSuccessMsg('Board updated')
       } catch (err) {
-        console.log(err);
-        showErrorMsg("Cannot update board");
+        console.log(err)
+        showErrorMsg('Error occurred while updating board.')
       }
     },
     async addBoardMsg(boardId) {
       try {
-        await this.$store.dispatch(getActionAddBoardMsg(boardId));
-        showSuccessMsg("Board msg added");
+        await this.$store.dispatch(getActionAddBoardMsg(boardId))
+        showSuccessMsg('Message was added successfully.')
       } catch (err) {
-        console.log(err);
-        showErrorMsg("Cannot add board msg");
+        console.log(err)
+        showErrorMsg('Error occurred while adding board message.')
       }
     },
     printBoardToConsole(board) {
-      console.log("Board msgs:", board.msgs);
+      console.log("Board msgs:", board.msgs)
     },
     goToBoard(id) {
-      this.$router.push(`/board/${id}`);
+      this.$router.push(`/board/${id}`)
     },
     toggleStar(isStarred, board) {
-      const newBoard = JSON.parse(JSON.stringify(board));
-      newBoard.isStarred = isStarred;
-      this.updateBoard(newBoard);
+      const newBoard = JSON.parse(JSON.stringify(board))
+      newBoard.isStarred = isStarred
+      this.updateBoard(newBoard)
     },
   },
-};
+}
 </script>

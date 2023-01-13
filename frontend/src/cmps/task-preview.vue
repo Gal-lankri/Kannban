@@ -64,6 +64,8 @@
 import membersPreview from './members-preview.vue'
 import { showErrorMsg } from '../services/event-bus.service'
 
+const errorDemoBoard = 'This is a demo board, changes won\'t be saved to database.'
+
 export default {
     name: 'task-preview',
     props: {
@@ -142,10 +144,10 @@ export default {
                     },
                 })
             } catch (prevTask) {
-                showErrorMsg('This is a demo board, the changes will not save')
+                showErrorMsg('Error occurred while updating task.')
                 this.$store.commit({ type: 'updateTask', payload: { task: prevTask, groupId: this.groupId } })
                 this.task = JSON.parse(JSON.stringify(this.getTask))
-                console.log("Failed in task update")
+                console.log('Error occurred while updating task.')
             }
 
         }

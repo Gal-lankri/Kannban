@@ -46,7 +46,9 @@ import confirmModal from '../cmps/confirm-modal.vue'
 import userMsg from '../cmps/user-msg.vue'
 import { eventBus, showErrorMsg } from '../services/event-bus.service'
 
-const fac = new FastAverageColor();
+const fac = new FastAverageColor()
+
+const errorDemoBoard = 'This is a demo board, changes won\'t be saved to database.'
 
 export default {
 
@@ -132,9 +134,9 @@ export default {
                 this.$router.push('/board')
             }
             catch (err) {
-                if (err.response.status === 401) showErrorMsg ('This is a demo board, the changes will not save')
-                else showErrorMsg ('fail in remove board')
-                console.log('fail in remove board');
+                if (err.response.status === 401) showErrorMsg(errorDemoBoard)
+                else showErrorMsg('Error occurred while removing board.')
+                console.log('Error occurred while removing board.')
             }
         },
         pushedActivity(board) {
@@ -178,9 +180,9 @@ export default {
                 await this.$store.dispatch({ type: 'addGroup', board: board, group, activity })
             }
             catch (err) {
-                if (err.response.status === 401) showErrorMsg ('This is a demo board, the changes will not save')
-                else showErrorMsg ('fail in add new group')
-                console.log(err)
+                if (err.response.status === 401) showErrorMsg(errorDemoBoard)
+                else showErrorMsg('Error occurred while adding a group.')
+                console.log('Error occurred while adding a group.', err)
             }
         },
 
@@ -190,9 +192,12 @@ export default {
                 await this.$store.dispatch({ type: 'removeGroup', board: board, groupId, activity })
             }
             catch (err) {
-                if (err.response.status === 401) showErrorMsg ('This is a demo board, the changes will not save')
-                showErrorMsg ('fail in remove group')
-                console.log(err);
+                if (err.response.status === 401) {
+                    showErrorMsg(errorDemoBoard)
+                    console.log(errorDemoBoard, err)
+                }
+                showErrorMsg('Error occurred while removing group.')
+                console.log('Error occurred while removing group.', err)
             }
         },
 
@@ -202,9 +207,12 @@ export default {
                 await this.$store.dispatch({ type: 'addTask', boardId, groupId, task, activity })
             }
             catch (err) {
-                if (err.response.status === 401) showErrorMsg ('This is a demo board, the changes will not save')
-                else showErrorMsg ('fail in add new task')
-                console.log(err);
+                if (err.response.status === 401) {
+                    showErrorMsg(errorDemoBoard)
+                    console.log(errorDemoBoard, err)
+                }
+                showErrorMsg('Error occurred while adding task.')
+                console.log('Error occurred while adding task.', err)
             }
         },
 
@@ -213,19 +221,24 @@ export default {
                 await this.$store.dispatch({ type: 'addMember', member })
             } catch (err) {
                 console.log(err.response.status)
-                if (err.response.status === 401) showErrorMsg ('This is a demo board, the changes will not save')
-                else showErrorMsg ('fail in add member')
+                if (err.response.status === 401) {
+
+                    showErrorMsg(errorDemoBoard)
+
+                }
+
+                else showErrorMsg('Error occurred while adding member.')
             }
         },
 
         hexToRgbA(hex) {
 
-            var c;
-            c = hex.substring(1).split('');
+            var c
+            c = hex.substring(1).split('')
             if (c.length == 3) {
-                c = [c[0], c[0], c[1], c[1], c[2], c[2]];
+                c = [c[0], c[0], c[1], c[1], c[2], c[2]]
             }
-            c = '0x' + c.join('');
+            c = '0x' + c.join('')
             const color = [(c >> 16) & 255, (c >> 8) & 255, c & 255, 255]
 
             return color

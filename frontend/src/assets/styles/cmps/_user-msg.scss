@@ -1,20 +1,23 @@
-
-
 .alert {
- 
-    color: white;
+    color: $textDark;
     background-color: lightgray;
     position: absolute;
-    top: 0;
+    bottom: 0.5em;
     right: 0.5em;
-    padding: 1em;
+    padding: 0.5em;
+    font-size: 0.75rem;
+
+    box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+
     &.alert-success {
-        background-color: lightgreen;
+        border: 1px solid rgb(87, 214, 87);
+        background-color: rgb(178, 252, 178);
         z-index: 100;
     }
     &.alert-error {
-        background-color: rgb(221, 44, 44);
+        border: 1px solid rgb(221, 44, 44);
+        background-color: rgb(254, 179, 179);
         z-index: 100;
     }
 }
-

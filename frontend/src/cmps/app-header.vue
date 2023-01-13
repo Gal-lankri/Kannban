@@ -33,7 +33,8 @@
                 <span class="fa-solid notification-icon"
                     v-if="user?.notifications && user?.notifications.length && !user.notifications[0].isSeen"></span>
             </span>
-            <span class="trello-home question-icon"></span>
+            <a href="https://github.com/YadidHadad/Kannban">
+                <span class="trello-home question-icon"></span></a>
 
             <div v-if="user?.imgUrl" class="member-image" :style="memberImage(user.imgUrl)"
                 @click="(showUserPreview = !showUserPreview)"> </div>
@@ -123,11 +124,11 @@ export default {
             this.isAddBoard = false
             try {
                 await this.$store.dispatch({ type: 'addBoard', board: this.boardToAdd })
-                showSuccessMsg('Board added')
+                showSuccessMsg('Board was added successfully!')
                 this.boardToAdd = boardService.getEmptyBoard()
             } catch (err) {
-                console.log(err)
-                showErrorMsg('Cannot add board')
+                console.log('Error occurred while adding board to database.', err)
+                showErrorMsg('Error occurred while adding board to database.')
             }
         },
 

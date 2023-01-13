@@ -60,6 +60,9 @@ import { Container, Draggable } from "vue3-smooth-dnd"
 import copyTaskEdit from './copy-task-edit.vue'
 import confirmModal from './confirm-modal.vue'
 import { showErrorMsg } from '../services/event-bus.service'
+
+const errorDemoBoard = 'This is a demo board, changes won\'t be saved to database.'
+
 export default {
     components: { taskPreview, Container, Draggable, copyTaskEdit, confirmModal },
     name: 'group',
@@ -113,9 +116,9 @@ export default {
             }
             catch ({ err, preTasks }) {
                 if (err?.response?.status === 401) {
-                    showErrorMsg('This is a demo board, the changes will not save')
+                    showErrorMsg(errorDemoBoard)
                 } else {
-                    showErrorMsg('fail in move task')
+                    showErrorMsg('Error occurred while moving task.')
                     this.$store.commit({ type: 'updateBoard', board: this.oldBoard })
                     this.$store.commit({ type: 'setBoard', boardId: this.oldBoard._id })
                     this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks || []))
@@ -149,7 +152,7 @@ export default {
         getShouldAcceptDrop(index, sourceContainerOptions, payload) {
             return true
         },
-        
+
         getChildPayload(index) {
             this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks))
 

@@ -154,6 +154,7 @@ export default {
         },
 
         getChildPayload(index) {
+            console.log('index',index )
             this.tasksToShow = JSON.parse(JSON.stringify(this.group.tasks))
 
             return {

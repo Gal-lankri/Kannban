@@ -49,7 +49,7 @@
 
                     <button class="btn delete-btn w-100" @click="confirmDelete">
                         <span class="trellicons archive"></span>
-                        <span class="mini-title">Archive board...</span>
+                        <span class="mini-title">Delete board...</span>
                     </button>
                 </section>
             </section>

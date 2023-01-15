@@ -110,7 +110,8 @@ function getEmptyBoard(
     style = { backgroundImage: "src/assets/img/bgc-img-1.jpg" },
     groups = [],
     members = [],
-    activities = []) {
+    activities = [],
+    isPreviewLabelsOpen = false) {
     return {
         // _id: utilService.makeId(),
         title,
@@ -126,6 +127,7 @@ function getEmptyBoard(
         groups,
         members,
         activities,
+        isPreviewLabelsOpen
 
     }
 }

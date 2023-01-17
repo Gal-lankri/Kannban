@@ -40,9 +40,9 @@ app.use(GMaps, {
     },
 });
 app.use(vue3GoogleLogin, {
-    clientId: '1026456709194-stf9r3fts802im0jhpnst7qntrpq49of.apps.googleusercontent.com'
+    clientId: '796295419544-ugl29mhfrchs3s9dsh9jmpvkp9c1j2ch.apps.googleusercontent.com'
 })
-const gAuthOptions = { clientId: '1026456709194-stf9r3fts802im0jhpnst7qntrpq49of.apps.googleusercontent.com', scope: 'email', prompt: 'consent', fetch_basic_profile: false }
+const gAuthOptions = { clientId: '796295419544-ugl29mhfrchs3s9dsh9jmpvkp9c1j2ch.apps.googleusercontent.com', scope: 'email', prompt: 'consent', fetch_basic_profile: false }
 app.use(GAuth, gAuthOptions)
 app.use(ElementPlus)
 app.use(contenteditable)

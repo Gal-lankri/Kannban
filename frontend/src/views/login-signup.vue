@@ -119,6 +119,7 @@ export default {
     },
     async loginWithGoogle(res) {
       const userData = decodeCredential(res.credential)
+      console.log(userData);
       const googleUserCred = {
         email: userData.email,
         fullname: userData.name,

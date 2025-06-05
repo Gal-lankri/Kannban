@@ -1,4 +1,4 @@
-﻿<p>Deployed at: https://kannban.onrender.com</p>
+﻿<p>Deployed at: https://kannban.onrender.com or https://kannban-l9p7.onrender.com/#/</p>
 
 <h1>Kannban is here!</h1>
 <h2>Managing your team work and projects has never been easier!</h2>
